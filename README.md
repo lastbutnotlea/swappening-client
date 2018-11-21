@@ -33,7 +33,7 @@ TODO
 ## Authors
 
 * **Alex Biederer** 
-* **Eduardo Mosca**
+* **Edoardo Mosca**
 * **Lea Rieger**
 * **Martin Keppner**
 

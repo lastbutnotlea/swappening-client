@@ -16,6 +16,7 @@ For the client you'll need
 
 For the server, you'll also need
 * [LoopBack](https://loopback.io/)
+* [Python](https://www.python.org/)
 * [Postgres](https://www.postgresql.org/)
 ```
 TODO

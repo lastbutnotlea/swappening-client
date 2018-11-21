@@ -14,6 +14,11 @@ For working on the client and the server you'll need to install
 For the client you'll need
 * [cordova](https://cordova.apache.org/)
 
+When building for Android, you also need:
+* [Android SDK](https://developer.android.com/studio/)
+
+When building for iOS you need a Mac which runs on OS and XCode.
+
 For the server, you'll also need
 * [LoopBack](https://loopback.io/)
 * [Python](https://www.python.org/)

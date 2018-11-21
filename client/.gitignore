@@ -8,6 +8,11 @@
 # dependencies
 /node_modules
 
+# cordova platforms and build
+/platforms
+/www
+
+
 # IDEs and editors
 /.idea
 .project

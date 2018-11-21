@@ -15,7 +15,7 @@ For the client you'll need
 * [cordova](https://cordova.apache.org/)
 
 When building for Android, you also need:
-* [Android SDK](https://developer.android.com/studio/)
+* [Android SDK](https://developer.android.com/studio/), and support for Android SDK Level 27 (which is Android 8.0, install via SDK Manager) 
 
 When building for iOS you need a Mac which runs on OS and XCode.
 

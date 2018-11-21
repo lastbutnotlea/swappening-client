@@ -14,6 +14,15 @@ For working on the client and the server you'll need to install
 For the client you'll need
 * [cordova](https://cordova.apache.org/)
 
+For the server, you'll also need
+* [LoopBack](https://loopback.io/)
+
+```
+TODO
+```
+
+
+
 ### Installing
 
 ```

@@ -5,6 +5,7 @@ import {AppComponent} from './app.component';
 import {MyItemsComponent} from './components/my-items/my-items.component';
 import {SwipeItemsComponent} from './components/swipe-items/swipe-items.component';
 import {BottomMenuComponent} from './components/bottom-menu/bottom-menu.component';
+import {MatButtonModule} from "@angular/material";
 
 const appRoutes: Routes = [
   {
@@ -31,7 +32,8 @@ const appRoutes: Routes = [
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

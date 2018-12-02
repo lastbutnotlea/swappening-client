@@ -32,9 +32,7 @@ See also the list of [contributors](https://github.com/AlexBiederer/SwApp/contri
 ## Installation
 
 * Install Node.js from: https://nodejs.org/en/download/
-* Install Cordova using: `npm install -g cordova`
-* Clone ngCordova repository: `git clone https://github.com/NavCore/ngCordova.git`
-* Go to ngCordova repository: `cd ngCordova`
+* Clone this repository: git clone https://github.com/AlexBiederer/SwApp-Client.git
 * Install dependencies: `npm install`
 
 ## Development server

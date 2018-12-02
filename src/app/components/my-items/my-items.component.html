@@ -1,5 +1,13 @@
-<h1>
-  My items
-</h1>
-<img src="../../../assets/test.jpg">
-<app-bottom-menu></app-bottom-menu>
+<div>
+  <h1>
+    My items
+  </h1>
+  <div class="set-height">
+    <mat-grid-list cols="2" class="scrollable">
+      <mat-grid-tile *ngFor="let image of images">
+        <img src="../../../assets/test.jpg">
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+  <app-bottom-menu></app-bottom-menu>
+</div>

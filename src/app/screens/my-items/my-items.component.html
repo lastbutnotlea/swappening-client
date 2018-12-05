@@ -4,7 +4,7 @@
   </h1>
   <div class="set-height">
     <mat-grid-list cols="2" class="scrollable">
-      <mat-grid-tile *ngFor="let item of (items$ | async)">
+      <mat-grid-tile *ngFor="let item of (items$ | async)" routerLink="/myitems/{{item.itemId}}">
         <img src="../../../assets/flower{{item.itemId}}.png">
       </mat-grid-tile>
     </mat-grid-list>

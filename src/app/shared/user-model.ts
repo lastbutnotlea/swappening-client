@@ -9,3 +9,15 @@ export class User {
   numberOfRating: number;
   isCharity: boolean;
 }
+
+export const FAKE_USER: User = {
+  userId: '001',
+  email: 'user@mail.com',
+  password: '****',
+  nickname: 'user',
+  location: 'home',
+  distance: 500,
+  rating: 5,
+  numberOfRating: 87,
+  isCharity: false
+}

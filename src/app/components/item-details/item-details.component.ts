@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Observable} from "rxjs";
+import {Item} from "../../shared/item-model";
 
 @Component({
   selector: 'app-item-details',

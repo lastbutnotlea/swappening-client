@@ -3,6 +3,7 @@ import {Injectable} from "@angular/core";
 import {FAKE_ITEMS, Item} from "../shared/item-model";
 import {environment} from "../../environments/environment";
 import {Observable, of} from "rxjs";
+import {FAKE_USER, User} from "../shared/user-model";
 
 @Injectable()
 export class ApiService {
@@ -18,7 +19,14 @@ export class ApiService {
 
   // TODO: logout
 
-  // TODO: getUserDetails
+  public getUserDetails(): Observable<User> {
+    if (environment.useMockData) {
+      return of(FAKE_USER);
+    } else {
+      // TODO
+      return this.http.get<User>('some url');
+    }
+  }
 
   // TODO: updateUserDetails
 
@@ -31,9 +39,9 @@ export class ApiService {
     if (environment.useMockData) {
       return of(FAKE_ITEMS);
     } else {
+      // TODO
       return this.http.get<Item[]>('some url');
     }
-
   }
 
   // TODO: createNewUserItem(newItem: Item)

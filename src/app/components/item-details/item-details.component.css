@@ -1,7 +1,11 @@
-h1 {
-  height: 10vh;
-  margin: 0 !important;
-  padding-top: 2%;
+mat-button{
+  position: absolute;
+  right: 10vw;
+  bottom: 5vw;
+  width: 7rem;
+  height: 7rem;
+  font-size: 10rem;
+  font-weight: bolder;
 }
 
 .detail-image{
@@ -12,25 +16,28 @@ h1 {
 }
 
 .headline{
-  font-size: 2rem;
+  font-size: 3rem;
   font-style: italic;
+  align-self: center;
   font-family: Verdana;
   color: darkcyan;
   margin: 5vw;
 }
 
 .description{
-  font-size: 1rem;
+  font-size: 2rem;
+  margin: 5vw;
 }
 
 .tags{
-  font-size: 1rem;
+  font-size: 2rem;
   font-family: fantasy;
   color: darkcyan;
+  margin: 5vw;
 }
 
 .scrollable{
   overflow-y: scroll;
   padding: 0 !important;
-  height: 65vh;
+  height: 80vh;
 }

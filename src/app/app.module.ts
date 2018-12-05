@@ -2,14 +2,16 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AppComponent} from './app.component';
-import {MyItemsComponent} from './components/my-items/my-items.component';
-import {SwipeItemsComponent} from './components/swipe-items/swipe-items.component';
+import {MyItemsComponent} from './screens/my-items/my-items.component';
+import {SwipeItemsComponent} from './screens/swipe-items/swipe-items.component';
 import {BottomMenuComponent} from './components/bottom-menu/bottom-menu.component';
 import {MatButtonModule} from "@angular/material";
 import {MatGridListModule} from "@angular/material/grid-list";
-import {ItemDetailViewComponent} from './item-detail-view/item-detail-view.component';
 import {ApiService} from "./services/api.service";
 import {HttpClientModule} from "@angular/common/http";
+import { MyItemDetailsComponent } from './screens/my-item-details/my-item-details.component';
+import { SwipeItemDetailsComponent } from './screens/swipe-item-details/swipe-item-details.component';
+import { ItemDetailsComponent } from './components/item-details/item-details.component';
 
 const appRoutes: Routes = [
   {
@@ -22,8 +24,16 @@ const appRoutes: Routes = [
     component: MyItemsComponent
   },
   {
+    path: 'myitems/:id',
+    component: MyItemDetailsComponent
+  },
+  {
     path: 'swipeitems',
     component: SwipeItemsComponent
+  },
+  {
+    path: "swipteitems/:id",
+    component: SwipeItemDetailsComponent
   }
 ];
 
@@ -33,7 +43,9 @@ const appRoutes: Routes = [
     MyItemsComponent,
     SwipeItemsComponent,
     BottomMenuComponent,
-    ItemDetailViewComponent,
+    MyItemDetailsComponent,
+    SwipeItemDetailsComponent,
+    ItemDetailsComponent,
   ],
   imports: [
     BrowserModule,

@@ -12,7 +12,7 @@ import {HttpClientModule} from "@angular/common/http";
 import { MyItemDetailsComponent } from './screens/my-item-details/my-item-details.component';
 import { SwipeItemDetailsComponent } from './screens/swipe-item-details/swipe-item-details.component';
 import { ItemDetailsComponent } from './components/item-details/item-details.component';
-import {DataService} from "./services/data.service";
+//import {DataService} from "./services/data.service";
 
 const appRoutes: Routes = [
   {
@@ -57,7 +57,7 @@ const appRoutes: Routes = [
   ],
   providers: [
     ApiService,
-    DataService,
+    //DataService,
   ],
   bootstrap: [AppComponent]
 })

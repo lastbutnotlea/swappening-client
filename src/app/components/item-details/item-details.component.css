@@ -1,0 +1,36 @@
+h1 {
+  height: 10vh;
+  margin: 0 !important;
+  padding-top: 2%;
+}
+
+.detail-image{
+  position: relative;
+  align-self: center;
+  width: 80vw;
+  margin: 5vw 10vw 5vw 10vw; 
+}
+
+.headline{
+  font-size: 2rem;
+  font-style: italic;
+  font-family: Verdana;
+  color: darkcyan;
+  margin: 5vw;
+}
+
+.description{
+  font-size: 1rem;
+}
+
+.tags{
+  font-size: 1rem;
+  font-family: fantasy;
+  color: darkcyan;
+}
+
+.scrollable{
+  overflow-y: scroll;
+  padding: 0 !important;
+  height: 65vh;
+}

@@ -9,6 +9,8 @@ import {Item} from "../../shared/item-model";
 })
 export class ItemDetailsComponent implements OnInit {
 
+  private item: Item;
+
   constructor() { }
 
   ngOnInit() {

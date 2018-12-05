@@ -10,7 +10,7 @@ export class Item {
 
 export const FAKE_ITEMS: Item[] = [
   {
-    itemId: '001',
+    itemId: '1',
     headline: 'beautiful but useless flower',
     description: 'a more detailed description about what this flower can and cannot do',
     tags: ['flower', 'useless'],
@@ -19,7 +19,7 @@ export const FAKE_ITEMS: Item[] = [
     imageUrls: []
   },
   {
-    itemId: '002',
+    itemId: '2',
     headline: 'a flower!',
     description: 'a more detailed description about what this flower can and cannot do',
     tags: ['flower', 'useless'],
@@ -28,8 +28,26 @@ export const FAKE_ITEMS: Item[] = [
     imageUrls: []
   },
   {
-    itemId: '003',
+    itemId: '3',
     headline: 'yet another flower',
+    description: 'a more detailed description about what this flower can and cannot do',
+    tags: ['flower', 'useless'],
+    ownerId: '001',
+    giveAway: false,
+    imageUrls: []
+  },
+  {
+    itemId: '4',
+    headline: 'i am a flower',
+    description: 'a more detailed description about what this flower can and cannot do',
+    tags: ['flower', 'useless'],
+    ownerId: '001',
+    giveAway: false,
+    imageUrls: []
+  },
+  {
+    itemId: '5',
+    headline: 'two flowers! so wow!',
     description: 'a more detailed description about what this flower can and cannot do',
     tags: ['flower', 'useless'],
     ownerId: '001',

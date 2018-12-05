@@ -1,7 +1,7 @@
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {FAKE_ITEMS, Item} from "../shared/item-model";
-import {environment} from "../../environments";
+import {environment} from "../../environments/environment";
 import {Observable, of} from "rxjs";
 
 @Injectable()

@@ -1,11 +1,11 @@
 <div>
   <h1>
-    My items class="add-button"
+    My items
   </h1>
   <div class="set-height">
     <mat-grid-list cols="2" class="scrollable">
-      <mat-grid-tile *ngFor="let image of images">
-        <img src="../../../assets/test.jpg">
+      <mat-grid-tile *ngFor="let item of (items$ | async)">
+        <img src="../../../assets/flower{{item.itemId}}.png">
       </mat-grid-tile>
     </mat-grid-list>
     <button mat-fab color="warn" class="add-button">+</button>

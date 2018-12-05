@@ -7,7 +7,9 @@ import {SwipeItemsComponent} from './components/swipe-items/swipe-items.componen
 import {BottomMenuComponent} from './components/bottom-menu/bottom-menu.component';
 import {MatButtonModule} from "@angular/material";
 import {MatGridListModule} from "@angular/material/grid-list";
-import { ItemDetailViewComponent } from './item-detail-view/item-detail-view.component';
+import {ItemDetailViewComponent} from './item-detail-view/item-detail-view.component';
+import {ApiService} from "./services/api.service";
+import {HttpClientModule} from "@angular/common/http";
 
 const appRoutes: Routes = [
   {
@@ -31,15 +33,18 @@ const appRoutes: Routes = [
     MyItemsComponent,
     SwipeItemsComponent,
     BottomMenuComponent,
-    ItemDetailViewComponent
+    ItemDetailViewComponent,
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(appRoutes),
     MatButtonModule,
-    MatGridListModule
+    MatGridListModule,
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    ApiService,
+  ],
   bootstrap: [AppComponent]
 })
 

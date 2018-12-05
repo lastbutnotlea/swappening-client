@@ -17,12 +17,7 @@ export class SwipeItemsComponent implements OnInit {
 
   ngOnInit(): void {
     this.items$ = this.dataService.getSwipeItems();
-    this.items$.subscribe(() => this.stackedCards());
-    //this.stackedCards();
-  }
-
-  fetchNewSwipeIcons() {
-    this.dataService.fetchNewSwipeItems();
+    this.stackedCards();
   }
 
   stackedCards(): void {
@@ -45,8 +40,7 @@ export class SwipeItemsComponent implements OnInit {
     let elementHeight;
     let obj;
     let elTrans;
-    // Lea:
-    let swipeCount = 0;
+    let that = this;
 
     obj = document.getElementById('stacked-cards-block');
     stackedCardsObj = obj.querySelector('.stackedcards-container');
@@ -252,8 +246,6 @@ export class SwipeItemsComponent implements OnInit {
       }
       currentPosition = currentPosition + 1;
       updateUi();
-      // Lea:
-      countSwipes();
       currentElement();
       changeBackground();
       changeStages();
@@ -272,8 +264,6 @@ export class SwipeItemsComponent implements OnInit {
 
       currentPosition = currentPosition + 1;
       updateUi();
-      // Lea:
-      countSwipes();
       currentElement();
       changeBackground();
       changeStages();
@@ -293,21 +283,10 @@ export class SwipeItemsComponent implements OnInit {
 
       currentPosition = currentPosition + 1;
       updateUi();
-      // Lea:
-      countSwipes();
       currentElement();
       changeBackground();
       changeStages();
       setActiveHidden();
-    }
-
-    // Lea:
-    function countSwipes() {
-      swipeCount++;
-      if(swipeCount >= 9) {
-        this.fetchNewSwipeItems();
-        swipeCount = 0;
-      }
     }
 
     // Remove transitions from all elements to be moved in each swipe movement to improve perfomance of stacked cards.

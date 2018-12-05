@@ -17,3 +17,11 @@ h1 {
   padding-top: 2%;
 }
 
+.add-button{
+  position: absolute;
+  right: 10vw;
+  bottom: 30vw;
+  width: 7rem;
+  height: 7rem;
+  font-size: 5rem;
+}

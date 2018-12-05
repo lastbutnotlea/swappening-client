@@ -7,6 +7,7 @@ import {SwipeItemsComponent} from './components/swipe-items/swipe-items.componen
 import {BottomMenuComponent} from './components/bottom-menu/bottom-menu.component';
 import {MatButtonModule} from "@angular/material";
 import {MatGridListModule} from "@angular/material/grid-list";
+import { ItemDetailViewComponent } from './item-detail-view/item-detail-view.component';
 
 const appRoutes: Routes = [
   {
@@ -29,7 +30,8 @@ const appRoutes: Routes = [
     AppComponent,
     MyItemsComponent,
     SwipeItemsComponent,
-    BottomMenuComponent
+    BottomMenuComponent,
+    ItemDetailViewComponent
   ],
   imports: [
     BrowserModule,

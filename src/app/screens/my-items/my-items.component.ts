@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ApiService} from "../../services/api.service";
+import {DataService} from "../../services/data.service";
 import {Item} from "../../shared/item-model";
 import {Observable} from "rxjs";
 
@@ -10,19 +10,12 @@ import {Observable} from "rxjs";
 })
 export class MyItemsComponent implements OnInit {
 
-  images = [1,2,3,4,5,6,7];
-  private items$: Observable<Item[]>;
-  private items: Item[];
+  private myItems$: Observable<Item[]>;
 
-  constructor(private api: ApiService) { }
+  constructor(private dataService: DataService) { }
 
   ngOnInit() {
-    this.api.getAllUserItems('000').subscribe(result => this.items = result);
-    console.log('items: ');
-    console.log(this.items);
-    this.items$ = this.api.getAllUserItems('000');
-    console.log('items observable: ');
-    console.log(this.items$);
+    this.myItems$ = this.dataService.getAllUserItems();
   }
 
 }

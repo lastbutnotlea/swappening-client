@@ -1,4 +1,4 @@
-<div id="stacked-cards-block" class="stackedcards stackedcards--animatable init">
+<div id="stacked-cards-block" class="stackedcards stackedcards--animatable init"><!--
   <div class="stackedcards-container">
     <div class="card-item">1
     </div>
@@ -14,7 +14,26 @@
     </div>
     <div class="card-item">7
     </div>
+  </div>-->
+
+  <!-- TODO fix this -->
+  <div class="stackedcards-container">
+    <div class="card-item">{{(items$ | async)[0].headline}}</div>
+    <div class="card-item">{{(items$ | async)[1].headline}}</div>
+    <div class="card-item">{{(items$ | async)[2].headline}}</div>
+    <div class="card-item">{{(items$ | async)[3].headline}}</div>
+    <div class="card-item">{{(items$ | async)[4].headline}}</div>
+    <div class="card-item">{{(items$ | async)[5].headline}}</div>
+    <div class="card-item">{{(items$ | async)[6].headline}}</div>
+    <div class="card-item">{{(items$ | async)[7].headline}}</div>
+    <div class="card-item">{{(items$ | async)[8].headline}}</div>
+    <div class="card-item">{{(items$ | async)[9].headline}}</div>
   </div>
+
+<!--  <div class="stackedcards-container">
+    <div class="card-item" *ngFor="let item of (items$ | async)">{{item.itemId}}</div>
+  </div>-->
+
   <div class="stackedcards--animatable stackedcards-overlay top">TOP</div>
   <div class="stackedcards--animatable stackedcards-overlay right">RIGHT</div>
   <div class="stackedcards--animatable stackedcards-overlay left">LEFT</div>

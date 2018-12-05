@@ -1,7 +1,8 @@
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
-import {Item} from "../shared/item-model";
+import {FAKE_ITEMS, Item} from "../shared/item-model";
 import {environment} from "../../environments";
+import {Observable, of} from "rxjs";
 
 @Injectable()
 export class ApiService {
@@ -26,11 +27,11 @@ export class ApiService {
 
   // ### MY ITEMS
 
-  public getAllUserItems(userId: string): Item[] {
+  public getAllUserItems(userId: string): Observable<Item[]> {
     if (environment.useMockData) {
-      return null;
+      return of(FAKE_ITEMS);
     } else {
-      return null;
+      return this.http.get<Item[]>('some url');
     }
 
   }

@@ -53,6 +53,24 @@ export const FAKE_ITEMS: Item[] = [
     ownerId: '001',
     giveAway: false,
     imageUrls: []
+  },
+  {
+    itemId: '6',
+    headline: 'a flower',
+    description: 'a more detailed description about what this flower can and cannot do',
+    tags: ['flower', 'useless'],
+    ownerId: '001',
+    giveAway: false,
+    imageUrls: []
+  },
+  {
+    itemId: '7',
+    headline: 'flower power',
+    description: 'a more detailed description about what this flower can and cannot do',
+    tags: ['flower', 'useless'],
+    ownerId: '001',
+    giveAway: false,
+    imageUrls: []
   }
 ];
 

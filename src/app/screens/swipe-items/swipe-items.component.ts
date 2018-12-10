@@ -17,7 +17,7 @@ export class SwipeItemsComponent implements OnInit {
 
   ngOnInit(): void {
     //this.items$ = this.dataService.getSwipeItems();
-    //this.stackedCards();
+    this.stackedCards();
   }
 
   stackedCards(): void {

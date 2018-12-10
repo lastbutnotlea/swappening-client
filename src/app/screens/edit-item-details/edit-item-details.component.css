@@ -1,12 +1,18 @@
+.empty-box{
+  width: 90vw;
+  height: 90vw;
+  border: 4vw;
+}
+
 .headline {
-    width: 100vw;
-    font-size: 3rem;
-    font-style: italic;
-    align-self: center;
-    font-family: Verdana;
-    color: darkcyan;
-    margin: 5vw;
-  }
+  width: 100vw;
+  font-size: 3rem;
+  font-style: italic;
+  align-self: center;
+  font-family: Verdana;
+  color: darkcyan;
+  margin: 5vw;
+}
   
 .description {
   width: 100vw;

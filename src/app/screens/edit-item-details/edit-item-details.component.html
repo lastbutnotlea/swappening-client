@@ -5,24 +5,30 @@
   </div>
   <div class="scrollable">
 
-    <div *ngIf="myItem">
+    <div *ngIf="myItem; else imageElseBlock">
       <img class="detail-image" src="../../../assets/flower{{(myItem$ | async).itemId}}.png">
     </div>
+    <ng-template #imageElseBlock>
+      <div class="empty-box">
+        IMAGE WILL BE ADDED HERE
+      </div>
+    </ng-template>
+
 
     <mat-form-field class="headline">
-      <div *ngIf="myItem; else elseBlock">
+      <div *ngIf="(myItem$ | async); else headlineElseBlock">
         <textarea matInput placeholder="Headline" value="{{(myItem$ | async).headline}}"></textarea>
       </div>
-      <ng-template #elseBlock>
+      <ng-template #headlineElseBlock>
         <textarea matInput placeholder="Headline"></textarea>
       </ng-template>
     </mat-form-field> 
     
     <mat-form-field class="description">
-      <div *ngIf="myItem; else elseBlock">
+      <div *ngIf="(myItem$ | async); else descriptionElseBlock">
         <textarea matInput placeholder="Description" value="{{(myItem$ | async).description}}"></textarea>
       </div>
-      <ng-template #elseBlock>
+      <ng-template #descriptionElseBlock>
         <textarea matInput placeholder="Description"></textarea>
       </ng-template>
     </mat-form-field>

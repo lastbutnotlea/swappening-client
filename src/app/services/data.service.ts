@@ -17,20 +17,16 @@ export class DataService {
     this.apiService.getFirstSwipeItems('1213').subscribe(res => this._swipeItems.next(res));
   }
 
-  get myItems() {
-    return this.asObservable(this._myItems);
+  get myItems(): Observable<Item[]> {
+    return new Observable<Item[]>(fn => this._myItems.subscribe(fn));
   }
 
-  myItem(itemId: string) {
-    return this.asObservable(this._myItems).pipe(map((myItems: Item[]) => myItems.find(myItem => myItem.itemId === itemId)));
+  myItem(itemId: string): Observable<Item> {
+    return new Observable<Item[]>(fn => this._myItems.subscribe(fn)).pipe(map((myItems: Item[]) => myItems.find(myItem => myItem.itemId === itemId)));
   }
 
   get swipeItems() {
-    return this.asObservable(this._swipeItems);
-  }
-
-  asObservable(subject: Subject) {
-    return new Observable(fn => subject.subscribe(fn));
+    return new Observable<Item[]>(fn => this._swipeItems.subscribe(fn));
   }
 
   // TODO update data; does this work using observables the way i do right now?

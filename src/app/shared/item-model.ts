@@ -12,7 +12,10 @@ export const FAKE_ITEMS: Item[] = [
   {
     itemId: '1',
     headline: 'beautiful but useless flower',
-    description: 'a more detailed description about what this flower can and cannot do',
+    description: 'a more detailed description about what this flower can and cannot do. ' +
+    'I am writing this big long incredible boring description that really nobody shoud read ' +
+    'just to make this very beautiful view ' +
+    'scrollable and test all the code we have done lalallalalalalalalalallalaallalalalalal ',
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,

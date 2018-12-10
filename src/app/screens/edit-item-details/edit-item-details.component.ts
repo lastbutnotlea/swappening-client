@@ -19,7 +19,7 @@ export class EditItemDetailsComponent implements OnInit {
   ngOnInit() {
     let current_id: string = this.route.snapshot.paramMap.get('id');
     if(current_id != 'new'){
-      this.myItem$ = this.dataService.getUserItem(current_id);
+      this.myItem$ = this.dataService.myItem(current_id);
     }
   }
 

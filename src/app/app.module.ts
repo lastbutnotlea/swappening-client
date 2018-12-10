@@ -7,6 +7,7 @@ import {SwipeItemsComponent} from './screens/swipe-items/swipe-items.component';
 import {BottomMenuComponent} from './components/bottom-menu/bottom-menu.component';
 import {MatButtonModule} from "@angular/material";
 import {MatGridListModule} from "@angular/material/grid-list";
+import {MatInputModule} from '@angular/material/input';
 import {ApiService} from "./services/api.service";
 import {HttpClientModule} from "@angular/common/http";
 import { MyItemDetailsComponent } from './screens/my-item-details/my-item-details.component';
@@ -59,6 +60,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     MatButtonModule,
     MatGridListModule,
+    MatInputModule,
     HttpClientModule,
   ],
   providers: [

@@ -39,5 +39,5 @@ mat-button{
 .scrollable{
   overflow-y: scroll;
   padding: 0 !important;
-  height: 80vh;
+  height: 90vh;
 }

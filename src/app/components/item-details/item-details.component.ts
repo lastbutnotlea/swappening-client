@@ -3,6 +3,7 @@ import {Observable} from "rxjs";
 import {Item} from "../../shared/item-model";
 import {DataService} from "../../services/data.service";
 import {ActivatedRoute} from "@angular/router";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-item-details',
@@ -11,13 +12,16 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class ItemDetailsComponent implements OnInit {
 
+  private itemId: string;
   private myItem$: Observable<Item>;
 
   constructor(private dataService: DataService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute) {
+  }
 
   ngOnInit() {
-    this.myItem$ = this.dataService.getUserItem(this.route.snapshot.paramMap.get('id'));
+    this.itemId = this.route.snapshot.paramMap.get('id');
+    this.myItem$ = this.dataService.myItem(this.itemId);
   }
 
 }

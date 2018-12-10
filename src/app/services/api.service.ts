@@ -1,6 +1,13 @@
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
-import {FAKE_FIRST_SWIPE_ITEMS, FAKE_ITEMS, FAKE_SWIPE_ITEMS, Item} from "../shared/item-model";
+import {
+  FAKE_FIRST_SWIPE_ITEMS,
+  FAKE_ITEMS,
+  FAKE_ITEMS_3,
+  FAKE_ITEMS_4,
+  FAKE_SWIPE_ITEMS,
+  Item
+} from "../shared/item-model";
 import {environment} from "../../environments/environment";
 import {Observable, of} from "rxjs";
 import {FAKE_USER, User} from "../shared/user-model";
@@ -42,6 +49,10 @@ export class ApiService {
       // TODO
       return this.http.get<Item[]>('some url');
     }
+  }
+
+  public testOnly_get3Items(): Observable<Item[]> {
+    return of(FAKE_ITEMS_3)
   }
 
   // TODO: createNewUserItem(newItem: Item)

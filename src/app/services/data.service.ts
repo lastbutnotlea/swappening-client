@@ -1,49 +1,47 @@
 import {Injectable} from "@angular/core";
 import {ApiService} from "./api.service";
-import {Observable, of} from "rxjs";
+import {BehaviorSubject, Observable, of, Subject} from "rxjs";
 import {Item} from "../shared/item-model";
 import {User} from "../shared/user-model";
 import {map} from "rxjs/operators";
-import {merge} from 'rxjs';
 
 
 @Injectable()
 export class DataService {
 
-  private user$: Observable<User>;
-  private userId: string;
-  private myItems$: Observable<Item[]>;
-  private swipeItems$: Observable<Item[]>;
+  private _myItems: BehaviorSubject<Item[]> = new BehaviorSubject([]);
+  private _swipeItems: BehaviorSubject<Item[]> = new BehaviorSubject([]);
 
   constructor(private apiService: ApiService) {
-    this.user$ = this.apiService.getUserDetails();
-    this.user$.subscribe(user => this.userId = user.userId);
-    this.myItems$ = this.apiService.getAllUserItems(this.userId);
-    this.swipeItems$ = this.apiService.getFirstSwipeItems(this.userId);
+    this.apiService.getAllUserItems('1213').subscribe(res => this._myItems.next(res));
+    this.apiService.getFirstSwipeItems('1213').subscribe(res => this._swipeItems.next(res));
   }
 
-  public getAllUserItems(): Observable<Item[]> {
-    return this.myItems$;
+  get myItems() {
+    return this.asObservable(this._myItems);
   }
 
-  public getUserItem(itemId: string): Observable<Item> {
-    return this.myItems$.pipe(map((myItems: Item[]) => myItems.find(myItem => myItem.itemId === itemId)));
+  myItem(itemId: string) {
+    return this.asObservable(this._myItems).pipe(map((myItems: Item[]) => myItems.find(myItem => myItem.itemId === itemId)));
   }
 
-  public getUserDetails() {
-    return this.user$;
+  get swipeItems() {
+    return this.asObservable(this._swipeItems);
   }
 
-  public getSwipeItems() {
-    return this.swipeItems$;
+  asObservable(subject: Subject) {
+    return new Observable(fn => subject.subscribe(fn));
   }
 
   // TODO update data; does this work using observables the way i do right now?
-
   public fetchNewSwipeItems() {
     let newSwipeItems$: Observable<Item[]>;
-    this.swipeItems$.pipe(map(items => items.slice(10, 15)));
-    newSwipeItems$ = this.apiService.getSwipeItems(this.userId);
-    this.swipeItems$ = merge(this.swipeItems$, newSwipeItems$);
+    //this.swipeItems$.pipe(map(items => items.slice(10, 15)));
+    //newSwipeItems$ = this.apiService.getSwipeItems(this.userId);
+    // this.swipeItems$ = merge(this.swipeItems$, newSwipeItems$);
+  }
+
+  public updateMyItems() {
+    this.apiService.testOnly_get3Items().subscribe(res => this._myItems.next(this._myItems.value.concat(res)));
   }
 }

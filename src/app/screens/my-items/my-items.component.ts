@@ -10,12 +10,16 @@ import {Observable} from "rxjs";
 })
 export class MyItemsComponent implements OnInit {
 
-  private myItems$: Observable<Item[]>;
+  myItems$: Observable<Item[]>;
 
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
-    this.myItems$ = this.dataService.getAllUserItems();
+    this.myItems$ = this.dataService.myItems;
+  }
+
+  testOnly_update() {
+    this.dataService.updateMyItems();
   }
 
 }

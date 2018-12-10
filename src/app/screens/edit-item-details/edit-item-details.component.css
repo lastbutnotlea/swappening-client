@@ -1,5 +1,4 @@
 .headline {
-    height: 10vh;
     width: 100vw;
     font-size: 3rem;
     font-style: italic;
@@ -10,7 +9,6 @@
   }
   
 .description {
-  height: 20vh;
   width: 100vw;
   font-size: 2rem;
   margin: 5vw;

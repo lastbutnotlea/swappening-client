@@ -5,35 +5,28 @@
   </div>
   <div class="scrollable">
 
-    <div  *ngIf="myItem">
+    <div *ngIf="myItem">
       <img class="detail-image" src="../../../assets/flower{{(myItem$ | async).itemId}}.png">
     </div>
 
-    <form class="example-form">
-      <mat-form-field class="headline">
+    <mat-form-field class="headline">
+      <div *ngIf="myItem; else elseBlock">
+        <textarea matInput placeholder="Headline" value="{{(myItem$ | async).headline}}"></textarea>
+      </div>
+      <ng-template #elseBlock>
         <textarea matInput placeholder="Headline"></textarea>
-      </mat-form-field>
+      </ng-template>
+    </mat-form-field> 
     
-      <mat-form-field class="description">
+    <mat-form-field class="description">
+      <div *ngIf="myItem; else elseBlock">
+        <textarea matInput placeholder="Description" value="{{(myItem$ | async).description}}"></textarea>
+      </div>
+      <ng-template #elseBlock>
         <textarea matInput placeholder="Description"></textarea>
-      </mat-form-field>
-    </form>
-    
-
-    <div>
-      <p class="headline">
-        {{(myItem$ | async).headline}}
-      </p>
-      <p class="description">
-        {{(myItem$ | async).description}}
-      </p>
-      <p class="tags">
-        <b *ngFor="let tag of (myItem$ | async).tags">
-        {{tag}}
-        </b>
-      </p>
-    </div>
-
+      </ng-template>
+    </mat-form-field>
+      
   </div>
 
 </div>

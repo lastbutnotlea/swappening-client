@@ -13,6 +13,7 @@ import { MyItemDetailsComponent } from './screens/my-item-details/my-item-detail
 import { SwipeItemDetailsComponent } from './screens/swipe-item-details/swipe-item-details.component';
 import { ItemDetailsComponent } from './components/item-details/item-details.component';
 import {DataService} from "./services/data.service";
+import { EditItemDetailsComponent } from './screens/edit-item-details/edit-item-details.component';
 
 const appRoutes: Routes = [
   {
@@ -33,8 +34,12 @@ const appRoutes: Routes = [
     component: SwipeItemsComponent
   },
   {
-    path: "swipteitems/:id",
+    path: "swipeitems/:id",
     component: SwipeItemDetailsComponent
+  },
+  {
+    path: "myitems/:id/edit",
+    component: EditItemDetailsComponent
   }
 ];
 
@@ -47,6 +52,7 @@ const appRoutes: Routes = [
     MyItemDetailsComponent,
     SwipeItemDetailsComponent,
     ItemDetailsComponent,
+    EditItemDetailsComponent,
   ],
   imports: [
     BrowserModule,

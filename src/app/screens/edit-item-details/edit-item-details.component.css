@@ -1,0 +1,24 @@
+.headline {
+    height: 10vh;
+    width: 100vw;
+    font-size: 3rem;
+    font-style: italic;
+    align-self: center;
+    font-family: Verdana;
+    color: darkcyan;
+    margin: 5vw;
+  }
+  
+.description {
+  height: 20vh;
+  width: 100vw;
+  font-size: 2rem;
+  margin: 5vw;
+}
+
+.tags{
+  font-size: 2rem;
+  font-family: fantasy;
+  color: darkcyan;
+  margin: 5vw;
+}

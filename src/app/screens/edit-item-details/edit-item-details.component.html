@@ -7,6 +7,20 @@
 
     <div  *ngIf="myItem">
       <img class="detail-image" src="../../../assets/flower{{(myItem$ | async).itemId}}.png">
+    </div>
+
+    <form class="example-form">
+      <mat-form-field class="headline">
+        <textarea matInput placeholder="Headline"></textarea>
+      </mat-form-field>
+    
+      <mat-form-field class="description">
+        <textarea matInput placeholder="Description"></textarea>
+      </mat-form-field>
+    </form>
+    
+
+    <div>
       <p class="headline">
         {{(myItem$ | async).headline}}
       </p>
@@ -20,12 +34,7 @@
       </p>
     </div>
 
-    <!--This is for test-->
-    <p>
-      EDIT CODE WILL GO HERE
-    </p>
-
   </div>
-  <div>
+
 </div>
 

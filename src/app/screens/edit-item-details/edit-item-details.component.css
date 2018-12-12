@@ -2,27 +2,36 @@
   width: 90vw;
   height: 90vw;
   border: 4vw;
+  align-self: center;
+}
+
+.detail-image{
+  position: relative;
+  align-self: center;
+  width: 80vw;
+  margin: 5vw 10vw 5vw 10vw; 
 }
 
 .headline {
-  width: 100vw;
+  width: 90vw;
   font-size: 3rem;
   font-style: italic;
   align-self: center;
   font-family: Verdana;
   color: darkcyan;
-  margin: 5vw;
+  margin: 0vw 5vw 0vw 5vw;
+  padding: 0vw;
 }
   
 .description {
-  width: 100vw;
+  width: 90vw;
   font-size: 2rem;
-  margin: 5vw;
+  margin: 0vw 5vw 0vw 5vw;
 }
 
 .tags{
   font-size: 2rem;
   font-family: fantasy;
   color: darkcyan;
-  margin: 5vw;
+  margin: 0vw;
 }

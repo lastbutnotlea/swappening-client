@@ -12,17 +12,17 @@ import {ActivatedRoute} from "@angular/router";
 export class EditItemDetailsComponent implements OnInit {
 
   private myItem$: Observable<Item>;
+  myItemModel: Item;
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute) { }
 
   ngOnInit() {
     let current_id: string = this.route.snapshot.paramMap.get('id');
-    console.log(current_id)
     if(current_id != 'new'){
       this.myItem$ = this.dataService.myItem(current_id);
+      this.myItem$.subscribe(newItem => this.myItemModel = newItem);
     }
-    console.log(this.myItem$)
   }
 
 }

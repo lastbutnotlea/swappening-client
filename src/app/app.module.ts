@@ -15,6 +15,8 @@ import { SwipeItemDetailsComponent } from './screens/swipe-item-details/swipe-it
 import { ItemDetailsComponent } from './components/item-details/item-details.component';
 import {DataService} from "./services/data.service";
 import { EditItemDetailsComponent } from './screens/edit-item-details/edit-item-details.component';
+import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
+
 
 const appRoutes: Routes = [
   {
@@ -62,6 +64,7 @@ const appRoutes: Routes = [
     MatGridListModule,
     MatInputModule,
     HttpClientModule,
+    FormsModule,
   ],
   providers: [
     ApiService,

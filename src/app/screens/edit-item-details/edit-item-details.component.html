@@ -10,9 +10,7 @@
     </div>
     <ng-template #imageElseBlock>
       <div class="empty-box">
-        <p>
-          IMAGE WILL BE ADDED HERE
-        </p>
+        <input type="file" (change)="onFileSelected($event)">
       </div>
     </ng-template>
 
@@ -35,5 +33,7 @@
     </mat-form-field>
       
   </div>
+
+  <button mat-fab color="warn" class="save-button" (click)="onUpload()">Save</button>
 
 </div>

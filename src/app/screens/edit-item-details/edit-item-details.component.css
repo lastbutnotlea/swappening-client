@@ -35,3 +35,18 @@
   color: darkcyan;
   margin: 0vw;
 }
+
+.save-button{
+  position: absolute;
+  right: 10vw;
+  bottom: 5vw;
+  width: 7rem;
+  height: 7rem;
+  font-size: 2rem;
+}
+
+.scrollable{
+  overflow-y: scroll;
+  padding: 0 !important;
+  height: 90vh;
+}

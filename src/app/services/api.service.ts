@@ -76,6 +76,13 @@ export class ApiService {
   }
 
   // TODO: createNewUserItem(newItem: Item)
+  public createNewUserItem(newItem: Item) {
+    let requestUrl = environment.apiUrl + `/item/addItem`;
+    this.http.post<Item>(requestUrl, {
+      headers: {Authorization: 'Bearer ' + this.userToken}, 
+      headline: newItem.headline, description: newItem.description
+    });
+  }
 
   // TODO: updateUserItem(newItem: Item)
 

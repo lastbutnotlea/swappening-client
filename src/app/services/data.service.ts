@@ -29,15 +29,21 @@ export class DataService {
     return new Observable<Item[]>(fn => this._swipeItems.subscribe(fn));
   }
 
-  // TODO update data; does this work using observables the way i do right now?
   public fetchNewSwipeItems() {
-    let newSwipeItems$: Observable<Item[]>;
+    this.apiService.getSwipeItems("id").subscribe(res => this._swipeItems.next(this._swipeItems.value.slice(10, 15).concat(res)));
+
+    //let newSwipeItems$: Observable<Item[]>;
     //this.swipeItems$.pipe(map(items => items.slice(10, 15)));
     //newSwipeItems$ = this.apiService.getSwipeItems(this.userId);
     // this.swipeItems$ = merge(this.swipeItems$, newSwipeItems$);
   }
 
-  public updateMyItems() {
+  public test_fetchNewSwipeItem() {
+    this.apiService.getSwipeItem().subscribe(res => this._swipeItems.next(this._swipeItems.value.slice(1, 15).concat(res)));
+  }
+
+
+  public testOnly_updateMyItems() {
     this.apiService.testOnly_get3Items().subscribe(res => this._myItems.next(this._myItems.value.concat(res)));
   }
 }

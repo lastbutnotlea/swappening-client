@@ -376,3 +376,16 @@ export const FAKE_SWIPE_ITEMS: Item[] = [
     imageUrls: []
   }
 ];
+
+
+export const SINGLE_FAKE_ITEM: Item[] = [
+  {
+    itemId: '1',
+    headline: 'beautiful but useless flower',
+    description: 'a more detailed description about what this flower can and cannot do',
+    tags: ['flower', 'useless'],
+    ownerId: '001',
+    giveAway: false,
+    imageUrls: []
+  },
+]

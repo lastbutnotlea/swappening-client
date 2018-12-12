@@ -19,7 +19,7 @@ export class MyItemsComponent implements OnInit {
   }
 
   testOnly_update() {
-    this.dataService.updateMyItems();
+    this.dataService.testOnly_updateMyItems();
   }
 
 }

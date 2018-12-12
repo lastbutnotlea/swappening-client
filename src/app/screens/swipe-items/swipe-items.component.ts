@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
 import {Item} from "../../shared/item-model";
 import {DataService} from "../../services/data.service";
@@ -17,24 +17,39 @@ export class SwipeItemsComponent implements OnInit {
 
   ngOnInit(): void {
     //this.items$ = this.dataService.getSwipeItems();
+    this.items$ = this.dataService.swipeItems;
     this.stackedCards();
   }
 
   stackedCards(): void {
-    const stackedOptions = 'Top'; /*Change stacked cards view from 'Bottom', 'Top' or 'None'.*/
-    const rotate = true; /*Activate the elements' rotation for each move on stacked cards.*/
-    let items = 3; /* Number of visible elements when the stacked options are bottom or top.*/
-    const elementsMargin = 10; /*Define the distance of each element when the stacked options are bottom or top.*/
-    const useOverlays = true; /*Enable or disable the overlays for swipe elements.*/
-    let maxElements; /*Total of stacked cards on DOM.*/
-    let currentPosition = 0; /*Keep the position of active stacked card.*/
-    const velocity = 0.3; /*Minimum velocity allowed to trigger a swipe.*/
-    let topObj; /*Keep the swipe top properties.*/
-    let rightObj; /*Keep the swipe right properties.*/
-    let leftObj; /*Keep the swipe left properties.*/
-    let listElNodesObj; /*Keep the list of nodes from stacked cards.*/
-    let listElNodesWidth; /*Keep the stacked cards width.*/
-    let currentElementObj; /*Keep the stacked card element to swipe.*/
+    const stackedOptions = 'Top';
+    /*Change stacked cards view from 'Bottom', 'Top' or 'None'.*/
+    const rotate = true;
+    /*Activate the elements' rotation for each move on stacked cards.*/
+    let items = 3;
+    /* Number of visible elements when the stacked options are bottom or top.*/
+    const elementsMargin = 10;
+    /*Define the distance of each element when the stacked options are bottom or top.*/
+    const useOverlays = true;
+    /*Enable or disable the overlays for swipe elements.*/
+    let maxElements;
+    /*Total of stacked cards on DOM.*/
+    let currentPosition = 0;
+    /*Keep the position of active stacked card.*/
+    const velocity = 0.3;
+    /*Minimum velocity allowed to trigger a swipe.*/
+    let topObj;
+    /*Keep the swipe top properties.*/
+    let rightObj;
+    /*Keep the swipe right properties.*/
+    let leftObj;
+    /*Keep the swipe left properties.*/
+    let listElNodesObj;
+    /*Keep the list of nodes from stacked cards.*/
+    let listElNodesWidth;
+    /*Keep the stacked cards width.*/
+    let currentElementObj;
+    /*Keep the stacked card element to swipe.*/
     let stackedCardsObj;
     let isFirstTime = true;
     let elementHeight;
@@ -57,51 +72,55 @@ export class SwipeItemsComponent implements OnInit {
     currentElementObj = listElNodesObj[0];
     updateUi();
 
-    //  Prepare elements on DOM
-    const addMargin = elementsMargin * (items - 1) + 'px';
+    function init() {
+      //  Prepare elements on DOM
+      const addMargin = elementsMargin * (items - 1) + 'px';
 
-    if (stackedOptions === 'Top') {
+      if (stackedOptions === 'Top') {
 
-      for (let i = items; i < maxElements; i++) {
-        listElNodesObj[i].classList.add('stackedcards-top', 'stackedcards--animatable', 'stackedcards-origin-top');
+        for (let i = items; i < maxElements; i++) {
+          listElNodesObj[i].classList.add('stackedcards-top', 'stackedcards--animatable', 'stackedcards-origin-top');
+        }
+
+        elTrans = elementsMargin * (items - 1);
+
+        stackedCardsObj.style.marginBottom = addMargin;
+
+      } else if (stackedOptions === 'Bottom') {
+
+
+        for (let i = items; i < maxElements; i++) {
+          listElNodesObj[i].classList.add('stackedcards-bottom', 'stackedcards--animatable', 'stackedcards-origin-bottom');
+        }
+
+        elTrans = 0;
+
+        stackedCardsObj.style.marginBottom = addMargin;
+
+      } else if (stackedOptions === 'None') {
+
+        for (let i = items; i < maxElements; i++) {
+          listElNodesObj[i].classList.add('stackedcards-none', 'stackedcards--animatable');
+        }
+
+        elTrans = 0;
+
       }
 
-      elTrans = elementsMargin * (items - 1);
-
-      stackedCardsObj.style.marginBottom = addMargin;
-
-    } else if (stackedOptions === 'Bottom') {
-
-
       for (let i = items; i < maxElements; i++) {
-        listElNodesObj[i].classList.add('stackedcards-bottom', 'stackedcards--animatable', 'stackedcards-origin-bottom');
+        listElNodesObj[i].style.zIndex = 0;
+        listElNodesObj[i].style.opacity = 0;
+        listElNodesObj[i].style.webkitTransform = 'scale(' + (1 - (items * 0.04))
+          + ') translateX(0) translateY(' + elTrans + 'px) translateZ(0)';
+        listElNodesObj[i].style.transform = 'scale(' + (1 - (items * 0.04)) + ') translateX(0) translateY(' + elTrans + 'px) translateZ(0)';
       }
 
-      elTrans = 0;
-
-      stackedCardsObj.style.marginBottom = addMargin;
-
-    } else if (stackedOptions === 'None') {
-
-      for (let i = items; i < maxElements; i++) {
-        listElNodesObj[i].classList.add('stackedcards-none', 'stackedcards--animatable');
+      if (listElNodesObj[currentPosition]) {
+        listElNodesObj[currentPosition].classList.add('stackedcards-active');
       }
-
-      elTrans = 0;
-
     }
 
-    for (let i = items; i < maxElements; i++) {
-      listElNodesObj[i].style.zIndex = 0;
-      listElNodesObj[i].style.opacity = 0;
-      listElNodesObj[i].style.webkitTransform = 'scale(' + (1 - (items * 0.04))
-        + ') translateX(0) translateY(' + elTrans + 'px) translateZ(0)';
-      listElNodesObj[i].style.transform = 'scale(' + (1 - (items * 0.04)) + ') translateX(0) translateY(' + elTrans + 'px) translateZ(0)';
-    }
-
-    if (listElNodesObj[currentPosition]) {
-      listElNodesObj[currentPosition].classList.add('stackedcards-active');
-    }
+    init();
 
     if (useOverlays) {
       leftObj.style.transform = 'translateX(0px) translateY(' + elTrans + 'px) translateZ(0px) rotate(0deg)';
@@ -244,7 +263,10 @@ export class SwipeItemsComponent implements OnInit {
         transformUi(-1000, 0, 0, topObj); // Move topOverlay
         resetOverlayLeft();
       }
-      currentPosition = currentPosition + 1;
+
+      afterSwipe();
+
+      // currentPosition = currentPosition + 1;
       updateUi();
       currentElement();
       changeBackground();
@@ -262,7 +284,9 @@ export class SwipeItemsComponent implements OnInit {
         resetOverlayRight();
       }
 
-      currentPosition = currentPosition + 1;
+      afterSwipe();
+
+      //  currentPosition = currentPosition + 1;
       updateUi();
       currentElement();
       changeBackground();
@@ -287,6 +311,18 @@ export class SwipeItemsComponent implements OnInit {
       changeBackground();
       changeStages();
       setActiveHidden();
+    }
+
+    // TODO
+    function afterSwipe() {
+      stackedCardsObj.removeChild(currentElementObj);
+      //that.dataService.test_fetchNewSwipeItem();
+      var newElement = document.createElement("div");
+      newElement.setAttribute('class', "card-item stackedcards-top stackedcards--animatable stackedcards-origin-top");
+      // let aux = document.getElementById('might-be-a-bit-hacky');
+      newElement.innerHTML = `NEW`;
+      stackedCardsObj.appendChild(newElement);
+      init();
     }
 
     // Remove transitions from all elements to be moved in each swipe movement to improve perfomance of stacked cards.
@@ -437,11 +473,11 @@ export class SwipeItemsComponent implements OnInit {
     }
 
     function setActiveHidden() {
-      if (!(currentPosition >= maxElements)) {
+/*      if (!(currentPosition >= maxElements)) {
         listElNodesObj[currentPosition - 1].classList.remove('stackedcards-active');
         listElNodesObj[currentPosition - 1].classList.add('stackedcards-hidden');
         listElNodesObj[currentPosition].classList.add('stackedcards-active');
-      }
+      }*/
     }
 
     // Set the new z-index for specific card.

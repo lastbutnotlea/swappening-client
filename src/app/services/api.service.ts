@@ -6,7 +6,7 @@ import {
   FAKE_ITEMS_3,
   FAKE_ITEMS_4,
   FAKE_SWIPE_ITEMS,
-  Item
+  Item, SINGLE_FAKE_ITEM
 } from "../shared/item-model";
 import {environment} from "../../environments/environment";
 import {Observable, of} from "rxjs";
@@ -83,6 +83,12 @@ export class ApiService {
     } else {
       // TODO
       return this.http.get<Item[]>('some url');
+    }
+  }
+
+  public getSwipeItem(): Observable<Item[]> {
+    if (environment.useMockData) {
+      return of(SINGLE_FAKE_ITEM);
     }
   }
 

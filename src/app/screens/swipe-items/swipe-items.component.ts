@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Observable} from "rxjs";
 import {Item} from "../../shared/item-model";
 import {DataService} from "../../services/data.service";
@@ -57,6 +57,7 @@ export class SwipeItemsComponent implements OnInit {
     let elTrans;
     let that = this;
 
+    function init() {
     obj = document.getElementById('stacked-cards-block');
     stackedCardsObj = obj.querySelector('.stackedcards-container');
     listElNodesObj = stackedCardsObj.children;
@@ -72,7 +73,6 @@ export class SwipeItemsComponent implements OnInit {
     currentElementObj = listElNodesObj[0];
     updateUi();
 
-    function init() {
       //  Prepare elements on DOM
       const addMargin = elementsMargin * (items - 1) + 'px';
 
@@ -316,12 +316,19 @@ export class SwipeItemsComponent implements OnInit {
     // TODO
     function afterSwipe() {
       stackedCardsObj.removeChild(currentElementObj);
-      //that.dataService.test_fetchNewSwipeItem();
+/*      //that.dataService.test_fetchNewSwipeItem();
       var newElement = document.createElement("div");
       newElement.setAttribute('class', "card-item stackedcards-top stackedcards--animatable stackedcards-origin-top");
       // let aux = document.getElementById('might-be-a-bit-hacky');
       newElement.innerHTML = `NEW`;
-      stackedCardsObj.appendChild(newElement);
+      stackedCardsObj.appendChild(newElement);*/
+      var test = document.getElementById('stackedcards-container');
+      var currentHTML = test.innerHTML;
+      test.innerHTML = currentHTML.concat(
+            `<div _ngcontent-c1="" class="card-item stackedcards-top stackedcards--animatable 
+            stackedcards-origin-top stackedcards-active">NEW</div>
+            <div _ngcontent-c1="" class="card-item stackedcards-top stackedcards--animatable 
+            stackedcards-origin-top stackedcards-active">NEW</div>`);
       init();
     }
 

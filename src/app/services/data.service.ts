@@ -1,20 +1,35 @@
-import {Injectable} from "@angular/core";
+import {Injectable, OnInit} from "@angular/core";
 import {ApiService} from "./api.service";
 import {BehaviorSubject, Observable, of, Subject} from "rxjs";
 import {Item} from "../shared/item-model";
-import {User} from "../shared/user-model";
 import {map} from "rxjs/operators";
 
 
 @Injectable()
-export class DataService {
+export class DataService implements OnInit {
 
   private _myItems: BehaviorSubject<Item[]> = new BehaviorSubject([]);
   private _swipeItems: BehaviorSubject<Item[]> = new BehaviorSubject([]);
+  private _dataReady: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private apiService: ApiService) {
-    this.apiService.getAllUserItems('1213').subscribe(res => this._myItems.next(res));
-    this.apiService.getFirstSwipeItems('1213').subscribe(res => this._swipeItems.next(res));
+    this.apiService.login().then(() => {
+        console.log('#4# ready: ' + this._dataReady.value);
+        this.apiService.getFirstSwipeItems('1213').subscribe(res => {
+          this._swipeItems.next(res);
+          this._dataReady.next(true);
+        });
+        // TODO
+        // this.apiService.getAllUserItems('1213').subscribe(res => this._myItems.next(res));
+      }
+    )
+  }
+
+ngOnInit() {
+  }
+
+  get dataReady(): Observable<boolean> {
+    return new Observable<boolean>(fn => this._dataReady.subscribe(fn));
   }
 
   get myItems(): Observable<Item[]> {

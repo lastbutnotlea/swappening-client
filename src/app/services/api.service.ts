@@ -15,12 +15,30 @@ import {FAKE_USER, User} from "../shared/user-model";
 @Injectable()
 export class ApiService {
 
+  userToken: string;
+  userId = 1;
+
   constructor(private http: HttpClient) {
   }
 
   // ### USER
 
-  // TODO: login
+  public login(): Promise<void> {
+    if (environment.useMockData) {
+    } else {
+      let requestUrl = environment.apiUrl + '/login';
+      return this.http.post<string>(requestUrl, {
+        email: 'test123@beispiel.de',
+        password: 'password123'
+      }).toPromise().then(
+        (res:any) => {
+          this.userToken = res.token;
+          console.log(this.userToken);
+        }
+      );
+    }
+  }
+
 
   // TODO: register
 
@@ -70,8 +88,10 @@ export class ApiService {
     if (environment.useMockData) {
       return of(FAKE_FIRST_SWIPE_ITEMS);
     } else {
-      // TODO
-      return this.http.get<Item[]>('some url');
+      let requestUrl = environment.apiUrl + `/item/getItemsForUser/${this.userId}/${environment.reloadEvery*1.5}`;
+      return this.http.get<Item[]>(requestUrl, {
+        headers: {Authorization: 'Bearer ' + this.userToken}
+      });
     }
   }
 
@@ -81,8 +101,10 @@ export class ApiService {
     if (environment.useMockData) {
       return of(FAKE_SWIPE_ITEMS);
     } else {
-      // TODO
-      return this.http.get<Item[]>('some url');
+      let requestUrl = environment.apiUrl + `/item/getItemsForUser/${this.userId}/${environment.reloadEvery}`;
+      return this.http.get<Item[]>(requestUrl, {
+        headers: {Authorization: 'Bearer ' + this.userToken}
+      });
     }
   }
 

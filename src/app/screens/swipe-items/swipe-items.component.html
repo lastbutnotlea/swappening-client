@@ -1,42 +1,8 @@
-<div id="stacked-cards-block" class="stackedcards stackedcards--animatable init"><!--
-  <div class="stackedcards-container">
-    <div class="card-item">1
-    </div>
-    <div class="card-item">2
-    </div>
-    <div class="card-item">3
-    </div>
-    <div class="card-item">4
-    </div>
-    <div class="card-item">5
-    </div>
-    <div class="card-item">6
-    </div>
-    <div class="card-item">7
-    </div>
-  </div>-->
+<div id="stacked-cards-block" class="stackedcards stackedcards--animatable init">
 
-  <!-- TODO fix this -->
   <div class="stackedcards-container" id="stackedcards-container">
-    <!--    <div class="card-item">{{(items$ | async)[0].headline}}</div>
-        <div class="card-item">{{(items$ | async)[1].headline}}</div>
-        <div class="card-item">{{(items$ | async)[2].headline}}</div>
-        <div class="card-item">{{(items$ | async)[3].headline}}</div>
-        <div class="card-item">{{(items$ | async)[4].headline}}</div>
-        <div class="card-item">{{(items$ | async)[5].headline}}</div>
-        <div class="card-item">{{(items$ | async)[6].headline}}</div>
-        <div class="card-item">{{(items$ | async)[7].headline}}</div>
-        <div class="card-item">{{(items$ | async)[8].headline}}</div>
-        <div class="card-item">{{(items$ | async)[9].headline}}</div>-->
-    <div class="card-item">one</div>
-    <div class="card-item">two</div>
-    <div class="card-item">three</div>
-    <div class="card-item">four</div>
+      <!--    stacked cards go here   -->
   </div>
-
-  <!--  <div class="stackedcards-container">
-      <div class="card-item" *ngFor="let item of (items$ | async)">{{item.itemId}}</div>
-    </div>-->
 
   <div class="stackedcards--animatable stackedcards-overlay top">TOP</div>
   <div class="stackedcards--animatable stackedcards-overlay right">RIGHT</div>
@@ -48,28 +14,4 @@
   <div class="right-action">Right</div>
 </div>
 
-<!--<div *ngIf="false" id="might-be-a-bit-hacky">{{(items$ | async)[0].headline}}</div>-->
-<div id="might-be-a-bit-hacky">NEW</div>
-
 <app-bottom-menu></app-bottom-menu>
-
-
-<div _ngcontent-c1=""
-     class="card-item stackedcards-active stackedcards-top stackedcards--animatable stackedcards-origin-top"
-     style="transform: scale(1) translateX(0px) translateY(20px) translateZ(0px); opacity: 1; z-index: 5;">one
-</div>
-
-<div class="card-item stackedcards-top stackedcards--animatable stackedcards-origin-top stackedcards-active"
-     style="z-index: 5; opacity: 1; transform: scale(1) translateX(0px) translateY(20px) translateZ(0px);">NEW
-</div>
-
-
-<div _ngcontent-c1=""
-     class="card-item stackedcards-top stackedcards--animatable stackedcards-origin-top"
-     style="transform: scale(0.96) translateX(0px) translateY(10px) translateZ(0px); opacity: 0.666667; z-index: 4;">two
-</div>
-
-<div _ngcontent-c1="" class="card-item stackedcards-top stackedcards--animatable stackedcards-origin-top"
-     style="transform: scale(0.92) translateX(0px) translateY(0px) translateZ(0px); opacity: 0.333333; z-index: 3;">
-  three
-</div>

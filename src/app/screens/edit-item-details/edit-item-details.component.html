@@ -6,7 +6,7 @@
   <div class="scrollable">
 
     <div *ngIf="(myItem$ | async); else imageElseBlock">
-      <img class="detail-image" src="../../../assets/flower{{(myItem$ | async).itemId}}.png">
+      <img class="detail-image" src="../../../assets/flower{{(myItem$ | async).id}}.png">
     </div>
     <ng-template #imageElseBlock>
       <div class="empty-box">

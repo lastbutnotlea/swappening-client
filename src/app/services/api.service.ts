@@ -64,8 +64,10 @@ export class ApiService {
     if (environment.useMockData) {
       return of(FAKE_ITEMS);
     } else {
-      // TODO
-      return this.http.get<Item[]>('some url');
+      let requestUrl = environment.apiUrl + `/item/getItemsOfUser/${this.userId}`;
+      return this.http.get<Item[]>(requestUrl, {
+        headers: {Authorization: 'Bearer ' + this.userToken}
+      });
     }
   }
 
@@ -77,7 +79,7 @@ export class ApiService {
 
   // TODO: updateUserItem(newItem: Item)
 
-  // TODO: deleteUserItem(itemId: string)
+  // TODO: deleteUserItem(id: string)
 
 
   // ### ALL ITEMS
@@ -114,5 +116,5 @@ export class ApiService {
     }
   }
 
-  // TODO: swipeItems(itemId: string, liked: boolean): someKindOfResponse
+  // TODO: swipeItems(id: string, liked: boolean): someKindOfResponse
 }

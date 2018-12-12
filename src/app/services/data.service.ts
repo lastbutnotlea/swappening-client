@@ -10,17 +10,20 @@ export class DataService implements OnInit {
 
   private _myItems: BehaviorSubject<Item[]> = new BehaviorSubject([]);
   private _swipeItems: BehaviorSubject<Item[]> = new BehaviorSubject([]);
-  private _dataReady: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private _swipeDataReady: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private _myDataReady: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private apiService: ApiService) {
     this.apiService.login().then(() => {
-        console.log('#4# ready: ' + this._dataReady.value);
         this.apiService.getFirstSwipeItems('1213').subscribe(res => {
           this._swipeItems.next(res);
-          this._dataReady.next(true);
+          this._swipeDataReady.next(true);
         });
         // TODO
-        // this.apiService.getAllUserItems('1213').subscribe(res => this._myItems.next(res));
+        this.apiService.getAllUserItems('1213').subscribe(res => {
+          this._myItems.next(res);
+          this._myDataReady.next(true);
+        });
       }
     )
   }
@@ -28,16 +31,21 @@ export class DataService implements OnInit {
 ngOnInit() {
   }
 
-  get dataReady(): Observable<boolean> {
-    return new Observable<boolean>(fn => this._dataReady.subscribe(fn));
+  get swipeDataReady(): Observable<boolean> {
+    return new Observable<boolean>(fn => this._swipeDataReady.subscribe(fn));
   }
+
+  get myDataReady(): Observable<boolean> {
+    return new Observable<boolean>(fn => this._myDataReady.subscribe(fn));
+  }
+
 
   get myItems(): Observable<Item[]> {
     return new Observable<Item[]>(fn => this._myItems.subscribe(fn));
   }
 
-  myItem(itemId: string): Observable<Item> {
-    return new Observable<Item[]>(fn => this._myItems.subscribe(fn)).pipe(map((myItems: Item[]) => myItems.find(myItem => myItem.itemId === itemId)));
+  myItem(id: string): Observable<Item> {
+    return new Observable<Item[]>(fn => this._myItems.subscribe(fn)).pipe(map((myItems: Item[]) => myItems.find(myItem => myItem.id === id)));
   }
 
   get swipeItems() {

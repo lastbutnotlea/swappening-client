@@ -14,6 +14,7 @@ export class ItemDetailsComponent implements OnInit {
 
   private itemId: string;
   private myItem$: Observable<Item>;
+  private myItems$: Observable<Item[]>;
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute) {
@@ -21,7 +22,14 @@ export class ItemDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.itemId = this.route.snapshot.paramMap.get('id');
-    this.myItem$ = this.dataService.myItem(this.itemId);
+/*    this.dataService.myDataReady.subscribe(ready => {
+      if (ready) {
+        this.myItem$ = this.dataService.myItem(this.itemId);
+        // TODO unsubscribe
+      }
+    })*/
+  this.myItems$ = this.dataService.myItems;
+  this.myItem$ = this.myItems$.pipe(map((myItems: Item[]) => myItems.find(myItem => myItem.id === this.itemId)));
   }
 
 }

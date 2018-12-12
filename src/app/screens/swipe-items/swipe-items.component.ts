@@ -24,7 +24,7 @@ export class SwipeItemsComponent implements OnInit {
       this.items = newItems;
     });
     //this.items$ = this.dataService.getSwipeItems();
-    this.dataService.dataReady.subscribe(ready => {
+    this.dataService.swipeDataReady.subscribe(ready => {
       if (ready) {
         this.setUpCards();
         this.stackedCards();

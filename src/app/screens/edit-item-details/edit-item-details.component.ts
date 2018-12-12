@@ -3,7 +3,7 @@ import {Observable} from "rxjs";
 import {Item} from "../../shared/item-model";
 import {DataService} from "../../services/data.service";
 import {ActivatedRoute} from "@angular/router";
-import { HttpClient} from "@angular/common/http";
+import {ApiService} from "../../services/api.service";
 
 @Component({
   selector: 'app-edit-item-details',
@@ -18,7 +18,7 @@ export class EditItemDetailsComponent implements OnInit {
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
-              private http: HttpClient) { }
+              private apiService: ApiService) { }
 
   ngOnInit() {
     let current_id: string = this.route.snapshot.paramMap.get('id');
@@ -31,12 +31,11 @@ export class EditItemDetailsComponent implements OnInit {
   onFileSelected(event) {
     console.log(event);
     this.selectedFile = event.target.files[0];
+    //this.myItemModel.imageUrls = this.selectedFile; 
   }
 
   onUpload() {
-    if(this.selectedFile != null) {
-      console.log("Selected File is not null")
-    }
+    this.apiService.createNewUserItem(this.myItemModel); 
   }
 
 }

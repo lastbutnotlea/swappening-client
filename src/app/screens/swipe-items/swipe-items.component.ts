@@ -39,7 +39,17 @@ export class SwipeItemsComponent implements OnInit {
     for (let i = 0; i < initialNumberOfItems; i++) {
       container.innerHTML = container.innerHTML.concat(
         `<div _ngcontent-c1="" class="card-item stackedcards-top stackedcards--animatable 
-            stackedcards-origin-top stackedcards-active">${this.items[i].headline}</div>`
+            stackedcards-origin-top stackedcards-active">
+            <div>
+             ${this.items[i].headline}
+            </div>
+            <div> 
+            <img style="width: 100%" src="../../../assets/flower${(this.items[i].id % 7) + 1}.png">
+             </div>
+             <div>
+             ${this.items[i].description}
+            </div>
+         </div>`
       );
     }
   }
@@ -346,8 +356,19 @@ export class SwipeItemsComponent implements OnInit {
         const container = document.getElementById('stackedcards-container');
         for (let i = 0; i < environment.reloadEvery; i++) {
           container.innerHTML = container.innerHTML.concat(
-            `<div _ngcontent-c1="" class="card-item stackedcards-top stackedcards--animatable 
-            stackedcards-origin-top stackedcards-active">${that.items[i + environment.reloadEvery / 2].headline}</div>`
+            // TODO deal with code duplicat
+              `<div _ngcontent-c1="" class="card-item stackedcards-top stackedcards--animatable 
+            stackedcards-origin-top stackedcards-active">
+            <div>
+             ${that.items[i + environment.reloadEvery / 2].headline}
+            </div>
+            <div> 
+            <img style="width: 100%" src="../../../assets/flower${(that.items[i].id % 7) + 1}.png">
+             </div>
+             <div>
+             ${that.items[i + environment.reloadEvery / 2].description}
+            </div>
+         </div>`
           );
         }
         that.itemCounter = 0;

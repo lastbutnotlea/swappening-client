@@ -1,9 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
-import {Item} from "../../shared/item-model";
+import {Item, SINGLE_FAKE_ITEM} from "../../shared/item-model";
 import {DataService} from "../../services/data.service";
 import {ActivatedRoute} from "@angular/router";
-import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-item-details',
@@ -12,24 +11,16 @@ import {map} from "rxjs/operators";
 })
 export class ItemDetailsComponent implements OnInit {
 
-  private itemId: string;
+  private itemId: number;
   private myItem$: Observable<Item>;
-  private myItems$: Observable<Item[]>;
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.itemId = this.route.snapshot.paramMap.get('id');
-/*    this.dataService.myDataReady.subscribe(ready => {
-      if (ready) {
-        this.myItem$ = this.dataService.myItem(this.itemId);
-        // TODO unsubscribe
-      }
-    })*/
-  this.myItems$ = this.dataService.myItems;
-  this.myItem$ = this.myItems$.pipe(map((myItems: Item[]) => myItems.find(myItem => myItem.id === this.itemId)));
+    this.itemId = parseInt(this.route.snapshot.paramMap.get('id'));
+    this.myItem$ = this.dataService.myItem(this.itemId);
   }
 
 }

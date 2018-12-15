@@ -12,7 +12,9 @@ import {environment} from "../../environments/environment";
 import {Observable, of} from "rxjs";
 import {FAKE_USER, User} from "../shared/user-model";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ApiService {
 
   userToken: string;

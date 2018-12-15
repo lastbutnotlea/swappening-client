@@ -5,24 +5,25 @@ import {Item} from "../shared/item-model";
 import {map} from "rxjs/operators";
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class DataService implements OnInit {
 
   private _myItems: BehaviorSubject<Item[]> = new BehaviorSubject([]);
   private _swipeItems: BehaviorSubject<Item[]> = new BehaviorSubject([]);
-  private _swipeDataReady: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  private _myDataReady: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private _swipeItemsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private _myItemsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private apiService: ApiService) {
     this.apiService.login().then(() => {
         this.apiService.getFirstSwipeItems('1213').subscribe(res => {
           this._swipeItems.next(res);
-          this._swipeDataReady.next(true);
+          this._swipeItemsLoaded.next(true);
         });
-        // TODO
         this.apiService.getAllUserItems('1213').subscribe(res => {
           this._myItems.next(res);
-          this._myDataReady.next(true);
+          this._myItemsLoaded.next(true);
         });
       }
     )
@@ -31,20 +32,19 @@ export class DataService implements OnInit {
 ngOnInit() {
   }
 
-  get swipeDataReady(): Observable<boolean> {
-    return new Observable<boolean>(fn => this._swipeDataReady.subscribe(fn));
+  get swipeItemsLoaded(): Observable<boolean> {
+    return new Observable<boolean>(fn => this._swipeItemsLoaded.subscribe(fn));
   }
 
-  get myDataReady(): Observable<boolean> {
-    return new Observable<boolean>(fn => this._myDataReady.subscribe(fn));
+  get myItemsLoaded(): Observable<boolean> {
+    return new Observable<boolean>(fn => this._myItemsLoaded.subscribe(fn));
   }
-
 
   get myItems(): Observable<Item[]> {
     return new Observable<Item[]>(fn => this._myItems.subscribe(fn));
   }
 
-  myItem(id: string): Observable<Item> {
+  myItem(id: number): Observable<Item> {
     return new Observable<Item[]>(fn => this._myItems.subscribe(fn)).pipe(map((myItems: Item[]) => myItems.find(myItem => myItem.id === id)));
   }
 

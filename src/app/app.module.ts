@@ -67,8 +67,6 @@ const appRoutes: Routes = [
     FormsModule,
   ],
   providers: [
-    ApiService,
-    DataService,
   ],
   bootstrap: [AppComponent]
 })

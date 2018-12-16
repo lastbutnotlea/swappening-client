@@ -388,4 +388,4 @@ export const SINGLE_FAKE_ITEM: Item[] = [
     giveAway: false,
     imageUrls: []
   },
-]
+];

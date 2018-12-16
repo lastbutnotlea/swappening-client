@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import {Observable} from "rxjs";
-import {Item} from "../../shared/item-model";
-import {DataService} from "../../services/data.service";
-import {ActivatedRoute} from "@angular/router";
-import {ApiService} from "../../services/api.service";
+import {Component, OnInit} from '@angular/core';
+import {Observable} from 'rxjs';
+import {Item} from '../../shared/item-model';
+import {DataService} from '../../services/data.service';
+import {ActivatedRoute} from '@angular/router';
+import {ApiService} from '../../services/api.service';
 
 @Component({
   selector: 'app-edit-item-details',
@@ -18,12 +18,13 @@ export class EditItemDetailsComponent implements OnInit {
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
-              private apiService: ApiService) { }
+              private apiService: ApiService) {
+  }
 
   ngOnInit() {
-    let current_id: string = this.route.snapshot.paramMap.get('id');
-    if(current_id != 'new'){
-      this.myItem$ = this.dataService.myItem(current_id);
+    const current_id: string = this.route.snapshot.paramMap.get('id');
+    if (current_id !== 'new') {
+      this.myItem$ = this.dataService.myItem(parseInt(current_id, 10));
       this.myItem$.subscribe(newItem => this.myItemModel = newItem);
     }
   }
@@ -31,11 +32,11 @@ export class EditItemDetailsComponent implements OnInit {
   onFileSelected(event) {
     console.log(event);
     this.selectedFile = event.target.files[0];
-    //this.myItemModel.imageUrls = this.selectedFile; 
+    // this.myItemModel.imageUrls = this.selectedFile;
   }
 
   onUpload() {
-    this.apiService.createNewUserItem(this.myItemModel); 
+    this.apiService.createNewUserItem(this.myItemModel);
   }
 
 }

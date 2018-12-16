@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {DataService} from "../../services/data.service";
-import {Item} from "../../shared/item-model";
-import {Observable} from "rxjs";
+import {DataService} from '../../services/data.service';
+import {Item} from '../../shared/item-model';
+import {Observable} from 'rxjs';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-my-items',
@@ -11,8 +12,10 @@ import {Observable} from "rxjs";
 export class MyItemsComponent implements OnInit {
 
   myItems$: Observable<Item[]>;
-
-  constructor(private dataService: DataService) { }
+  apiUrl: string;
+  constructor(private dataService: DataService) {
+    this.apiUrl = environment.apiUrl;
+  }
 
   ngOnInit() {
     this.myItems$ = this.dataService.myItems;

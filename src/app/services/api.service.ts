@@ -1,5 +1,5 @@
-import {HttpClient} from "@angular/common/http";
-import {Injectable} from "@angular/core";
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
 import {
   FAKE_FIRST_SWIPE_ITEMS,
   FAKE_ITEMS,
@@ -7,10 +7,10 @@ import {
   FAKE_ITEMS_4,
   FAKE_SWIPE_ITEMS,
   Item, SINGLE_FAKE_ITEM
-} from "../shared/item-model";
-import {environment} from "../../environments/environment";
-import {Observable, of} from "rxjs";
-import {FAKE_USER, User} from "../shared/user-model";
+} from '../shared/item-model';
+import {environment} from '../../environments/environment';
+import {Observable, of} from 'rxjs';
+import {FAKE_USER, User} from '../shared/user-model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,12 +28,12 @@ export class ApiService {
   public login(): Promise<void> {
     if (environment.useMockData) {
     } else {
-      let requestUrl = environment.apiUrl + '/login';
+      const requestUrl = environment.apiUrl + '/login';
       return this.http.post<string>(requestUrl, {
         email: 'test123@beispiel.de',
         password: 'password123'
       }).toPromise().then(
-        (res:any) => {
+        (res: any) => {
           this.userToken = res.token;
           console.log(this.userToken);
         }
@@ -66,7 +66,7 @@ export class ApiService {
     if (environment.useMockData) {
       return of(FAKE_ITEMS);
     } else {
-      let requestUrl = environment.apiUrl + `/item/getItemsOfUser/${this.userId}`;
+      const requestUrl = environment.apiUrl + `/item/getItemsOfUser/${this.userId}`;
       return this.http.get<Item[]>(requestUrl, {
         headers: {Authorization: 'Bearer ' + this.userToken}
       });
@@ -74,14 +74,14 @@ export class ApiService {
   }
 
   public testOnly_get3Items(): Observable<Item[]> {
-    return of(FAKE_ITEMS_3)
+    return of(FAKE_ITEMS_3);
   }
 
   // TODO: createNewUserItem(newItem: Item)
   public createNewUserItem(newItem: Item) {
-    let requestUrl = environment.apiUrl + `/item/addItem`;
+    const requestUrl = environment.apiUrl + `/item/addItem`;
     this.http.post<Item>(requestUrl, {
-      headers: {Authorization: 'Bearer ' + this.userToken}, 
+      headers: {Authorization: 'Bearer ' + this.userToken},
       headline: newItem.headline, description: newItem.description
     });
   }
@@ -99,7 +99,7 @@ export class ApiService {
     if (environment.useMockData) {
       return of(FAKE_FIRST_SWIPE_ITEMS);
     } else {
-      let requestUrl = environment.apiUrl + `/item/getItemsForUser/${this.userId}/${environment.reloadEvery*1.5}`;
+      const requestUrl = environment.apiUrl + `/item/getItemsForUser/${this.userId}/${environment.reloadEvery * 1.5}`;
       return this.http.get<Item[]>(requestUrl, {
         headers: {Authorization: 'Bearer ' + this.userToken}
       });
@@ -112,7 +112,7 @@ export class ApiService {
     if (environment.useMockData) {
       return of(FAKE_SWIPE_ITEMS);
     } else {
-      let requestUrl = environment.apiUrl + `/item/getItemsForUser/${this.userId}/${environment.reloadEvery}`;
+      const requestUrl = environment.apiUrl + `/item/getItemsForUser/${this.userId}/${environment.reloadEvery}`;
       return this.http.get<Item[]>(requestUrl, {
         headers: {Authorization: 'Bearer ' + this.userToken}
       });

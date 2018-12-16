@@ -6,7 +6,7 @@
     <mat-grid-list cols="2" class="scrollable">
       <mat-grid-tile *ngFor="let item of (myItems$ | async)" routerLink="/myitems/{{item.id}}">
         <p>{{item.headline}}</p>
-        <!--<img src="../../../assets/flower{{item.id}}.png">-->
+        <img src="{{this.apiUrl}}/files/{{item.pictures[0].pictureStorageName}}">
       </mat-grid-tile>
     </mat-grid-list>
     <button mat-fab color="warn" class="add-button" routerLink="/myitems/new/edit">+</button>

@@ -1,8 +1,8 @@
-import {Injectable, OnInit} from "@angular/core";
-import {ApiService} from "./api.service";
-import {BehaviorSubject, Observable, of, Subject} from "rxjs";
-import {Item} from "../shared/item-model";
-import {map} from "rxjs/operators";
+import {Injectable, OnInit} from '@angular/core';
+import {ApiService} from './api.service';
+import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
+import {Item} from '../shared/item-model';
+import {map} from 'rxjs/operators';
 
 
 @Injectable({
@@ -26,7 +26,7 @@ export class DataService implements OnInit {
           this._myItemsLoaded.next(true);
         });
       }
-    )
+    );
   }
 
 ngOnInit() {
@@ -45,7 +45,8 @@ ngOnInit() {
   }
 
   myItem(id: number): Observable<Item> {
-    return new Observable<Item[]>(fn => this._myItems.subscribe(fn)).pipe(map((myItems: Item[]) => myItems.find(myItem => myItem.id === id)));
+    return new Observable<Item[]>(fn =>
+      this._myItems.subscribe(fn)).pipe(map((myItems: Item[]) => myItems.find(myItem => myItem.id === id)));
   }
 
   get swipeItems() {
@@ -53,11 +54,11 @@ ngOnInit() {
   }
 
   public fetchNewSwipeItems() {
-    this.apiService.getSwipeItems("id").subscribe(res => this._swipeItems.next(this._swipeItems.value.slice(10, 15).concat(res)));
+    this.apiService.getSwipeItems('id').subscribe(res => this._swipeItems.next(this._swipeItems.value.slice(10, 15).concat(res)));
 
-    //let newSwipeItems$: Observable<Item[]>;
-    //this.swipeItems$.pipe(map(items => items.slice(10, 15)));
-    //newSwipeItems$ = this.apiService.getSwipeItems(this.userId);
+    // let newSwipeItems$: Observable<Item[]>;
+    // this.swipeItems$.pipe(map(items => items.slice(10, 15)));
+    // newSwipeItems$ = this.apiService.getSwipeItems(this.userId);
     // this.swipeItems$ = merge(this.swipeItems$, newSwipeItems$);
   }
 

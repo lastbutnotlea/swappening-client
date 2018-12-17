@@ -86,18 +86,21 @@ export class ApiService {
     });
   }
 
-  public uploadPicture(selectedFile: File) {
+  public uploadPicture(selectedFile: File, itemId: number) {
     // this.http is the injected HttpClient
     const uploadData = new FormData();
     uploadData.append('data', selectedFile, selectedFile.name);
-    const requestUrl = environment.apiUrl + '/files/upload';
-    this.http.post(requestUrl, {
-      headers: {Authorization: 'Bearer ' + this.userToken},
-      data: uploadData
-    })
-      .subscribe( res => {
+    uploadData.append('itemId', itemId.toString());
+    const requestUrl = environment.apiUrl + '/item/addPictureToItem';
+    this.http.post(requestUrl,
+      uploadData,
+      {
+        headers: {Authorization: 'Bearer ' + this.userToken}
+      }
+    )
+      .subscribe(res => {
         console.log(res);
-    });
+      });
   }
 
   // TODO: updateUserItem(newItem: Item)

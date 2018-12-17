@@ -25,7 +25,7 @@ export class EditItemDetailsComponent implements OnInit {
   ngOnInit() {
     const current_id: string = this.route.snapshot.paramMap.get('id');
     if (current_id !== 'new') {
-      this.itemId = parseInt(current_id);
+      this.itemId = parseInt(current_id, 10);
       this.myItem$ = this.dataService.myItem(this.itemId);
       this.myItem$.subscribe(newItem => this.myItemModel = newItem);
     }
@@ -38,9 +38,9 @@ export class EditItemDetailsComponent implements OnInit {
   }
 
   onUpload() {
-    //this.apiService.createNewUserItem(this.myItemModel);
+    // this.apiService.createNewUserItem(this.myItemModel);
     if (this.selectedFile != null) {
-      this.apiService.uploadPicture(this.selectedFile);
+      this.apiService.uploadPicture(this.selectedFile, this.itemId);
     }
   }
 

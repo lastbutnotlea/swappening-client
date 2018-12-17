@@ -21,9 +21,4 @@ export class MyItemsComponent implements OnInit {
   ngOnInit() {
     this.myItems$ = this.dataService.myItems;
   }
-
-  testOnly_update() {
-    this.dataService.testOnly_updateMyItems();
-  }
-
 }

@@ -41,7 +41,6 @@ export class ApiService {
     }
   }
 
-
   // TODO: register
 
   // TODO: logout
@@ -73,51 +72,46 @@ export class ApiService {
     }
   }
 
-  public createNewUserItem(newItem: Item) {
+  public createNewUserItem(newItem: Item): Observable<Item> {
     const requestUrl = environment.apiUrl + '/item/addItem';
-    this.http.post(requestUrl, {
+    return this.http.post<Item>(requestUrl, {
         headline: newItem.headline,
         description: newItem.description
       }, {
         headers: {Authorization: 'Bearer ' + this.userToken}
       }
-    ).subscribe(res => console.log(res));
+    );
   }
 
-  public uploadPicture(selectedFile: File, itemId: number) {
-    // this.http is the injected HttpClient
+  public uploadPicture(selectedFile: File, itemId: number): Observable<any[]> {
     const uploadData = new FormData();
     uploadData.append('data', selectedFile, selectedFile.name);
     uploadData.append('itemId', itemId.toString());
     const requestUrl = environment.apiUrl + '/item/addPictureToItem';
-    this.http.post(requestUrl,
+    return this.http.post<any[]>(requestUrl,
       uploadData,
       {
         headers: {Authorization: 'Bearer ' + this.userToken}
       }
-    )
-      .subscribe(res => {
-        console.log(res);
-      });
+    );
   }
 
-  public updateUserItem(newItem: Item) {
+  public updateUserItem(newItem: Item): Observable<Item> {
     const requestUrl = environment.apiUrl + '/item/updateItem/' + newItem.id;
-    this.http.put(requestUrl, {
+    return this.http.put<Item>(requestUrl, {
         headline: newItem.headline,
         description: newItem.description
       }, {
         headers: {Authorization: 'Bearer ' + this.userToken}
       }
-    ).subscribe(res => console.log(res));
+    );
   }
 
   // TODO: deleteUserItem(id: string)
 
   // ### ALL ITEMS
 
-  // fetches the first 15 items or so for the user to swipe through
-  // should be triggered once
+  // fetches the first set of items; should only be triggered once
   public getFirstSwipeItems(userId: string): Observable<Item[]> {
     if (environment.useMockData) {
       return of(FAKE_FIRST_SWIPE_ITEMS);
@@ -129,8 +123,7 @@ export class ApiService {
     }
   }
 
-  // fetches the next 10 items or so for the user to swipe through
-  // should be triggered after the user swiped through 10 previous items
+  // fetches the next set of items, should be triggered after the user swiped through X previous items
   public getSwipeItems(userId: string): Observable<Item[]> {
     if (environment.useMockData) {
       return of(FAKE_SWIPE_ITEMS);
@@ -139,12 +132,6 @@ export class ApiService {
       return this.http.get<Item[]>(requestUrl, {
         headers: {Authorization: 'Bearer ' + this.userToken}
       });
-    }
-  }
-
-  public getSwipeItem(): Observable<Item[]> {
-    if (environment.useMockData) {
-      return of(SINGLE_FAKE_ITEM);
     }
   }
 

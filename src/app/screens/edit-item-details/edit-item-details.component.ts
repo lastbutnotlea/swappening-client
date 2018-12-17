@@ -21,8 +21,7 @@ export class EditItemDetailsComponent implements OnInit {
   private isEdit: boolean;
 
   constructor(private dataService: DataService,
-              private route: ActivatedRoute,
-              private apiService: ApiService) {
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -35,21 +34,41 @@ export class EditItemDetailsComponent implements OnInit {
       this.myItem$.subscribe(newItem => this.myItemModel = newItem);
     } else {
       this.isEdit = false;
+      this.myItemModel = {
+        id: null,
+        headline: '',
+        description: '',
+        tags: [],
+        ownerId: '',
+        giveAway: false,
+        pictures: []
+      }
     }
   }
 
   onFileChanged(event) {
     console.log(event);
     this.selectedFile = event.target.files[0];
-    // this.myItemModel.pictures = this.selectedFile;
   }
 
   onUpload() {
     if (this.isEdit) {
-      this.apiService.updateUserItem(this.myItemModel);
+      this.dataService.updateUserItem(this.myItemModel);
+      if (this.selectedFile !== null) {
+        this.dataService.uploadPicture(this.selectedFile, this.itemId);
+      }
     } else {
-      this.apiService.createNewUserItem(this.myItemModel);
-      this.apiService.uploadPicture(this.selectedFile, this.itemId);
+      this.dataService.createNewUserItem(this.myItemModel).then(res => {
+        this.itemId = res;
+        this.myItem$ = this.dataService.myItem(this.itemId);
+        if (this.selectedFile !== null) {
+          this.dataService.uploadPicture(this.selectedFile, this.itemId);
+        }
+      });
+      this.myItem$.subscribe(newItem => {
+        this.myItemModel = newItem;
+      });
+      this.isEdit = true;
     }
   }
 }

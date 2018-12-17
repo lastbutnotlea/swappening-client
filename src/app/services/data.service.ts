@@ -1,6 +1,6 @@
 import {Injectable, OnInit} from '@angular/core';
 import {ApiService} from './api.service';
-import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {Item} from '../shared/item-model';
 import {map} from 'rxjs/operators';
 
@@ -29,7 +29,7 @@ export class DataService implements OnInit {
     );
   }
 
-ngOnInit() {
+  ngOnInit() {
   }
 
   get swipeItemsLoaded(): Observable<boolean> {
@@ -55,19 +55,34 @@ ngOnInit() {
 
   public fetchNewSwipeItems() {
     this.apiService.getSwipeItems('id').subscribe(res => this._swipeItems.next(this._swipeItems.value.slice(10, 15).concat(res)));
-
-    // let newSwipeItems$: Observable<Item[]>;
-    // this.swipeItems$.pipe(map(items => items.slice(10, 15)));
-    // newSwipeItems$ = this.apiService.getSwipeItems(this.userId);
-    // this.swipeItems$ = merge(this.swipeItems$, newSwipeItems$);
   }
 
-  public test_fetchNewSwipeItem() {
-    this.apiService.getSwipeItem().subscribe(res => this._swipeItems.next(this._swipeItems.value.slice(1, 15).concat(res)));
+  async createNewUserItem(newItem: Item) : Promise<number> {
+    return new Promise<number>((resolve, reject) => {
+      let newItemId;
+      this.apiService.createNewUserItem(newItem).subscribe(res => {
+        newItemId = res.id;
+        this._myItems.next([res].concat(this._myItems.value));
+        resolve(newItemId);
+      });
+    });
   }
 
+  public uploadPicture(selectedFile: File, itemId: number) {
+    this.apiService.uploadPicture(selectedFile, itemId).subscribe(res => {
+      let editedItemIndex = this._myItems.value.findIndex(myItem => myItem.id === itemId);
+      let newItemsArray = this._myItems.value;
+      newItemsArray[editedItemIndex].pictures = res;
+      this._myItems.next(newItemsArray);
+    })
+  }
 
-  public testOnly_updateMyItems() {
-    this.apiService.testOnly_get3Items().subscribe(res => this._myItems.next(this._myItems.value.concat(res)));
+  public updateUserItem(newItem: Item) {
+    this.apiService.updateUserItem(newItem).subscribe(res => {
+      let editedItemIndex = this._myItems.value.findIndex(myItem => myItem.id === newItem.id);
+      let newItemsArray = this._myItems.value;
+      newItemsArray[editedItemIndex] = res;
+      this._myItems.next(newItemsArray);
+    })
   }
 }

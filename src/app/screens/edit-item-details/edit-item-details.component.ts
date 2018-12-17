@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Item} from '../../shared/item-model';
 import {DataService} from '../../services/data.service';
@@ -30,7 +30,7 @@ export class EditItemDetailsComponent implements OnInit {
     const current_id: string = this.route.snapshot.paramMap.get('id');
     if (current_id !== 'new') {
       this.isEdit = true;
-      this.itemId = parseInt(current_id);
+      this.itemId = parseInt(current_id, 10);
       this.myItem$ = this.dataService.myItem(this.itemId);
       this.myItem$.subscribe(newItem => this.myItemModel = newItem);
     } else {
@@ -45,12 +45,11 @@ export class EditItemDetailsComponent implements OnInit {
   }
 
   onUpload() {
-    if(this.isEdit) {
+    if (this.isEdit) {
       this.apiService.updateUserItem(this.myItemModel);
     } else {
-      //this.apiService.createNewUserItem(this.myItemModel);
-      //this.apiService.uploadPicture(this.selectedFile);
+      this.apiService.createNewUserItem(this.myItemModel);
+      this.apiService.uploadPicture(this.selectedFile, this.itemId);
     }
   }
-
 }

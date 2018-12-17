@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Item, SINGLE_FAKE_ITEM} from '../../shared/item-model';
+import {Item} from '../../shared/item-model';
 import {DataService} from '../../services/data.service';
 import {ActivatedRoute} from '@angular/router';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-item-details',
@@ -13,6 +14,7 @@ export class ItemDetailsComponent implements OnInit {
 
   private itemId: number;
   private myItem$: Observable<Item>;
+  private myItems$: Observable<Item[]>;
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute) {

@@ -5,12 +5,35 @@
   </div>
   <div class="scrollable">
 
+
+        <input
+          style="display: none"
+          type="file" (change)="onFileChanged($event)"
+          #fileInput>
+        <button (click)="fileInput.click()">Select File</button>
+        <button (click)="onUpload()">Upload!</button>
+
+  </div>
+
+  <button mat-fab color="warn" class="save-button" (click)="onUpload()">Save</button>
+
+</div>
+
+<!--
+
+<div class="scrollable">
+
     <div *ngIf="(myItem$ | async); else imageElseBlock">
       <img class="detail-image" src="../../../assets/flower{{(myItem$ | async).id}}.png">
     </div>
     <ng-template #imageElseBlock>
       <div class="empty-box">
-        <input type="file" (change)="onFileSelected($event)">
+        <input
+          style="display: none"
+          type="file" (change)="onFileChanged($event)"
+          #fileInput>
+        <button (click)="fileInput.click()">Select File</button>
+        <button (click)="onUpload()">Upload!</button>
       </div>
     </ng-template>
 
@@ -21,8 +44,8 @@
       <ng-template #headlineElseBlock>
         <textarea matInput value="Insert headline"></textarea>
       </ng-template>
-    </mat-form-field> 
-    
+    </mat-form-field>
+
     <mat-form-field class="description">
       <div *ngIf="(myItem$ | async); else descriptionElseBlock">
         <textarea matInput [(ngModel)]="myItemModel.description"></textarea>
@@ -31,9 +54,7 @@
         <textarea matInput value="Insert description"></textarea>
       </ng-template>
     </mat-form-field>
-      
+
   </div>
 
-  <button mat-fab color="warn" class="save-button" (click)="onUpload()">Save</button>
-
-</div>
+-->

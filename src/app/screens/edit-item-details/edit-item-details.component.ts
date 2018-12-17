@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {Observable} from 'rxjs';
 import {Item} from '../../shared/item-model';
 import {DataService} from '../../services/data.service';
@@ -14,7 +14,7 @@ export class EditItemDetailsComponent implements OnInit {
 
   private myItem$: Observable<Item>;
   myItemModel: Item;
-  selectedFile = null;
+  selectedFile: File = null;
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
@@ -29,14 +29,17 @@ export class EditItemDetailsComponent implements OnInit {
     }
   }
 
-  onFileSelected(event) {
+  onFileChanged(event) {
     console.log(event);
     this.selectedFile = event.target.files[0];
     // this.myItemModel.imageUrls = this.selectedFile;
   }
 
   onUpload() {
-    this.apiService.createNewUserItem(this.myItemModel);
+    //this.apiService.createNewUserItem(this.myItemModel);
+    if (this.selectedFile != null) {
+      this.apiService.uploadPicture(this.selectedFile);
+    }
   }
 
 }

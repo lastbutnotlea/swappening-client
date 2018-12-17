@@ -86,10 +86,23 @@ export class ApiService {
     });
   }
 
+  public uploadPicture(selectedFile: File) {
+    // this.http is the injected HttpClient
+    const uploadData = new FormData();
+    uploadData.append('data', selectedFile, selectedFile.name);
+    const requestUrl = environment.apiUrl + '/files/upload';
+    this.http.post(requestUrl, {
+      headers: {Authorization: 'Bearer ' + this.userToken},
+      data: uploadData
+    })
+      .subscribe( res => {
+        console.log(res);
+    });
+  }
+
   // TODO: updateUserItem(newItem: Item)
 
   // TODO: deleteUserItem(id: string)
-
 
   // ### ALL ITEMS
 

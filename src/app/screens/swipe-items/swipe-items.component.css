@@ -90,15 +90,15 @@ body {
 }
 
 .stackedcards-overlay.top {
-  background: #E38568;
+  background: #ff9674;
 }
 
 .stackedcards-overlay.right {
-  background: #7BB3C5;
+  background: #ffd300;
 }
 
 .stackedcards-overlay.left {
-  background: #E58D93;
+  background: #ff9ea4;
 }
 
 .stackedcards-overlay.left:empty,
@@ -160,12 +160,12 @@ body {
 }
 
 .top-action {
-  background: #E38568;
+  background: #ff9675;
   margin: 0 10px;
 }
 
-.right-action { background: #7BB3C5; }
-.left-action { background: #E58D93; }
+.right-action { background: #ffd300; }
+.left-action { background: #ff9da3; }
 
 /* elements on stacked cards */
 .card-item {
@@ -184,8 +184,7 @@ body {
   opacity: 0;
   top: 0;
   height: 100%;
-  font-size: 24px; /* this style was added only for better preview */
-  text-transform: uppercase; /* this style was added only for better preview */
-  font-weight: 500; /* this style was added only for better preview */
+  font-size: 20px; /* this style was added only for better preview */
+  /*font-weight: 200; /* this style was added only for better preview */
   color: #000000; /* this style was added only for better preview */
 }

@@ -5,7 +5,13 @@ export class Item {
   tags: string[];
   ownerId: string;
   giveAway: boolean;
-  imageUrls: string[];
+  pictures: {
+    createdAt: string;
+    itemId: number;
+    originalName: string;
+    pictureStorageName: string;
+    updatedAt: string;
+  }[];
 }
 
 export const FAKE_ITEMS: Item[] = [
@@ -19,7 +25,7 @@ export const FAKE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 2,
@@ -28,7 +34,7 @@ export const FAKE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 3,
@@ -37,7 +43,7 @@ export const FAKE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 4,
@@ -46,7 +52,7 @@ export const FAKE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 5,
@@ -55,7 +61,7 @@ export const FAKE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 6,
@@ -64,7 +70,7 @@ export const FAKE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 7,
@@ -73,7 +79,7 @@ export const FAKE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   }
 ];
 
@@ -85,7 +91,7 @@ export const FAKE_ITEMS_3: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 2,
@@ -94,7 +100,7 @@ export const FAKE_ITEMS_3: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 3,
@@ -103,7 +109,7 @@ export const FAKE_ITEMS_3: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   }
 ];
 
@@ -115,7 +121,7 @@ export const FAKE_ITEMS_4: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 5,
@@ -124,7 +130,7 @@ export const FAKE_ITEMS_4: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 6,
@@ -133,7 +139,7 @@ export const FAKE_ITEMS_4: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 7,
@@ -142,7 +148,7 @@ export const FAKE_ITEMS_4: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   }
 ];
 
@@ -154,7 +160,7 @@ export const FAKE_FIRST_SWIPE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 2,
@@ -163,7 +169,7 @@ export const FAKE_FIRST_SWIPE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 3,
@@ -172,7 +178,7 @@ export const FAKE_FIRST_SWIPE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 4,
@@ -181,7 +187,7 @@ export const FAKE_FIRST_SWIPE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 5,
@@ -190,7 +196,7 @@ export const FAKE_FIRST_SWIPE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 6,
@@ -199,7 +205,7 @@ export const FAKE_FIRST_SWIPE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 7,
@@ -208,7 +214,7 @@ export const FAKE_FIRST_SWIPE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 8,
@@ -217,7 +223,7 @@ export const FAKE_FIRST_SWIPE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 9,
@@ -226,7 +232,7 @@ export const FAKE_FIRST_SWIPE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 10,
@@ -235,7 +241,7 @@ export const FAKE_FIRST_SWIPE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 11,
@@ -244,7 +250,7 @@ export const FAKE_FIRST_SWIPE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 12,
@@ -253,7 +259,7 @@ export const FAKE_FIRST_SWIPE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 13,
@@ -262,7 +268,7 @@ export const FAKE_FIRST_SWIPE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 14,
@@ -271,7 +277,7 @@ export const FAKE_FIRST_SWIPE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 15,
@@ -280,7 +286,7 @@ export const FAKE_FIRST_SWIPE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   }
 ];
 
@@ -292,7 +298,7 @@ export const FAKE_SWIPE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 2,
@@ -301,7 +307,7 @@ export const FAKE_SWIPE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 3,
@@ -310,7 +316,7 @@ export const FAKE_SWIPE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 4,
@@ -319,7 +325,7 @@ export const FAKE_SWIPE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 5,
@@ -328,7 +334,7 @@ export const FAKE_SWIPE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 6,
@@ -337,7 +343,7 @@ export const FAKE_SWIPE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 7,
@@ -346,7 +352,7 @@ export const FAKE_SWIPE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 8,
@@ -355,7 +361,7 @@ export const FAKE_SWIPE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 9,
@@ -364,7 +370,7 @@ export const FAKE_SWIPE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
   {
     id: 10,
@@ -373,7 +379,7 @@ export const FAKE_SWIPE_ITEMS: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   }
 ];
 
@@ -386,6 +392,6 @@ export const SINGLE_FAKE_ITEM: Item[] = [
     tags: ['flower', 'useless'],
     ownerId: '001',
     giveAway: false,
-    imageUrls: []
+    pictures: []
   },
 ];

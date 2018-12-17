@@ -32,7 +32,7 @@ export class EditItemDetailsComponent implements OnInit {
   onFileChanged(event) {
     console.log(event);
     this.selectedFile = event.target.files[0];
-    // this.myItemModel.imageUrls = this.selectedFile;
+    // this.myItemModel.pictures = this.selectedFile;
   }
 
   onUpload() {

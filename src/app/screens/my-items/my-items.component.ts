@@ -13,6 +13,7 @@ export class MyItemsComponent implements OnInit {
 
   myItems$: Observable<Item[]>;
   apiUrl: string;
+
   constructor(private dataService: DataService) {
     this.apiUrl = environment.apiUrl;
   }

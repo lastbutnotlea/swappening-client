@@ -14,16 +14,17 @@ export class SwipeItemsComponent implements OnInit {
   private items$: Observable<Item[]>;
   private items: Item[];
   private itemCounter = 0;
+  private apiUrl: string;
 
   constructor(public dataService: DataService) {
   }
 
   ngOnInit(): void {
+    this.apiUrl = environment.apiUrl;
     this.items$ = this.dataService.swipeItems;
     this.items$.subscribe(newItems => {
       this.items = newItems;
     });
-    //this.items$ = this.dataService.getSwipeItems();
     this.dataService.swipeItemsLoaded.subscribe(ready => {
       if (ready) {
         this.setUpCards();
@@ -43,8 +44,8 @@ export class SwipeItemsComponent implements OnInit {
             <div>
              ${this.items[i].headline}
             </div>
-            <div> 
-            <img style="width: 100%" src="../../../assets/flower${(this.items[i].id % 7) + 1}.png">
+            <div>            
+            <img style="width: 100%" src="${this.apiUrl}/files/${this.items[i].pictures[0].pictureStorageName}">
              </div>
              <div>
              ${this.items[i].description}
@@ -363,7 +364,7 @@ export class SwipeItemsComponent implements OnInit {
              ${that.items[i + environment.reloadEvery / 2].headline}
             </div>
             <div> 
-            <img style="width: 100%" src="../../../assets/flower${(that.items[i].id % 7) + 1}.png">
+            <img style="width: 100%" src="${that.apiUrl}/files/${that.items[i].pictures[0].pictureStorageName}">
              </div>
              <div>
              ${that.items[i + environment.reloadEvery / 2].description}

@@ -3,7 +3,7 @@
     <button routerLink="/myitems" mat-button><</button>
   </div>
   <div class="scrollable">
-    <!--<img class="detail-image" src="../../../assets/flower{{(myItem$ | async).itemId}}.png">-->
+    <img src="{{this.apiUrl}}/files/{{(myItem$ | async).pictures[0].pictureStorageName}}">
     <p class="headline">
       {{(myItem$ | async).headline}}
     </p>

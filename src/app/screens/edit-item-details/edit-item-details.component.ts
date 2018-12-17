@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {Item} from '../../shared/item-model';
 import {DataService} from '../../services/data.service';
 import {ActivatedRoute} from '@angular/router';
-import {ApiService} from '../../services/api.service';
+import {Location} from '@angular/common';
 import {environment} from "../../../environments/environment";
 
 @Component({
@@ -22,7 +22,8 @@ export class EditItemDetailsComponent implements OnInit {
   private clickCounter = 0;
 
   constructor(private dataService: DataService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private location: Location) {
   }
 
   ngOnInit() {
@@ -65,18 +66,20 @@ export class EditItemDetailsComponent implements OnInit {
       this.dataService.createNewUserItem(this.myItemModel).then(res => {
         this.itemId = res;
         this.myItem$ = this.dataService.myItem(this.itemId);
+        this.myItem$.subscribe(newItem => this.myItemModel = newItem);
         if (this.selectedFile !== null) {
           this.dataService.uploadPicture(this.selectedFile, this.itemId);
         }
         this.selectedFile = null;
-      });
-      this.myItem$.subscribe(newItem => {
-        this.myItemModel = newItem;
       });
     }
   }
 
   cycleThroughPictures() {
     this.clickCounter++;
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

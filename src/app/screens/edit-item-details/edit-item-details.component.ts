@@ -19,6 +19,7 @@ export class EditItemDetailsComponent implements OnInit {
   private itemId;
   private apiUrl: string;
   private isEdit: boolean;
+  private clickCounter = 0;
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute) {
@@ -52,23 +53,30 @@ export class EditItemDetailsComponent implements OnInit {
   }
 
   onUpload() {
+    this.clickCounter = 0;
     if (this.isEdit) {
       this.dataService.updateUserItem(this.myItemModel);
       if (this.selectedFile !== null) {
         this.dataService.uploadPicture(this.selectedFile, this.itemId);
+        this.selectedFile = null;
       }
     } else {
+      this.isEdit = true;
       this.dataService.createNewUserItem(this.myItemModel).then(res => {
         this.itemId = res;
         this.myItem$ = this.dataService.myItem(this.itemId);
         if (this.selectedFile !== null) {
           this.dataService.uploadPicture(this.selectedFile, this.itemId);
         }
+        this.selectedFile = null;
       });
       this.myItem$.subscribe(newItem => {
         this.myItemModel = newItem;
       });
-      this.isEdit = true;
     }
+  }
+
+  cycleThroughPictures() {
+    this.clickCounter++;
   }
 }

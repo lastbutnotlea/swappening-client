@@ -6,22 +6,26 @@
   <div class="scrollable">
 
     <div *ngIf="(myItem$ | async)">
-      <img class="detail-image" src="{{this.apiUrl}}/files/{{(myItem$ | async).pictures[0].pictureStorageName}}">
+      <img class="detail-image"
+           src="{{this.apiUrl}}/files/{{(myItem$ | async).pictures[clickCounter%(myItem$ | async).pictures.length].pictureStorageName}}"
+           (click)="cycleThroughPictures()"
+      >
     </div>
     <div>
       <input
         style="display: none"
         type="file" (change)="onFileChanged($event)"
         #fileInput>
-      <button (click)="fileInput.click()">Select File</button>
+      <button mat-flat-button color="warn" (click)="fileInput.click()">Select File</button>
+      <mat-label *ngIf="selectedFile">{{selectedFile.name}} selected</mat-label>
     </div>
 
     <mat-form-field class="headline">
-        <textarea matInput [(ngModel)]="myItemModel.headline"></textarea>
+      <textarea matInput [(ngModel)]="myItemModel.headline"></textarea>
     </mat-form-field>
 
     <mat-form-field class="description">
-        <textarea matInput [(ngModel)]="myItemModel.description"></textarea>
+      <textarea matInput [(ngModel)]="myItemModel.description"></textarea>
     </mat-form-field>
 
   </div>

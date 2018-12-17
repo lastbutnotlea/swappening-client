@@ -15,6 +15,7 @@ export class ItemDetailsComponent implements OnInit {
   private itemId: number;
   private myItem$: Observable<Item>;
   private apiUrl: string;
+  private clickCounter = 0;
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute) {
@@ -26,4 +27,7 @@ export class ItemDetailsComponent implements OnInit {
     this.myItem$ = this.dataService.myItem(this.itemId);
   }
 
+  cycleThroughPictures() {
+    this.clickCounter++;
+  }
 }

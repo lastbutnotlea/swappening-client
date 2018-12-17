@@ -73,17 +73,15 @@ export class ApiService {
     }
   }
 
-  public testOnly_get3Items(): Observable<Item[]> {
-    return of(FAKE_ITEMS_3);
-  }
-
-  // TODO: createNewUserItem(newItem: Item)
   public createNewUserItem(newItem: Item) {
-    const requestUrl = environment.apiUrl + `/item/addItem`;
-    this.http.post<Item>(requestUrl, {
-      headers: {Authorization: 'Bearer ' + this.userToken},
-      headline: newItem.headline, description: newItem.description
-    });
+    const requestUrl = environment.apiUrl + '/item/addItem';
+    this.http.post(requestUrl, {
+        headline: newItem.headline,
+        description: newItem.description
+      }, {
+        headers: {Authorization: 'Bearer ' + this.userToken}
+      }
+    ).subscribe(res => console.log(res));
   }
 
   public uploadPicture(selectedFile: File) {
@@ -95,12 +93,21 @@ export class ApiService {
       headers: {Authorization: 'Bearer ' + this.userToken},
       data: uploadData
     })
-      .subscribe( res => {
+      .subscribe(res => {
         console.log(res);
-    });
+      });
   }
 
-  // TODO: updateUserItem(newItem: Item)
+  public updateUserItem(newItem: Item) {
+    const requestUrl = environment.apiUrl + '/item/updateItem/' + newItem.id;
+    this.http.put(requestUrl, {
+        headline: newItem.headline,
+        description: newItem.description
+      }, {
+        headers: {Authorization: 'Bearer ' + this.userToken}
+      }
+    ).subscribe(res => console.log(res));
+  }
 
   // TODO: deleteUserItem(id: string)
 

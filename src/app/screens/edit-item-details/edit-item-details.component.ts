@@ -4,6 +4,7 @@ import {Item} from '../../shared/item-model';
 import {DataService} from '../../services/data.service';
 import {ActivatedRoute} from '@angular/router';
 import {ApiService} from '../../services/api.service';
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-edit-item-details',
@@ -16,6 +17,8 @@ export class EditItemDetailsComponent implements OnInit {
   private myItemModel: Item;
   private selectedFile: File = null;
   private itemId;
+  private apiUrl: string;
+  private isEdit: boolean;
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
@@ -23,11 +26,15 @@ export class EditItemDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.apiUrl = environment.apiUrl;
     const current_id: string = this.route.snapshot.paramMap.get('id');
     if (current_id !== 'new') {
+      this.isEdit = true;
       this.itemId = parseInt(current_id);
       this.myItem$ = this.dataService.myItem(this.itemId);
       this.myItem$.subscribe(newItem => this.myItemModel = newItem);
+    } else {
+      this.isEdit = false;
     }
   }
 
@@ -38,9 +45,11 @@ export class EditItemDetailsComponent implements OnInit {
   }
 
   onUpload() {
-    //this.apiService.createNewUserItem(this.myItemModel);
-    if (this.selectedFile != null) {
-      this.apiService.uploadPicture(this.selectedFile);
+    if(this.isEdit) {
+      this.apiService.updateUserItem(this.myItemModel);
+    } else {
+      //this.apiService.createNewUserItem(this.myItemModel);
+      //this.apiService.uploadPicture(this.selectedFile);
     }
   }
 

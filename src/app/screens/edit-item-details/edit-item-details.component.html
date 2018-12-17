@@ -5,26 +5,8 @@
   </div>
   <div class="scrollable">
 
-
-        <input
-          style="display: none"
-          type="file" (change)="onFileChanged($event)"
-          #fileInput>
-        <button (click)="fileInput.click()">Select File</button>
-        <button (click)="onUpload()">Upload!</button>
-
-  </div>
-
-  <button mat-fab color="warn" class="save-button" (click)="onUpload()">Save</button>
-
-</div>
-
-<!--
-
-<div class="scrollable">
-
     <div *ngIf="(myItem$ | async); else imageElseBlock">
-      <img class="detail-image" src="../../../assets/flower{{(myItem$ | async).id}}.png">
+      <img class="detail-image" src="{{this.apiUrl}}/files/{{(myItem$ | async).pictures[0].pictureStorageName}}">
     </div>
     <ng-template #imageElseBlock>
       <div class="empty-box">
@@ -57,4 +39,6 @@
 
   </div>
 
--->
+</div>
+
+<button mat-fab color="warn" class="save-button" (click)="onUpload()">Save</button>

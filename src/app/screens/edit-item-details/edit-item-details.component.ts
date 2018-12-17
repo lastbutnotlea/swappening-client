@@ -13,8 +13,9 @@ import {ApiService} from '../../services/api.service';
 export class EditItemDetailsComponent implements OnInit {
 
   private myItem$: Observable<Item>;
-  myItemModel: Item;
-  selectedFile: File = null;
+  private myItemModel: Item;
+  private selectedFile: File = null;
+  private itemId;
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
@@ -24,7 +25,8 @@ export class EditItemDetailsComponent implements OnInit {
   ngOnInit() {
     const current_id: string = this.route.snapshot.paramMap.get('id');
     if (current_id !== 'new') {
-      this.myItem$ = this.dataService.myItem(parseInt(current_id, 10));
+      this.itemId = parseInt(current_id);
+      this.myItem$ = this.dataService.myItem(this.itemId);
       this.myItem$.subscribe(newItem => this.myItemModel = newItem);
     }
   }

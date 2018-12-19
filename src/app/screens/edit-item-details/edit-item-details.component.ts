@@ -2,8 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Item} from '../../shared/item-model';
 import {DataService} from '../../services/data.service';
-import {ActivatedRoute} from '@angular/router';
-import {Location} from '@angular/common';
+import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from "../../../environments/environment";
 
 @Component({
@@ -23,7 +22,7 @@ export class EditItemDetailsComponent implements OnInit {
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
-              private location: Location) {
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -80,6 +79,10 @@ export class EditItemDetailsComponent implements OnInit {
   }
 
   goBack() {
-    this.location.back();
+    if (this.itemId) {
+      this.router.navigate([`/myitems/${this.itemId}`]);
+    } else {
+      this.router.navigate(['/myitems']);
+    }
   }
 }

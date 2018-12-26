@@ -16,7 +16,8 @@ import { ItemDetailsComponent } from './components/item-details/item-details.com
 import {DataService} from './services/data.service';
 import { EditItemDetailsComponent } from './screens/edit-item-details/edit-item-details.component';
 import { FormsModule } from '@angular/forms';
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations"; // <-- NgModel lives here
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { MatchesComponent } from './screens/matches/matches.component';
 
 const appRoutes: Routes = [
   {
@@ -43,7 +44,11 @@ const appRoutes: Routes = [
   {
     path: 'myitems/:id/edit',
     component: EditItemDetailsComponent
-  }
+  },
+  {
+    path: 'matches',
+    component: MatchesComponent
+  },
 ];
 
 @NgModule({
@@ -56,6 +61,7 @@ const appRoutes: Routes = [
     SwipeItemDetailsComponent,
     ItemDetailsComponent,
     EditItemDetailsComponent,
+    MatchesComponent,
   ],
   imports: [
     BrowserModule,

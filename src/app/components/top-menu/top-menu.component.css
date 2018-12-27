@@ -1,0 +1,12 @@
+.menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 8vh;
+  width: 25vw;
+}
+  
+button {
+  width: 100%;
+  height: 100%;
+}

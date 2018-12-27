@@ -18,6 +18,8 @@ import { EditItemDetailsComponent } from './screens/edit-item-details/edit-item-
 import { FormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { MatchesComponent } from './screens/matches/matches.component';
+import { TopMenuComponent } from './components/top-menu/top-menu.component';
+import { SettingsComponent } from './screens/settings/settings.component';
 
 const appRoutes: Routes = [
   {
@@ -49,6 +51,10 @@ const appRoutes: Routes = [
     path: 'matches',
     component: MatchesComponent
   },
+  {
+    path: 'settings',
+    component: SettingsComponent
+  },
 ];
 
 @NgModule({
@@ -62,6 +68,8 @@ const appRoutes: Routes = [
     ItemDetailsComponent,
     EditItemDetailsComponent,
     MatchesComponent,
+    TopMenuComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,

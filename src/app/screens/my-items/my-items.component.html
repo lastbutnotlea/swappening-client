@@ -2,6 +2,7 @@
   <h1>
     My items
   </h1>
+  <app-top-menu></app-top-menu>
   <div class="set-height">
     <mat-grid-list cols="2" class="scrollable">
       <mat-grid-tile *ngFor="let item of (myItems$ | async)" routerLink="/myitems/{{item.id}}">

@@ -1,0 +1,30 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web');
+@import '~@angular/material/theming';
+@include mat-core();
+
+$theme-primary: mat-palette($mat-indigo);
+$theme-accent: mat-palette($mat-pink);
+$theme-warn: mat-palette($mat-red);
+
+$app-theme: mat-light-theme(
+    $theme-primary,
+    $theme-accent,
+    $theme-warn
+);
+
+.app-theme {
+  @include angular-material-theme($app-theme);
+}
+
+body {
+  font-family: 'Titillium Web', sans-serif;
+  background: mat-color($theme-primary, 800);
+  color: white;
+}
+
+h1 {
+  font-weight: 200;
+}

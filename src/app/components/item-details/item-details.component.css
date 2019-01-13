@@ -19,7 +19,6 @@ mat-button{
   font-size: 3rem;
   font-style: italic;
   align-self: center;
-  font-family: Verdana;
   color: darkcyan;
   margin: 5vw;
 }
@@ -31,7 +30,6 @@ mat-button{
 
 .tags{
   font-size: 2rem;
-  font-family: fantasy;
   color: darkcyan;
   margin: 5vw;
 }

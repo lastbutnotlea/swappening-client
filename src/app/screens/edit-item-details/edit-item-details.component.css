@@ -17,7 +17,6 @@
   font-size: 3rem;
   font-style: italic;
   align-self: center;
-  font-family: Verdana;
   color: darkcyan;
   margin: 0vw 5vw 0vw 5vw;
   padding: 0vw;
@@ -31,7 +30,6 @@
 
 .tags{
   font-size: 2rem;
-  font-family: fantasy;
   color: darkcyan;
   margin: 0vw;
 }

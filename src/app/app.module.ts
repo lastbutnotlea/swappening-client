@@ -20,6 +20,9 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { MatchesComponent } from './screens/matches/matches.component';
 import { TopMenuComponent } from './components/top-menu/top-menu.component';
 import { SettingsComponent } from './screens/settings/settings.component';
+import { EventListComponent } from './components/event-list/event-list.component';
+import { HostedEventsComponent } from './screens/hosted-events/hosted-events.component';
+import { LikedEventsComponent } from './screens/liked-events/liked-events.component';
 
 const appRoutes: Routes = [
   {
@@ -33,6 +36,22 @@ const appRoutes: Routes = [
   },
   {
     path: 'myitems/:id',
+    component: MyItemDetailsComponent
+  },
+  {
+    path: 'hostedevents',
+    component: HostedEventsComponent
+  },
+  {
+    path: 'hostedevents/:id',
+    component: MyItemDetailsComponent
+  },
+  {
+    path: 'likedevents',
+    component: LikedEventsComponent
+  },
+  {
+    path: 'likedevents/:id',
     component: MyItemDetailsComponent
   },
   {
@@ -70,6 +89,9 @@ const appRoutes: Routes = [
     MatchesComponent,
     TopMenuComponent,
     SettingsComponent,
+    EventListComponent,
+    HostedEventsComponent,
+    LikedEventsComponent,
   ],
   imports: [
     BrowserModule,

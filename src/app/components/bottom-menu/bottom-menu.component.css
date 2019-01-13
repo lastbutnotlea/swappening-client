@@ -6,6 +6,10 @@
 }
 
 button {
-  width: calc(100%  /3);
+  width: 20%;
   height: 100%;
+}
+
+img {
+  height: 50%;
 }

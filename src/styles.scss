@@ -21,10 +21,11 @@ $app-theme: mat-light-theme(
 
 body {
   font-family: 'Titillium Web', sans-serif;
-  background: mat-color($theme-primary, 800);
-  color: white;
+  // background: mat-color($theme-primary, 800);
+  // color: white;
 }
 
 h1 {
   font-weight: 200;
+  padding-left: 2rem;
 }

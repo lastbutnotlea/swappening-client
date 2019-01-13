@@ -1,11 +1,15 @@
+@import "../../../styles.scss";
+
 img {
-  width: 100%;
+  width: 40%;
+  height: 100%;
 }
 
 .scrollable {
   overflow-y: scroll;
   padding: 0 !important;
   height: 80vh;
+  background: $light-blue;
 }
 
 .add-button{
@@ -15,4 +19,9 @@ img {
   width: 7rem;
   height: 7rem;
   font-size: 5rem;
+}
+
+.event-card {
+  display: flex;
+  margin: 1.5rem;
 }

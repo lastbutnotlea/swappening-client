@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Item} from "../../shared/item-model";
+import {Observable} from "rxjs";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-event-list',
@@ -7,7 +10,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EventListComponent implements OnInit {
 
-  constructor() { }
+  @Input()
+  myItems$: Observable<Item[]>;
+  apiUrl: string;
+
+  constructor() {
+    this.apiUrl = environment.apiUrl;
+  }
 
   ngOnInit() {
   }

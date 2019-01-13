@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {Observable} from "rxjs";
+import {Item} from "../../shared/item-model";
+import {DataService} from "../../services/data.service";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-hosted-events',
@@ -7,9 +11,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HostedEventsComponent implements OnInit {
 
-  constructor() { }
+  myItems$: Observable<Item[]>;
+
+  constructor(private dataService: DataService) {
+  }
 
   ngOnInit() {
+    this.myItems$ = this.dataService.myItems;
   }
 
 }

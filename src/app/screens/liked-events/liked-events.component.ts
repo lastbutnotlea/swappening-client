@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {Observable} from "rxjs";
+import {Item} from "../../shared/item-model";
+import {DataService} from "../../services/data.service";
 
 @Component({
   selector: 'app-liked-events',
@@ -7,9 +10,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LikedEventsComponent implements OnInit {
 
-  constructor() { }
+  myItems$: Observable<Item[]>;
+
+  constructor(private dataService: DataService) {
+  }
 
   ngOnInit() {
+    this.myItems$ = this.dataService.myItems;
   }
 
 }

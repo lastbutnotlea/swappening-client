@@ -3,9 +3,10 @@
 .menu {
   position: absolute;
   bottom: 0;
-  height: 10vh;
+  height: 6vh;
   width: 100%;
   background-color: $mean;
+  border-top: solid $primary1 2px;
 }
 
 button {
@@ -16,5 +17,7 @@ button {
 }
 
 img {
-  height: 40%;
+  height: 65%;
+  opacity: 0.85;
+  padding-bottom: 0.4rem;
 }

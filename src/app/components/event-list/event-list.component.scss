@@ -8,11 +8,16 @@ img {
 .scrollable {
   overflow-y: scroll;
   padding: 0 !important;
-  height: 80vh;
+  height: 84vh;
 }
 
 .event-card {
   display: flex;
-  margin: 1.5rem;
+  margin: 1.3rem;
+  padding: 0;
+}
+
+mat-card-header {
+  padding-top: 1rem;
 }
 

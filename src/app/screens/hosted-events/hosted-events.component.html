@@ -3,6 +3,8 @@
     Hosted by you
   </h1>
   <app-event-list [myItems$]="myItems$" [routingLink]="'hostedevents'"></app-event-list>
-  <button mat-fab class="add-button" routerLink="/hostedevents/new/edit">+</button>
+  <button mat-fab class="add-button" routerLink="/hostedevents/new/edit">
+    <img class="add-symbol" src="../../../assets/icons-black/add.png">
+  </button>
   <app-bottom-menu></app-bottom-menu>
 </div>

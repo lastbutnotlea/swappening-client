@@ -1,8 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import url('https://fonts.googleapis.com/css?family=Titillium+Web');
 @import '~@angular/material/theming';
+
 @include mat-core();
 
 $theme-primary: mat-palette($mat-teal);
@@ -18,6 +18,10 @@ $lighter-primary2: rgba(253, 100, 150, 0.38);
 $mean: #ff8d5e;
 $light-mean: rgba(255, 141, 94, 0.67);
 $lighter-mean: rgba(255, 141, 94, 0.37);
+
+/*$primary1: rgb(127, 235, 255);
+$primary2: #654ffd;
+$mean: #84b1ff;*/
 
 $app-theme: mat-light-theme(
     $theme-primary,
@@ -40,7 +44,7 @@ body {
   background: linear-gradient(to bottom left, $primary1, $primary2 90%);
 }
 
-h1 {
+.headline {
   font-weight: 900;
   padding-left: 2rem;
   height: 10vh;
@@ -53,4 +57,30 @@ h1 {
 
 mat-card {
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 5px 9px 0px 0 rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.12) !important;
+}
+
+// swipe screen styling:
+
+.card-item h1 {
+  font-weight: 900;
+  padding-left: 2rem;
+}
+
+.card-item img {
+  width: 100%;
+}
+
+.mat-button-wrapper {
+  padding: 0 0 !important;
+}
+
+.card-item .info {
+  font-size: 1.6rem;
+  padding-left: 1rem;
+  padding-top: 1rem;
+}
+
+.card-item .time {
+  width: 2rem;
+  padding-right: 0.5rem;
 }

@@ -1,3 +1,15 @@
+@import "../../../styles.scss";
+
+.outmost-container {
+  height: 94vh;
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem 0;
+}
+
 /* Stacked Cards component css */
 body {
   overflow-x: hidden;
@@ -22,9 +34,8 @@ body {
 
 .stackedcards {
   position: relative;
-  width: 90vw;
-  height: 70vh;
-  margin-left: 5vw;
+  width: 93vw;
+  height: 76vh;
 }
 
 .stackedcards * {
@@ -89,15 +100,15 @@ body {
 }
 
 .stackedcards-overlay.top {
-  background: #ff9674;
+  background: $mean;
 }
 
 .stackedcards-overlay.right {
-  background: #ffd300;
+  background: $primary2;
 }
 
 .stackedcards-overlay.left {
-  background: #ff9ea4;
+  background: $primary1;
 }
 
 .stackedcards-overlay.left:empty,
@@ -136,14 +147,13 @@ body {
   display: inline-flex;
   width: 100%;
   margin-top: 30px;
+  justify-content: space-between;
+  padding: 0 4rem;
 }
 
 .top-action,
 .right-action,
 .left-action {
-  width: 100%;
-  height: 50px;
-  border-radius: 10px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -156,34 +166,36 @@ body {
   text-transform: uppercase;
   font-weight: 500;
   color: #fff;
+  width: 20%;
+}
+
+img {
+  width: 55%;
 }
 
 .top-action {
-  background: #ff9675;
+  background-color: $primary1 !important;
   margin: 0 10px;
 }
 
-.right-action { background: #ffd300; }
-.left-action { background: #ff9da3; }
+.right-action { background-color: $primary1 !important; }
+
+.left-action { background-color: $primary1 !important; }
 
 /* elements on stacked cards */
 .card-item {
-  background: #e7e7e7;
+  background: #ffffff;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 9px 0px 0 rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.12) !important;
   -webkit-box-align: center;
   -ms-flex-align: center;
-  align-items: center;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   flex-direction: column;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
-  justify-content: center;
   left: 0;
   opacity: 0;
   top: 0;
   height: 100%;
-  font-size: 20px; /* this style was added only for better preview */
-  /*font-weight: 200; /* this style was added only for better preview */
-  color: #000000; /* this style was added only for better preview */
 }

@@ -40,16 +40,19 @@ export class SwipeEventsComponent implements OnInit {
     for (let i = 0; i < initialNumberOfItems; i++) {
       container.innerHTML = container.innerHTML.concat(
         `<div _ngcontent-c1="" class="card-item stackedcards-top stackedcards--animatable 
-            stackedcards-origin-top stackedcards-active">
-            <div>
+            stackedcards-origin-top stackedcards-active" routerLink="/swipeevents/${this.items[i].id}">
+            <h1>
              ${this.items[i].headline}
-            </div>
-            <div>            
-            <img style="width: 100%" src="${this.apiUrl}/files/${this.items[i].pictures[0].pictureStorageName}">
+            </h1>
+            <img src="${this.apiUrl}/files/${this.items[i].pictures[0].pictureStorageName}">
+             <div class="info">
+             <div class="date">
+              <img class="time" src="../../../assets/icons-black/time.png">
+              04/15/19 9pm
              </div>
-             <div>
-             ${this.items[i].description}
-            </div>
+            
+             <div>${this.items[i].description}</div>
+             </div>
          </div>`
       );
     }
@@ -358,17 +361,19 @@ export class SwipeEventsComponent implements OnInit {
         for (let i = 0; i < environment.reloadEvery; i++) {
           container.innerHTML = container.innerHTML.concat(
             // TODO deal with code duplicat
-              `<div _ngcontent-c1="" class="card-item stackedcards-top stackedcards--animatable 
+            `<div _ngcontent-c1="" class="card-item stackedcards-top stackedcards--animatable 
             stackedcards-origin-top stackedcards-active">
-            <div>
+            <h1>
              ${that.items[i + environment.reloadEvery / 2].headline}
-            </div>
-            <div> 
+            </h1>
             <img style="width: 100%" src="${that.apiUrl}/files/${that.items[i].pictures[0].pictureStorageName}">
+            <div class="info">
+             <div class="date">
+              <img class="time" src="../../../assets/icons-black/time.png">
+              04/15/19 9pm
              </div>
-             <div>
-             ${that.items[i + environment.reloadEvery / 2].description}
-            </div>
+             <div>${that.items[i + environment.reloadEvery / 2].description}</div>
+             </div>
          </div>`
           );
         }

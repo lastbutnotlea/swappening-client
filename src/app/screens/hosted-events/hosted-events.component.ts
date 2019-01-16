@@ -7,7 +7,7 @@ import {environment} from "../../../environments/environment";
 @Component({
   selector: 'app-hosted-events',
   templateUrl: './hosted-events.component.html',
-  styleUrls: ['./hosted-events.component.css']
+  styleUrls: ['./hosted-events.component.scss']
 })
 export class HostedEventsComponent implements OnInit {
 

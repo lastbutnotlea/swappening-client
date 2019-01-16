@@ -8,7 +8,16 @@
 $theme-primary: mat-palette($mat-teal);
 $theme-accent: mat-palette($mat-pink);
 $theme-warn: mat-palette($mat-red);
-$light-blue: #e3e7f3;
+
+$primary1: #ffc031;
+$light-primary1: rgba(255, 173, 23, 0.65);
+$lighter-primary1: rgba(255, 173, 23, 0.38);
+$primary2: #fd6487;
+$light-primary2: rgba(253, 100, 150, 0.65);
+$lighter-primary2: rgba(253, 100, 150, 0.38);
+$mean: #ff8d5e;
+$light-mean: rgba(255, 141, 94, 0.67);
+$lighter-mean: rgba(255, 141, 94, 0.37);
 
 $app-theme: mat-light-theme(
     $theme-primary,
@@ -22,15 +31,18 @@ $app-theme: mat-light-theme(
 
 body {
   font-family: 'Titillium Web', sans-serif;
+  background: linear-gradient(to bottom left, $primary1, $primary2 90%);
   // background: mat-color($theme-primary, 800);
   // color: white;
 }
 
 h1 {
-  font-weight: 200;
+  font-weight: 900;
   padding-left: 2rem;
   height: 10vh;
   margin: 0 !important;
   display: flex;
   align-items: center;
+  border-bottom: solid $primary1;
+  background-color: $mean;
 }

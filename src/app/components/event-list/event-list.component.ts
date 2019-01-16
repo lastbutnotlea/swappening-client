@@ -12,6 +12,8 @@ export class EventListComponent implements OnInit {
 
   @Input()
   myItems$: Observable<Item[]>;
+  @Input()
+  routingLink: string;
   apiUrl: string;
 
   constructor() {

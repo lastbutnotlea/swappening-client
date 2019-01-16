@@ -6,11 +6,11 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from "../../../environments/environment";
 
 @Component({
-  selector: 'app-edit-item-details',
-  templateUrl: './edit-item-details.component.html',
-  styleUrls: ['./edit-item-details.component.css']
+  selector: 'app-edit-event-details',
+  templateUrl: './edit-event-details.component.html',
+  styleUrls: ['./edit-event-details.component.scss']
 })
-export class EditItemDetailsComponent implements OnInit {
+export class EditEventDetailsComponent implements OnInit {
 
   private myItem$: Observable<Item>;
   private myItemModel: Item;
@@ -80,9 +80,9 @@ export class EditItemDetailsComponent implements OnInit {
 
   goBack() {
     if (this.itemId) {
-      this.router.navigate([`/myitems/${this.itemId}`]);
+      this.router.navigate([`/hostedevents/${this.itemId}`]);
     } else {
-      this.router.navigate(['/myitems']);
+      this.router.navigate(['/hostedevents']);
     }
   }
 }

@@ -2,41 +2,30 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AppComponent} from './app.component';
-import {MyItemsComponent} from './screens/my-items/my-items.component';
-import {SwipeItemsComponent} from './screens/swipe-items/swipe-items.component';
+import {SwipeEventsComponent} from './screens/swipe-events/swipe-events.component';
 import {BottomMenuComponent} from './components/bottom-menu/bottom-menu.component';
 import {MatButtonModule, MatCardModule} from '@angular/material';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatInputModule} from '@angular/material/input';
-import {ApiService} from './services/api.service';
 import {HttpClientModule} from '@angular/common/http';
-import { MyItemDetailsComponent } from './screens/my-item-details/my-item-details.component';
-import { SwipeItemDetailsComponent } from './screens/swipe-item-details/swipe-item-details.component';
-import { ItemDetailsComponent } from './components/item-details/item-details.component';
-import {DataService} from './services/data.service';
-import { EditItemDetailsComponent } from './screens/edit-item-details/edit-item-details.component';
+import { HostedEventDetailsComponent } from './screens/hosted-event-details/hosted-event-details.component';
+import { SwipeEventDetailsComponent } from './screens/swipe-event-details/swipe-event-details.component';
+import { EventDetailsComponent } from './components/event-details/event-details.component';
+import { EditEventDetailsComponent } from './screens/edit-event-details/edit-event-details.component';
 import { FormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { MatchesComponent } from './screens/matches/matches.component';
-import { TopMenuComponent } from './components/top-menu/top-menu.component';
 import { SettingsComponent } from './screens/settings/settings.component';
 import { EventListComponent } from './components/event-list/event-list.component';
 import { HostedEventsComponent } from './screens/hosted-events/hosted-events.component';
 import { LikedEventsComponent } from './screens/liked-events/liked-events.component';
+import { LikedEventDetailsComponent } from './screens/liked-event-details/liked-event-details.component';
 
 const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: '/swipeitems',
+    redirectTo: '/swipeevents',
     pathMatch: 'full'
-  },
-  {
-    path: 'myitems',
-    component: MyItemsComponent
-  },
-  {
-    path: 'myitems/:id',
-    component: MyItemDetailsComponent
   },
   {
     path: 'hostedevents',
@@ -44,7 +33,11 @@ const appRoutes: Routes = [
   },
   {
     path: 'hostedevents/:id',
-    component: MyItemDetailsComponent
+    component: HostedEventDetailsComponent
+  },
+  {
+    path: 'hostedevents/:id/edit',
+    component: EditEventDetailsComponent
   },
   {
     path: 'likedevents',
@@ -52,19 +45,15 @@ const appRoutes: Routes = [
   },
   {
     path: 'likedevents/:id',
-    component: MyItemDetailsComponent
+    component: LikedEventDetailsComponent
   },
   {
-    path: 'swipeitems',
-    component: SwipeItemsComponent
+    path: 'swipeevents',
+    component: SwipeEventsComponent
   },
   {
-    path: 'swipeitems/:id',
-    component: SwipeItemDetailsComponent
-  },
-  {
-    path: 'myitems/:id/edit',
-    component: EditItemDetailsComponent
+    path: 'swipeevents/:id',
+    component: SwipeEventDetailsComponent
   },
   {
     path: 'matches',
@@ -79,19 +68,18 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    MyItemsComponent,
-    SwipeItemsComponent,
+    SwipeEventsComponent,
     BottomMenuComponent,
-    MyItemDetailsComponent,
-    SwipeItemDetailsComponent,
-    ItemDetailsComponent,
-    EditItemDetailsComponent,
+    HostedEventDetailsComponent,
+    SwipeEventDetailsComponent,
+    EventDetailsComponent,
+    EditEventDetailsComponent,
     MatchesComponent,
-    TopMenuComponent,
     SettingsComponent,
     EventListComponent,
     HostedEventsComponent,
     LikedEventsComponent,
+    LikedEventDetailsComponent,
   ],
   imports: [
     BrowserModule,

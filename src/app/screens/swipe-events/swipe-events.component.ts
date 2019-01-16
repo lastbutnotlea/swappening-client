@@ -5,11 +5,11 @@ import {DataService} from "../../services/data.service";
 import {environment} from "../../../environments/environment";
 
 @Component({
-  selector: 'app-swipe-items',
-  templateUrl: './swipe-items.component.html',
-  styleUrls: ['./swipe-items.component.css']
+  selector: 'app-swipe-events',
+  templateUrl: './swipe-events.component.html',
+  styleUrls: ['./swipe-events.component.scss']
 })
-export class SwipeItemsComponent implements OnInit {
+export class SwipeEventsComponent implements OnInit {
 
   private items$: Observable<Item[]>;
   private items: Item[];

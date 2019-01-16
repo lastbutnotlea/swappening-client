@@ -6,11 +6,11 @@ import {ActivatedRoute} from '@angular/router';
 import {environment} from "../../../environments/environment";
 
 @Component({
-  selector: 'app-item-details',
-  templateUrl: './item-details.component.html',
-  styleUrls: ['./item-details.component.css']
+  selector: 'app-event-details',
+  templateUrl: './event-details.component.html',
+  styleUrls: ['./event-details.component.scss']
 })
-export class ItemDetailsComponent implements OnInit {
+export class EventDetailsComponent implements OnInit {
 
   private itemId: number;
   private myItem$: Observable<Item>;

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ItemDetailsComponent } from './item-details.component';
+import { SwipeEventDetailsComponent } from './swipe-event-details.component';
 
-describe('ItemDetailsComponent', () => {
-  let component: ItemDetailsComponent;
-  let fixture: ComponentFixture<ItemDetailsComponent>;
+describe('SwipeEventDetailsComponent', () => {
+  let component: SwipeEventDetailsComponent;
+  let fixture: ComponentFixture<SwipeEventDetailsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ItemDetailsComponent ]
+      declarations: [ SwipeEventDetailsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ItemDetailsComponent);
+    fixture = TestBed.createComponent(SwipeEventDetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

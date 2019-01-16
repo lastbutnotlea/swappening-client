@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
-  selector: 'app-my-item-details',
-  templateUrl: './my-item-details.component.html',
-  styleUrls: ['./my-item-details.component.css']
+  selector: 'app-hosted-event-details',
+  templateUrl: './hosted-event-details.component.html',
+  styleUrls: ['./hosted-event-details.component.css']
 })
-export class MyItemDetailsComponent implements OnInit {
+export class HostedEventDetailsComponent implements OnInit {
 
   private itemId: string;
 

@@ -1,12 +1,5 @@
 <div class="set-height scrollable">
-<!--  <mat-grid-list cols="2" class="scrollable">
-    <mat-grid-tile *ngFor="let item of (myItems$ | async)" routerLink="/myitems/{{item.id}}">
-      &lt;!&ndash;<p>{{item.headline}}</p>&ndash;&gt;
-      <img src="{{this.apiUrl}}/files/{{item.pictures[0].pictureStorageName}}">
-    </mat-grid-tile>
-  </mat-grid-list>-->
-
-<mat-card class="event-card" *ngFor="let item of (myItems$ | async)" routerLink="/myitems/{{item.id}}">
+  <mat-card class="event-card" *ngFor="let item of (myItems$ | async)" routerLink="/{{routingLink}}/{{item.id}}">
   <img src="{{this.apiUrl}}/files/{{item.pictures[0].pictureStorageName}}">
   <mat-card-header>
     <mat-card-title>An Event</mat-card-title>

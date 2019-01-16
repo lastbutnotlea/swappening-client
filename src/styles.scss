@@ -25,15 +25,19 @@ $app-theme: mat-light-theme(
     $theme-warn
 );
 
+$app-typography: mat-typography-config(
+  $font-family: '"Titillium Web", "Helvetica Neue", sans-serif'
+);
+
+@include mat-core($app-typography);
+
 .app-theme {
   @include angular-material-theme($app-theme);
 }
 
 body {
-  font-family: 'Titillium Web', sans-serif;
+  font-family: 'Titillium Web', sans-serif !important;
   background: linear-gradient(to bottom left, $primary1, $primary2 90%);
-  // background: mat-color($theme-primary, 800);
-  // color: white;
 }
 
 h1 {

@@ -1,15 +1,10 @@
-.detail-image{
-  position: relative;
-  align-self: center;
-  width: 80vw;
-  margin: 5vw 10vw 5vw 10vw; 
-}
+
 
 .headline{
   font-size: 3rem;
   font-style: italic;
   align-self: center;
-  color: darkcyan;
+  //color: darkcyan;
   margin: 5vw;
 }
 
@@ -32,4 +27,9 @@
 
 img {
   width: 100%;
+}
+
+.detail-card {
+  margin: 1.3rem;
+  padding: 0.5rem;
 }

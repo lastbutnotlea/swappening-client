@@ -1,18 +1,24 @@
 <div>
   <div class="scrollable">
-    <img src="{{this.apiUrl}}/files/{{(myItem$ | async).pictures[clickCounter%(myItem$ | async).pictures.length].pictureStorageName}}"
-         (click)="cycleThroughPictures()">
-    <p class="headline">
-      {{(myItem$ | async).headline}}
-    </p>
-    <p class="description">
-      {{(myItem$ | async).description}}
-    </p>
-    <!-- TODO: add tags -->
-<!--    <p class="tags" *ngIf="(myItem$ | async).tags">
-      <b *ngFor="let tag of (myItem$ | async).tags">
-      {{tag}}
-      </b>
-    </p>-->
+    <mat-card class="detail-card">
+      <img src="{{this.apiUrl}}/files/{{(myItem$ | async).pictures[clickCounter%(myItem$ | async).pictures.length].pictureStorageName}}"
+          (click)="cycleThroughPictures()" class="detail-image">
+      <mat-card-header>
+        <mat-card-title>
+          <p >{{(myItem$ | async).headline}}</p>
+        </mat-card-title>
+      <mat-card-subtitle>
+        <p class="description">{{(myItem$ | async).description}}</p>
+      </mat-card-subtitle>
+    </mat-card-header>
+
+      <!-- TODO: add tags -->
+      <!--<p class="tags" *ngIf="(myItem$ | async).tags">
+        <b *ngFor="let tag of (myItem$ | async).tags">
+        {{tag}}
+        </b>
+      </p>-->
+
+    </mat-card>
   </div>
 </div>

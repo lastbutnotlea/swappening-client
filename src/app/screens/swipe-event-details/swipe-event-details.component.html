@@ -1,8 +1,13 @@
-<div>
-  <button routerLink="/swipeevents" mat-button class="back-button"><</button>
-</div>
+<div routerLink="/swipeevents" class="back-button">< back</div>
 <app-event-details></app-event-details>
 <div>
-  <button mat-fab color="warn" class="like-button">Yes</button>
-  <button mat-fab color="primary" class="dislike-button">No</button>
+  <button mat-fab class="on-top-button-left">
+    <img src="../../../assets/icons-black/garbage-2.png">
+  </button>
+  <button mat-fab class="on-top-button-middle">
+    <img src="../../../assets/icons-black/star-1.png">
+  </button>
+  <button mat-fab class="on-top-button-right">
+    <img src="../../../assets/icons-black/like-2.png">
+  </button>
 </div>

@@ -42,7 +42,7 @@ export class SwipeEventsComponent implements OnInit {
       container.innerHTML = container.innerHTML.concat(
         `<div _ngcontent-c1="" class="card-item stackedcards-top stackedcards--animatable 
             stackedcards-origin-top stackedcards-active">
-            <h1>
+            <h1 class="event-card-headline">
              ${this.items[i].headline}
             </h1>
             <img src="${this.apiUrl}/files/${this.items[i].pictures[0].pictureStorageName}">
@@ -366,7 +366,7 @@ export class SwipeEventsComponent implements OnInit {
             // TODO deal with code duplicat
             `<div _ngcontent-c1="" class="card-item stackedcards-top stackedcards--animatable 
             stackedcards-origin-top stackedcards-active">
-            <h1>
+            <h1 class="event-card-headline">
              ${that.items[i + environment.reloadEvery / 2].headline}
             </h1>
             <img style="width: 100%" src="${that.apiUrl}/files/${that.items[i + environment.reloadEvery / 2].pictures[0].pictureStorageName}">

@@ -3,18 +3,12 @@
   padding: 0;
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 9px 0px 0 rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.12) !important;
   border-radius: 10px;
-}
-
-.card-title{
-  font-size: 3rem;
-  font-weight: bold;
-  margin: 1.5rem 0.5rem 0.5rem 0.5rem;
-  align-self: center;
+  height: 89vh;
 }
 
 .card-subtitle{
   font-size: 2rem;
-  margin: 1rem;
+  padding: 1rem;
 }
 
 .tags{
@@ -26,10 +20,20 @@
 .scrollable{
   overflow-y: scroll;
   padding: 0 !important;
-  height: 90vh;
+  height: 98vh;
 }
 
 .detail-image {
   width: 100%;
 }
 
+mat-card-title {
+  margin: 0 !important;
+  height: 10vh;
+}
+
+.scrollable-content {
+  overflow: auto;
+  height: 79vh;
+  margin-bottom: 4rem;
+}

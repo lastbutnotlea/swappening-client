@@ -19,6 +19,8 @@ $mean: #ff8d5e;
 $light-mean: rgba(255, 141, 94, 0.67);
 $lighter-mean: rgba(255, 141, 94, 0.37);
 
+$dark-overlay: #825b4b40;
+
 /*$primary1: rgb(127, 235, 255);
 $primary2: #654ffd;
 $mean: #84b1ff;*/
@@ -51,12 +53,11 @@ body {
   margin: 0 !important;
   display: flex;
   align-items: center;
-  border-bottom: solid $primary1 2px;
-  background-color: $mean;
+  background-color: $dark-overlay;
 }
 
 mat-card {
-  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 5px 9px 0px 0 rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.12) !important;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 3px 6px 0px 0 rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.12) !important;
 }
 
 // swipe screen styling:

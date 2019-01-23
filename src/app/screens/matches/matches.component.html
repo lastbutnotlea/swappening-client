@@ -2,5 +2,14 @@
   <h1 class="headline">
     Matches
   </h1>
+  <div class="scrollable">
+    <mat-card class="chat-card" *ngFor="let item of [1,2,3,4]">
+      <img class="icon" src="../../../assets/portrait.jpg">
+      <mat-card-header>
+        <mat-card-title>An Event – Name</mat-card-title>
+        <mat-card-subtitle>Last message</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+  </div>
   <app-bottom-menu></app-bottom-menu>
 </div>

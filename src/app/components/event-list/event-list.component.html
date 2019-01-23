@@ -1,4 +1,4 @@
-<div class="set-height scrollable">
+<div class="scrollable">
   <mat-card class="event-card" *ngFor="let item of (myItems$ | async)" routerLink="/{{routingLink}}/{{item.id}}">
   <img src="{{this.apiUrl}}/files/{{item.pictures[0].pictureStorageName}}">
   <mat-card-header>

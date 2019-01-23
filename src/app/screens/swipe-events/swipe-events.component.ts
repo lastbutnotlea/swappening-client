@@ -823,7 +823,6 @@ export class SwipeEventsComponent implements OnInit {
     element.addEventListener('touchstart', gestureStart, false);
     element.addEventListener('touchmove', gestureMove, false);
     element.addEventListener('touchend', gestureEnd, false);
-    // TODO
     element.addEventListener('click', route, false);
 
     // Add listeners to call global action for swipe cards

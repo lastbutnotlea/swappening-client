@@ -1,16 +1,29 @@
 <div>
   <div class="scrollable">
+
     <mat-card class="detail-card">
+
+      <mat-card-title class="card-title">
+          <p>{{(myItem$ | async).headline}}</p>
+      </mat-card-title>
+
       <img src="{{this.apiUrl}}/files/{{(myItem$ | async).pictures[clickCounter%(myItem$ | async).pictures.length].pictureStorageName}}"
           (click)="cycleThroughPictures()" class="detail-image">
-      <mat-card-header>
-        <mat-card-title>
-          <p >{{(myItem$ | async).headline}}</p>
-        </mat-card-title>
+      <!--<mat-card-header>-->
       <mat-card-subtitle>
-        <p class="description">{{(myItem$ | async).description}}</p>
+          <div class="description-info">
+              <div>
+                <img class="description-icon" src="../../../assets/icons-black/time.png">
+                At some point
+              </div>
+              <div>
+                <img class="description-icon" src="../../../assets/icons-black/pin.png">
+                Somewhere
+              </div>
+            </div>
+        <p class="card-subtitle">{{(myItem$ | async).description}}</p>
       </mat-card-subtitle>
-    </mat-card-header>
+      <!--</mat-card-header>-->
 
       <!-- TODO: add tags -->
       <!--<p class="tags" *ngIf="(myItem$ | async).tags">

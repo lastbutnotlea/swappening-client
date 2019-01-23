@@ -3,6 +3,7 @@ import {Observable} from "rxjs";
 import {Item} from "../../shared/item-model";
 import {DataService} from "../../services/data.service";
 import {environment} from "../../../environments/environment";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-swipe-events',
@@ -16,7 +17,8 @@ export class SwipeEventsComponent implements OnInit {
   private itemCounter = 0;
   private apiUrl: string;
 
-  constructor(public dataService: DataService) {
+  constructor(public dataService: DataService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -29,7 +31,6 @@ export class SwipeEventsComponent implements OnInit {
       if (ready) {
         this.setUpCards();
         this.stackedCards();
-        //TODO unsubscribe
       }
     })
   }
@@ -40,19 +41,21 @@ export class SwipeEventsComponent implements OnInit {
     for (let i = 0; i < initialNumberOfItems; i++) {
       container.innerHTML = container.innerHTML.concat(
         `<div _ngcontent-c1="" class="card-item stackedcards-top stackedcards--animatable 
-            stackedcards-origin-top stackedcards-active" routerLink="/swipeevents/${this.items[i].id}">
+            stackedcards-origin-top stackedcards-active">
             <h1>
              ${this.items[i].headline}
             </h1>
             <img src="${this.apiUrl}/files/${this.items[i].pictures[0].pictureStorageName}">
-             <div class="info">
-             <div class="date">
-              <img class="time" src="../../../assets/icons-black/time.png">
-              04/15/19 9pm
-             </div>
-            
-             <div>${this.items[i].description}</div>
-             </div>
+            <div class="info">
+              <div>
+                <img class="icon" src="../../../assets/icons-black/time.png">
+                somewhen
+              </div>
+              <div>
+                <img class="icon" src="../../../assets/icons-black/pin.png">
+                somewhere
+              </div>
+            </div>
          </div>`
       );
     }
@@ -366,13 +369,16 @@ export class SwipeEventsComponent implements OnInit {
             <h1>
              ${that.items[i + environment.reloadEvery / 2].headline}
             </h1>
-            <img style="width: 100%" src="${that.apiUrl}/files/${that.items[i].pictures[0].pictureStorageName}">
+            <img style="width: 100%" src="${that.apiUrl}/files/${that.items[i + environment.reloadEvery / 2].pictures[0].pictureStorageName}">
             <div class="info">
-             <div class="date">
-              <img class="time" src="../../../assets/icons-black/time.png">
-              04/15/19 9pm
-             </div>
-             <div>${that.items[i + environment.reloadEvery / 2].description}</div>
+             <div>
+                <img class="icon" src="../../../assets/icons-black/time.png">
+                somewhen
+              </div>
+              <div>
+                <img class="icon" src="../../../assets/icons-black/pin.png">
+                somewhere
+              </div>
              </div>
          </div>`
           );
@@ -817,6 +823,8 @@ export class SwipeEventsComponent implements OnInit {
     element.addEventListener('touchstart', gestureStart, false);
     element.addEventListener('touchmove', gestureMove, false);
     element.addEventListener('touchend', gestureEnd, false);
+    // TODO
+    element.addEventListener('click', route, false);
 
     // Add listeners to call global action for swipe cards
     const buttonLeft = document.querySelector('.left-action');
@@ -826,5 +834,10 @@ export class SwipeEventsComponent implements OnInit {
     buttonLeft.addEventListener('click', onActionLeft, false);
     buttonTop.addEventListener('click', onActionTop, false);
     buttonRight.addEventListener('click', onActionRight, false);
+
+    function route() {
+      const currentId = that.items[that.itemCounter].id;
+      that.router.navigate(['/swipeevents/' + currentId]);
+    }
   }
 }

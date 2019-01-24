@@ -1,34 +1,66 @@
-<div>
+<div (click)="goBack()" class="back-button">< back</div>
 
-  <div>
-    <button (click)="goBack()" mat-button><</button>
-  </div>
-  <div class="scrollable">
+<div class="details-container">
 
-    <div *ngIf="(myItem$ | async)">
-      <img class="detail-image"
-           src="{{this.apiUrl}}/files/{{(myItem$ | async).pictures[clickCounter%(myItem$ | async).pictures.length].pictureStorageName}}"
-           (click)="cycleThroughPictures()"
-      >
-    </div>
-    <div>
-      <input
-        style="display: none"
-        type="file" (change)="onFileChanged($event)"
-        #fileInput>
-      <button mat-flat-button color="warn" (click)="fileInput.click()">Select File</button>
-      <mat-label *ngIf="selectedFile">{{selectedFile.name}} selected</mat-label>
-    </div>
+  <mat-card class="detail-card">
 
-    <mat-form-field class="headline">
-      <textarea matInput [(ngModel)]="myItemModel.headline"></textarea>
-    </mat-form-field>
+    <mat-card-title>
+      <h1 class="event-card-headline">{{(myItem$ | async).headline}}</h1>
+    </mat-card-title>
 
-    <mat-form-field class="description">
-      <textarea matInput [(ngModel)]="myItemModel.description"></textarea>
-    </mat-form-field>
+    <mat-card-subtitle class="scrollable-content">
+      <img
+        src="{{this.apiUrl}}/files/{{(myItem$ | async).pictures[clickCounter%(myItem$ | async).pictures.length].pictureStorageName}}"
+        (click)="cycleThroughPictures()" class="detail-image">
 
-  </div>
+      <div class="description-info">
+        <div>
+          <img class="description-icon" src="../../../assets/icons-black/time.png">
+          At some point
+        </div>
+        <div>
+          <img class="description-icon" src="../../../assets/icons-black/pin.png">
+          Somewhere
+        </div>
+      </div>
+
+      <div>
+        <input
+          style="display: none"
+          type="file" (change)="onFileChanged($event)"
+          #fileInput>
+        <button mat-flat-button color="warn" (click)="fileInput.click()">Select File</button>
+        <mat-label *ngIf="selectedFile">{{selectedFile.name}} selected</mat-label>
+      </div>
+
+      <mat-form-field class="headline">
+        <textarea matInput [(ngModel)]="myItemModel.headline"></textarea>
+      </mat-form-field>
+
+      <mat-form-field class="description">
+        <textarea matInput [(ngModel)]="myItemModel.description"></textarea>
+      </mat-form-field>
+
+      <p class="card-subtitle">{{(myItem$ | async).description}} lalalalala making this description
+        faaaaaar longer it is sooo incredibly long that we don't finish reading this within the next year
+        and im very convinced about what im writing here we probably need some padding and make it scrollable
+        cant believe it this text is still too short for huuuuuuge iphone x. wow</p>
+    </mat-card-subtitle>
+
+    <!-- TODO: add tags -->
+    <!--<p class="tags" *ngIf="(myItem$ | async).tags">
+      <b *ngFor="let tag of (myItem$ | async).tags">
+      {{tag}}
+      </b>
+    </p>-->
+
+  </mat-card>
 </div>
 
-<button mat-fab color="warn" class="save-button" (click)="onUpload()">Save</button>
+
+
+
+
+
+
+<button mat-fab color="warn" class="on-top-button-right" (click)="onUpload()">Save</button>

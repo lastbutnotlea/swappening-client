@@ -21,6 +21,8 @@ $lighter-mean: rgba(255, 141, 94, 0.37);
 
 $dark-overlay: rgba(130, 91, 75, 0.25);
 
+$text: rgba(0, 0, 0, 0.87);
+
 /*$primary1: rgb(127, 235, 255);
 $primary2: #654ffd;
 $mean: #84b1ff;*/
@@ -44,6 +46,7 @@ $app-typography: mat-typography-config(
 body {
   font-family: 'Titillium Web', sans-serif !important;
   background: linear-gradient(to bottom left, $primary1, $primary2 90%);
+  overflow: hidden;
 }
 
 .headline {
@@ -79,8 +82,9 @@ mat-card {
   bottom: 2.5vh;
   width: 6rem !important;
   height: 6rem !important;
-  font-size: 3rem;
+  font-size: 2rem;
   background-color: $primary1 !important;
+  color: $text !important;
 }
 
 .on-top-button-middle {
@@ -90,8 +94,9 @@ mat-card {
   bottom: 2.5vh;
   width: 6rem !important;
   height: 6rem !important;
-  font-size: 3rem;
+  font-size: 2rem;
   background-color: #ffc031 !important;
+  color: $text !important;
 }
 
 .on-top-button-right {
@@ -100,8 +105,9 @@ mat-card {
   bottom: 2.5vh;
   width: 6rem !important;
   height: 6rem !important;
-  font-size: 3rem;
+  font-size: 2rem;
   background-color: $primary1 !important;
+  color: $text !important;
 }
 
 // swipe screen styling:

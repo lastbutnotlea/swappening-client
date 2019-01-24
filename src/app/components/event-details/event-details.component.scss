@@ -11,15 +11,7 @@
   padding: 1rem;
 }
 
-.tags{
-  font-size: 2rem;
-  color: darkcyan;
-  margin: 5vw;
-}
-
-.scrollable{
-  overflow-y: scroll;
-  padding: 0 !important;
+.details-container{
   height: 98vh;
 }
 
@@ -35,5 +27,11 @@ mat-card-title {
 .scrollable-content {
   overflow: auto;
   height: 79vh;
-  margin-bottom: 4rem;
+  padding-bottom: 2rem !important;
+}
+
+.tags{
+  font-size: 2rem;
+  color: darkcyan;
+  margin: 5vw;
 }

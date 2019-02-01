@@ -2,6 +2,7 @@ import {Injectable, OnInit} from '@angular/core';
 import {ApiService} from './api.service';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Item} from '../shared/item-model';
+import {Event} from '../shared/event-model'
 import {map} from 'rxjs/operators';
 
 
@@ -10,10 +11,20 @@ import {map} from 'rxjs/operators';
 })
 export class DataService implements OnInit {
 
+  // ITEMS
   private _myItems: BehaviorSubject<Item[]> = new BehaviorSubject([]);
   private _swipeItems: BehaviorSubject<Item[]> = new BehaviorSubject([]);
   private _swipeItemsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _myItemsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  //EVENTS
+  private _hostedEvents: BehaviorSubject<Event[]> = new BehaviorSubject([]);
+  private _likedEvents: BehaviorSubject<Event[]> = new BehaviorSubject([]);
+  private _swipeEvents: BehaviorSubject<Event[]> = new BehaviorSubject([]);
+  private _hostedEventsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private _likedEventsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private _swipeEventsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  
 
   constructor(private apiService: ApiService) {
     this.apiService.login().then(() => {
@@ -25,6 +36,10 @@ export class DataService implements OnInit {
           this._myItems.next(res);
           this._myItemsLoaded.next(true);
         });
+        this.apiService.getHostedEvents('1213').subscribe(res => {
+          this._hostedEvents.next(res);
+          this._hostedEventsLoaded.next(true);
+        });
       }
     );
   }
@@ -32,6 +47,17 @@ export class DataService implements OnInit {
   ngOnInit() {
   }
 
+  //EVENTS
+  get hostedEvents(): Observable<Event[]> {
+    return new Observable<Event[]>(fn => this._hostedEvents.subscribe(fn));
+  }
+
+  get hostedEventsLoaded(): Observable<boolean> {
+    return new Observable<boolean>(fn => this._hostedEventsLoaded.subscribe(fn));
+  }
+
+
+  // ITEMS
   get swipeItemsLoaded(): Observable<boolean> {
     return new Observable<boolean>(fn => this._swipeItemsLoaded.subscribe(fn));
   }

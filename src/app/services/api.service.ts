@@ -137,7 +137,7 @@ export class ApiService {
     );
   }
 
-  public uploadPicture(selectedFile: File, itemId: number): Observable<any[]> {
+  /*public uploadPicture(selectedFile: File, itemId: number): Observable<any[]> {
     const uploadData = new FormData();
     uploadData.append('data', selectedFile, selectedFile.name);
     uploadData.append('itemId', itemId.toString());
@@ -148,7 +148,7 @@ export class ApiService {
         headers: {Authorization: 'Bearer ' + this.userToken}
       }
     );
-  }
+  }*/
 
   public updateUserItem(newItem: Item): Observable<Item> {
     const requestUrl = environment.apiUrl + '/item/updateItem/' + newItem.id;

@@ -19,7 +19,7 @@ export class LikedEventsComponent implements OnInit {
 
   ngOnInit() {
     //this.myItems$ = this.dataService.myItems;
-    //this.likedEvents$ = this.dataService.likedEvents;
+    this.likedEvents$ = this.dataService.likedEvents;
   }
 
 }

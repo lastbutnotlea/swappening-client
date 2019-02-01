@@ -1,7 +1,6 @@
 import {Injectable, OnInit} from '@angular/core';
 import {ApiService} from './api.service';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {Item} from '../shared/item-model';
 import {Event} from '../shared/event-model'
 import {map} from 'rxjs/operators';
 

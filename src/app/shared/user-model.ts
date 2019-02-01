@@ -20,4 +20,4 @@ export const FAKE_USER: User = {
   rating: 5,
   numberOfRating: 87,
   isCharity: false
-}
+};

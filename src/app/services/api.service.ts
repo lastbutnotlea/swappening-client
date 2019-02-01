@@ -1,13 +1,5 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {
-  FAKE_FIRST_SWIPE_ITEMS,
-  FAKE_ITEMS,
-  FAKE_ITEMS_3,
-  FAKE_ITEMS_4,
-  FAKE_SWIPE_ITEMS,
-  Item, SINGLE_FAKE_ITEM
-} from '../shared/item-model';
 import {Event, FAKE_EVENTS} from '../shared/event-model';
 import {environment} from '../../environments/environment';
 import {Observable, of} from 'rxjs';
@@ -80,7 +72,7 @@ export class ApiService {
   public uploadPicture(selectedFile: File, eventId: number): Observable<any[]> {
     const uploadData = new FormData();
     uploadData.append('data', selectedFile, selectedFile.name);
-    uploadData.append('itemId', eventId.toString());
+    uploadData.append('eventId', eventId.toString());
     const requestUrl = environment.apiUrl + '/event/image';
     return this.http.post<any[]>(requestUrl,
       uploadData,

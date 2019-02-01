@@ -8,13 +8,13 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class HostedEventDetailsComponent implements OnInit {
 
-  private itemId: string;
+  private eventId: string;
 
   constructor(private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.itemId = this.route.snapshot.paramMap.get('id');
+    this.eventId = this.route.snapshot.paramMap.get('id');
   }
 
 }

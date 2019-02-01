@@ -14,7 +14,7 @@ export class SwipeEventsComponent implements OnInit {
 
   private swipeEvents$: Observable<Event[]>;
   private swipeEvents: Event[];
-  private itemCounter = 0;
+  private eventCounter = 0;
   private apiUrl: string;
 
   constructor(public dataService: DataService,
@@ -37,9 +37,9 @@ export class SwipeEventsComponent implements OnInit {
   }
 
   setUpCards() {
-    const initialNumberOfItems = environment.reloadEvery * 1.5;
+    const initialNumberOfEvents = environment.reloadEvery * 1.5;
     const container = document.getElementById('stackedcards-container');
-    for (let i = 0; i < initialNumberOfItems; i++) {
+    for (let i = 0; i < initialNumberOfEvents; i++) {
       container.innerHTML = container.innerHTML.concat(
         `<div _ngcontent-c1="" class="card-item stackedcards-top stackedcards--animatable 
             stackedcards-origin-top stackedcards-active">
@@ -358,8 +358,8 @@ export class SwipeEventsComponent implements OnInit {
 
     function afterSwipe() {
       stackedCardsObj.removeChild(currentElementObj);
-      that.itemCounter++;
-      if (that.itemCounter === environment.reloadEvery) {
+      that.eventCounter++;
+      if (that.eventCounter === environment.reloadEvery) {
         that.dataService.fetchNewSwipeEvents();
         const container = document.getElementById('stackedcards-container');
         for (let i = 0; i < environment.reloadEvery; i++) {
@@ -384,7 +384,7 @@ export class SwipeEventsComponent implements OnInit {
          </div>`
           );
         }
-        that.itemCounter = 0;
+        that.eventCounter = 0;
       }
 
       init();
@@ -836,7 +836,7 @@ export class SwipeEventsComponent implements OnInit {
     buttonRight.addEventListener('click', onActionRight, false);
 
     function route() {
-      const currentId = that.swipeEvents[that.itemCounter].id;
+      const currentId = that.swipeEvents[that.eventCounter].id;
       that.router.navigate(['/swipeevents/' + currentId]);
     }
   }

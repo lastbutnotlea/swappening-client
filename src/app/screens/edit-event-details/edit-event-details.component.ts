@@ -13,15 +13,10 @@ import {environment} from "../../../environments/environment";
 })
 export class EditEventDetailsComponent implements OnInit {
 
-  private myItem$: Observable<Item>;
-  private myItemModel: Item;
   private selectedFile: File = null;
-  private itemId;
-
   private event$: Observable<Event>;
   private eventModel: Event;
   private eventId;
-
   private apiUrl: string;
   private isEdit: boolean;
   private clickCounter = 0;
@@ -36,25 +31,11 @@ export class EditEventDetailsComponent implements OnInit {
     const current_id: string = this.route.snapshot.paramMap.get('id');
     if (current_id !== 'new') {
       this.isEdit = true;
-
-      this.itemId = parseInt(current_id, 10);
-      this.myItem$ = this.dataService.myItem(this.itemId);
-      this.myItem$.subscribe(newItem => this.myItemModel = newItem);
-
       this.eventId = parseInt(current_id, 10);
       this.event$ = this.dataService.event(this.eventId);
       this.event$.subscribe(newEvent => this.eventModel = newEvent);
     } else {
       this.isEdit = false;
-      this.myItemModel = {
-        id: null,
-        headline: '',
-        description: '',
-        tags: [],
-        ownerId: '',
-        giveAway: false,
-        pictures: []
-      }
       this.eventModel = {
         id: null,
         headline: '',
@@ -80,7 +61,6 @@ export class EditEventDetailsComponent implements OnInit {
   onUpload() {
     this.clickCounter = 0;
     if (this.isEdit) {
-      this.dataService.updateUserItem(this.myItemModel);
       this.dataService.updateHostedEvent(this.eventModel);
       if (this.selectedFile !== null) {
         this.dataService.uploadPicture(this.selectedFile, this.eventId);

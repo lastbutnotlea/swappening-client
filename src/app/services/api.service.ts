@@ -24,8 +24,6 @@ export class ApiService {
   constructor(private http: HttpClient) {
   }
 
-  // ### USER
-
   public login(): Promise<void> {
     if (environment.useMockData) {
     } else {
@@ -58,9 +56,6 @@ export class ApiService {
   // TODO: updateUserDetails
 
   // TODO: deleteAccount
-
-
-  // ### EVENTS HOSTED BY USER
 
   public getHostedEvents(userId: string): Observable<Event[]> {
     if (environment.useMockData) {
@@ -110,61 +105,7 @@ export class ApiService {
 
   // TODO dislikeEvent (?)
 
-
-
-
-  // ### MY ITEMS
-
-  public getAllUserItems(userId: string): Observable<Item[]> {
-    if (environment.useMockData) {
-      return of(FAKE_ITEMS);
-    } else {
-      const requestUrl = environment.apiUrl + `/item/getItemsOfUser/${this.userId}`;
-      return this.http.get<Item[]>(requestUrl, {
-        headers: {Authorization: 'Bearer ' + this.userToken}
-      });
-    }
-  }
-
-  public createNewUserItem(newItem: Item): Observable<Item> {
-    const requestUrl = environment.apiUrl + '/item/addItem';
-    return this.http.post<Item>(requestUrl, {
-        headline: newItem.headline,
-        description: newItem.description
-      }, {
-        headers: {Authorization: 'Bearer ' + this.userToken}
-      }
-    );
-  }
-
-  /*public uploadPicture(selectedFile: File, itemId: number): Observable<any[]> {
-    const uploadData = new FormData();
-    uploadData.append('data', selectedFile, selectedFile.name);
-    uploadData.append('itemId', itemId.toString());
-    const requestUrl = environment.apiUrl + '/item/addPictureToItem';
-    return this.http.post<any[]>(requestUrl,
-      uploadData,
-      {
-        headers: {Authorization: 'Bearer ' + this.userToken}
-      }
-    );
-  }*/
-
-  public updateUserItem(newItem: Item): Observable<Item> {
-    const requestUrl = environment.apiUrl + '/item/updateItem/' + newItem.id;
-    return this.http.put<Item>(requestUrl, {
-        headline: newItem.headline,
-        description: newItem.description
-      }, {
-        headers: {Authorization: 'Bearer ' + this.userToken}
-      }
-    );
-  }
-
-  // TODO: deleteUserItem(id: string)
-
-
-  // ### SWIPE EVENTS
+  // TODO: deleteEvent(id: string)
 
   public getFirstSwipeEvents(userId: string): Observable<Event[]> {
     if (environment.useMockData) {
@@ -179,7 +120,7 @@ export class ApiService {
 
   public getSwipeEvents(userId: string): Observable<Event[]> {
     if (environment.useMockData) {
-      return of(FAKE_EVENTS.slice(0,10));
+      return of(FAKE_EVENTS.slice(0, 10));
     } else {
       const requestUrl = environment.apiUrl + '/event/forUser/' + this.userId + '/' + environment.reloadEvery;
       return this.http.get<Event[]>(requestUrl, {
@@ -187,32 +128,4 @@ export class ApiService {
       })
     }
   }
-
-  // ### ALL ITEMS
-
-  // fetches the first set of items; should only be triggered once
-  public getFirstSwipeItems(userId: string): Observable<Item[]> {
-    if (environment.useMockData) {
-      return of(FAKE_FIRST_SWIPE_ITEMS);
-    } else {
-      const requestUrl = environment.apiUrl + `/item/getItemsForUser/${this.userId}/${environment.reloadEvery * 1.5}`;
-      return this.http.get<Item[]>(requestUrl, {
-        headers: {Authorization: 'Bearer ' + this.userToken}
-      });
-    }
-  }
-
-  // fetches the next set of items, should be triggered after the user swiped through X previous items
-  public getSwipeItems(userId: string): Observable<Item[]> {
-    if (environment.useMockData) {
-      return of(FAKE_SWIPE_ITEMS);
-    } else {
-      const requestUrl = environment.apiUrl + `/item/getItemsForUser/${this.userId}/${environment.reloadEvery}`;
-      return this.http.get<Item[]>(requestUrl, {
-        headers: {Authorization: 'Bearer ' + this.userToken}
-      });
-    }
-  }
-
-  // TODO: swipeItems(id: string, liked: boolean): someKindOfResponse
 }

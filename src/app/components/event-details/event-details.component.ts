@@ -13,8 +13,6 @@ import {environment} from "../../../environments/environment";
 })
 export class EventDetailsComponent implements OnInit {
 
-  private itemId: number;
-  private myItem$: Observable<Item>;
   private eventId: number;
   private event$: Observable<Event>;
 
@@ -27,9 +25,7 @@ export class EventDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.apiUrl = environment.apiUrl;
-    this.itemId = parseInt(this.route.snapshot.paramMap.get('id'), 10);
     this.eventId = parseInt(this.route.snapshot.paramMap.get('id'), 10);
-    this.myItem$ = this.dataService.myItem(this.itemId);
     this.event$ = this.dataService.event(this.eventId);
   }
 

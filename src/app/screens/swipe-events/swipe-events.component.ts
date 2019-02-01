@@ -360,7 +360,7 @@ export class SwipeEventsComponent implements OnInit {
       stackedCardsObj.removeChild(currentElementObj);
       that.itemCounter++;
       if (that.itemCounter === environment.reloadEvery) {
-        that.dataService.fetchNewSwipeItems();
+        that.dataService.fetchNewSwipeEvents();
         const container = document.getElementById('stackedcards-container');
         for (let i = 0; i < environment.reloadEvery; i++) {
           container.innerHTML = container.innerHTML.concat(

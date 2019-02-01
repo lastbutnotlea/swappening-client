@@ -12,15 +12,12 @@ import {environment} from "../../../environments/environment";
 })
 export class HostedEventsComponent implements OnInit {
 
-  myItems$: Observable<Item[]>;
   hostedEvents$: Observable<Event[]>;
-
 
   constructor(private dataService: DataService) {
   }
 
   ngOnInit() {
-    this.myItems$ = this.dataService.myItems;
     this.hostedEvents$ = this.dataService.hostedEvents;
   }
 

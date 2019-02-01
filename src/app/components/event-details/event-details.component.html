@@ -3,24 +3,24 @@
   <mat-card class="detail-card">
 
     <mat-card-title>
-      <h1 class="event-card-headline">{{(myItem$ | async).headline}}</h1>
+      <h1 class="event-card-headline">{{(event$ | async).headline}}</h1>
     </mat-card-title>
 
     <mat-card-subtitle class="scrollable-content">
       <img
-        src="{{this.apiUrl}}/files/{{(myItem$ | async).pictures[clickCounter%(myItem$ | async).pictures.length].pictureStorageName}}"
+        src="{{this.apiUrl}}/files/{{(event$ | async).pictures_events[clickCounter%(event$ | async).pictures_events.length].pictureStorageName}}"
         (click)="cycleThroughPictures()" class="detail-image">
       <div class="description-info">
         <div>
           <img class="description-icon" src="../../../assets/icons-black/time.png">
-          At some point
+          {{(event$ | async).startTime}}
         </div>
         <div>
           <img class="description-icon" src="../../../assets/icons-black/pin.png">
-          Somewhere
+          {{(event$ | async).place}}
         </div>
       </div>
-      <p class="card-subtitle">{{(myItem$ | async).description}} lalalalala making this description
+      <p class="card-subtitle">{{(event$ | async).description}} lalalalala making this description
         faaaaaar longer it is sooo incredibly long that we don't finish reading this within the next year
         and im very convinced about what im writing here we probably need some padding and make it scrollable
         cant believe it this text is still too short for huuuuuuge iphone x. wow</p>

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Item} from '../../shared/item-model';
+import {Event} from '../../shared/event-model';
 import {DataService} from '../../services/data.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from "../../../environments/environment";
@@ -16,6 +17,11 @@ export class EditEventDetailsComponent implements OnInit {
   private myItemModel: Item;
   private selectedFile: File = null;
   private itemId;
+
+  private event$: Observable<Event>;
+  private eventModel: Event;
+  private eventId;
+
   private apiUrl: string;
   private isEdit: boolean;
   private clickCounter = 0;
@@ -30,9 +36,14 @@ export class EditEventDetailsComponent implements OnInit {
     const current_id: string = this.route.snapshot.paramMap.get('id');
     if (current_id !== 'new') {
       this.isEdit = true;
+
       this.itemId = parseInt(current_id, 10);
       this.myItem$ = this.dataService.myItem(this.itemId);
       this.myItem$.subscribe(newItem => this.myItemModel = newItem);
+
+      this.eventId = parseInt(current_id, 10);
+      this.event$ = this.dataService.event(this.eventId);
+      this.event$.subscribe(newEvent => this.eventModel = newEvent);
     } else {
       this.isEdit = false;
       this.myItemModel = {
@@ -43,6 +54,20 @@ export class EditEventDetailsComponent implements OnInit {
         ownerId: '',
         giveAway: false,
         pictures: []
+      }
+      this.eventModel = {
+        id: null,
+        headline: '',
+        description: '',
+        place: '',
+        startTime: '',
+        endTime: '',
+        isPrivate: false,
+        hasChat: false,
+        isVisible: true,
+        tags: [],
+        ownerId: null,
+        pictures_events: [],
       }
     }
   }
@@ -56,18 +81,19 @@ export class EditEventDetailsComponent implements OnInit {
     this.clickCounter = 0;
     if (this.isEdit) {
       this.dataService.updateUserItem(this.myItemModel);
+      this.dataService.updateHostedEvent(this.eventModel);
       if (this.selectedFile !== null) {
-        this.dataService.uploadPicture(this.selectedFile, this.itemId);
+        this.dataService.uploadPicture(this.selectedFile, this.eventId);
         this.selectedFile = null;
       }
     } else {
       this.isEdit = true;
-      this.dataService.createNewUserItem(this.myItemModel).then(res => {
-        this.itemId = res;
-        this.myItem$ = this.dataService.myItem(this.itemId);
-        this.myItem$.subscribe(newItem => this.myItemModel = newItem);
+      this.dataService.createNewHostedEvent(this.eventModel).then(res => {
+        this.eventId = res;
+        this.event$ = this.dataService.event(this.eventId);
+        this.event$.subscribe(newEvent => this.eventModel = newEvent);
         if (this.selectedFile !== null) {
-          this.dataService.uploadPicture(this.selectedFile, this.itemId);
+          this.dataService.uploadPicture(this.selectedFile, this.eventId);
         }
         this.selectedFile = null;
       });
@@ -79,8 +105,8 @@ export class EditEventDetailsComponent implements OnInit {
   }
 
   goBack() {
-    if (this.itemId) {
-      this.router.navigate([`/hostedevents/${this.itemId}`]);
+    if (this.eventId) {
+      this.router.navigate([`/hostedevents/${this.eventId}`]);
     } else {
       this.router.navigate(['/hostedevents']);
     }

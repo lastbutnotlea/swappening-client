@@ -77,6 +77,7 @@ export class EditEventDetailsComponent implements OnInit {
         this.selectedFile = null;
       });
     }
+    this.goBack();
   }
 
   cycleThroughPictures() {

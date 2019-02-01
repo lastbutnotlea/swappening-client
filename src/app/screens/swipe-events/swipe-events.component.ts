@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Observable} from "rxjs";
-import {Item} from "../../shared/item-model";
+import {Event} from "../../shared/event-model";
 import {DataService} from "../../services/data.service";
 import {environment} from "../../../environments/environment";
 import {Router} from "@angular/router";
@@ -12,8 +12,8 @@ import {Router} from "@angular/router";
 })
 export class SwipeEventsComponent implements OnInit {
 
-  private items$: Observable<Item[]>;
-  private items: Item[];
+  private swipeEvents$: Observable<Event[]>;
+  private swipeEvents: Event[];
   private itemCounter = 0;
   private apiUrl: string;
 
@@ -23,11 +23,12 @@ export class SwipeEventsComponent implements OnInit {
 
   ngOnInit(): void {
     this.apiUrl = environment.apiUrl;
-    this.items$ = this.dataService.swipeItems;
-    this.items$.subscribe(newItems => {
-      this.items = newItems;
+    this.swipeEvents$ = this.dataService.swipeEvents;
+    this.swipeEvents$.subscribe(newEvents => {
+      this.swipeEvents = newEvents;
     });
-    this.dataService.swipeItemsLoaded.subscribe(ready => {
+    this.dataService.swipeEventsLoaded.subscribe(ready => {
+      if (!ready) return;
       if (ready) {
         this.setUpCards();
         this.stackedCards();
@@ -43,17 +44,17 @@ export class SwipeEventsComponent implements OnInit {
         `<div _ngcontent-c1="" class="card-item stackedcards-top stackedcards--animatable 
             stackedcards-origin-top stackedcards-active">
             <h1 class="event-card-headline">
-             ${this.items[i].headline}
+             ${this.swipeEvents[i].headline}
             </h1>
-            <img src="${this.apiUrl}/files/${this.items[i].pictures[0].pictureStorageName}">
+            <img src="${this.apiUrl}/files/${this.swipeEvents[i].pictures_events[0].pictureStorageName}">
             <div class="info">
               <div>
                 <img class="icon" src="../../../assets/icons-black/time.png">
-                somewhen
+                ${this.swipeEvents[i].startTime}
               </div>
               <div>
                 <img class="icon" src="../../../assets/icons-black/pin.png">
-                somewhere
+                ${this.swipeEvents[i].place}
               </div>
             </div>
          </div>`
@@ -367,17 +368,17 @@ export class SwipeEventsComponent implements OnInit {
             `<div _ngcontent-c1="" class="card-item stackedcards-top stackedcards--animatable 
             stackedcards-origin-top stackedcards-active">
             <h1 class="event-card-headline">
-             ${that.items[i + environment.reloadEvery / 2].headline}
+             ${that.swipeEvents[i + environment.reloadEvery / 2].headline}
             </h1>
-            <img style="width: 100%" src="${that.apiUrl}/files/${that.items[i + environment.reloadEvery / 2].pictures[0].pictureStorageName}">
+            <img style="width: 100%" src="${that.apiUrl}/files/${that.swipeEvents[i + environment.reloadEvery / 2].pictures_events[0].pictureStorageName}">
             <div class="info">
              <div>
                 <img class="icon" src="../../../assets/icons-black/time.png">
-                somewhen
+                ${that.swipeEvents[i + environment.reloadEvery / 2].startTime}
               </div>
               <div>
                 <img class="icon" src="../../../assets/icons-black/pin.png">
-                somewhere
+                ${that.swipeEvents[i + environment.reloadEvery / 2].place}
               </div>
              </div>
          </div>`
@@ -835,7 +836,7 @@ export class SwipeEventsComponent implements OnInit {
     buttonRight.addEventListener('click', onActionRight, false);
 
     function route() {
-      const currentId = that.items[that.itemCounter].id;
+      const currentId = that.swipeEvents[that.itemCounter].id;
       that.router.navigate(['/swipeevents/' + currentId]);
     }
   }

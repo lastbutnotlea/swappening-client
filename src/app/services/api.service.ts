@@ -8,6 +8,7 @@ import {
   FAKE_SWIPE_ITEMS,
   Item, SINGLE_FAKE_ITEM
 } from '../shared/item-model';
+import {Event, FAKE_EVENTS} from '../shared/event-model';
 import {environment} from '../../environments/environment';
 import {Observable, of} from 'rxjs';
 import {FAKE_USER, User} from '../shared/user-model';
@@ -57,6 +58,21 @@ export class ApiService {
   // TODO: updateUserDetails
 
   // TODO: deleteAccount
+
+  // ### EVENTS HOSTED BY USER
+
+  public getHostedEvents(userId: string): Observable<Event[]> {
+    if (environment.useMockData) {
+      return of(FAKE_EVENTS);
+    } else {
+      const requestUrl = environment.apiUrl + `/ofUser/${this.userId}`;
+      return this.http.get<Event[]>(requestUrl, {
+        headers: {Authorization: 'Bearer ' + this.userToken}
+      })
+    }
+  }
+
+
 
 
   // ### MY ITEMS
@@ -108,6 +124,12 @@ export class ApiService {
   }
 
   // TODO: deleteUserItem(id: string)
+
+
+
+  // ### SWIPE EVENTS
+
+  /*public getFirstSwipeEvents*/
 
   // ### ALL ITEMS
 

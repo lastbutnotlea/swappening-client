@@ -24,19 +24,10 @@ export class DataService implements OnInit {
   private _hostedEventsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _likedEventsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _swipeEventsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  
+
 
   constructor(private apiService: ApiService) {
     this.apiService.login().then(() => {
-        this.apiService.getFirstSwipeItems('1213').subscribe(res => {
-          this._swipeItems.next(res);
-          this._swipeItemsLoaded.next(true);
-        });
-        this.apiService.getAllUserItems('1213').subscribe(res => {
-          this._myItems.next(res);
-          this._myItemsLoaded.next(true);
-        });
-
         this.apiService.getHostedEvents('1213').subscribe(res => {
           this._hostedEvents.next(res);
           this._hostedEventsLoaded.next(true);
@@ -84,10 +75,10 @@ export class DataService implements OnInit {
   event(id: number): Observable<Event> {
     let findEvent = new Observable<Event[]>(fn =>
       this._hostedEvents.subscribe(fn)).pipe(map((hostedEvents: Event[]) => hostedEvents.find(event => event.id === id)));
-    if(findEvent) return findEvent;
+    if (findEvent) return findEvent;
     findEvent = new Observable<Event[]>(fn =>
       this._likedEvents.subscribe(fn)).pipe(map((likedEvents: Event[]) => likedEvents.find(event => event.id === id)));
-    if(findEvent) return findEvent;
+    if (findEvent) return findEvent;
     findEvent = new Observable<Event[]>(fn =>
       this._swipeEvents.subscribe(fn)).pipe(map((swipeEvents: Event[]) => swipeEvents.find(event => event.id === id)));
     return findEvent;
@@ -149,7 +140,7 @@ export class DataService implements OnInit {
     this.apiService.getSwipeItems('id').subscribe(res => this._swipeItems.next(this._swipeItems.value.slice(10, 15).concat(res)));
   }
 
-  async createNewUserItem(newItem: Item) : Promise<number> {
+  async createNewUserItem(newItem: Item): Promise<number> {
     return new Promise<number>((resolve, reject) => {
       let newItemId;
       this.apiService.createNewUserItem(newItem).subscribe(res => {

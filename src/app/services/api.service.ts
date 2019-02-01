@@ -170,7 +170,7 @@ export class ApiService {
     if (environment.useMockData) {
       return of(FAKE_EVENTS);
     } else {
-      const requestUrl = environment.apiUrl + 'event/forUser/' + this.userId + '/' + environment.reloadEvery * 1.5;
+      const requestUrl = environment.apiUrl + '/event/forUser/' + this.userId + '/' + environment.reloadEvery * 1.5;
       return this.http.get<Event[]>(requestUrl, {
         headers: {Authorization: 'Bearer ' + this.userToken}
       });
@@ -181,7 +181,7 @@ export class ApiService {
     if (environment.useMockData) {
       return of(FAKE_EVENTS.slice(0,10));
     } else {
-      const requestUrl = environment.apiUrl + 'event/forUser/' + this.userId + '/' + environment.reloadEvery;
+      const requestUrl = environment.apiUrl + '/event/forUser/' + this.userId + '/' + environment.reloadEvery;
       return this.http.get<Event[]>(requestUrl, {
         headers: {Authorization: 'Bearer ' + this.userToken}
       })

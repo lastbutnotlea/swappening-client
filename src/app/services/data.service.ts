@@ -36,10 +36,12 @@ export class DataService implements OnInit {
           this._myItems.next(res);
           this._myItemsLoaded.next(true);
         });
+
         this.apiService.getHostedEvents('1213').subscribe(res => {
           this._hostedEvents.next(res);
           this._hostedEventsLoaded.next(true);
         });
+
       }
     );
   }

@@ -1,6 +1,6 @@
 <div class="scrollable">
   <mat-card class="event-card" *ngFor="let event of (events$ | async)" routerLink="/{{routingLink}}/{{event.id}}">
-  <img src="{{this.apiUrl}}/files/{{event.pictures[0].pictureStorageName}}">
+  <img src="{{this.apiUrl}}/files/{{event.pictures_events[0].pictureStorageName}}">
   <mat-card-header>
     <mat-card-title>An Event</mat-card-title>
     <mat-card-subtitle>happening somewhere some time. stay in touch</mat-card-subtitle>

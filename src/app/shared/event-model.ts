@@ -10,7 +10,7 @@ export class Event {
   isVisible: boolean;
   tags: string[];
   ownerId: number;
-  pictures: {
+  pictures_events: {
     createdAt: string;
     eventId: number;
     originalName: string;
@@ -33,7 +33,7 @@ export const FAKE_EVENTS: Event[] = [
     "isVisible": true,
     "tags": [],
     "ownerId": 1,
-    "pictures": [],
+    "pictures_events": [],
   },
   {
     "id" : 2,
@@ -47,7 +47,7 @@ export const FAKE_EVENTS: Event[] = [
     "isVisible": true,
     "tags": [],
     "ownerId": 1,
-    "pictures": [],
+    "pictures_events": [],
   },
   {
     "id" : 3,
@@ -61,7 +61,7 @@ export const FAKE_EVENTS: Event[] = [
     "isVisible": true,
     "tags": [],
     "ownerId": 2,
-    "pictures": [],
+    "pictures_events": [],
   },
   {
     "id" : 4,
@@ -75,7 +75,7 @@ export const FAKE_EVENTS: Event[] = [
     "isVisible": true,
     "tags": [],
     "ownerId": 2,
-    "pictures": [],
+    "pictures_events": [],
   },
   {
     "id" : 5,
@@ -89,7 +89,7 @@ export const FAKE_EVENTS: Event[] = [
     "isVisible": true,
     "tags": [],
     "ownerId": 3,
-    "pictures": [],
+    "pictures_events": [],
   },
   {
     "id" : 1,
@@ -103,7 +103,7 @@ export const FAKE_EVENTS: Event[] = [
     "isVisible": true,
     "tags": [],
     "ownerId": 1,
-    "pictures": [],
+    "pictures_events": [],
   },
   {
     "id" : 2,
@@ -117,7 +117,7 @@ export const FAKE_EVENTS: Event[] = [
     "isVisible": true,
     "tags": [],
     "ownerId": 1,
-    "pictures": [],
+    "pictures_events": [],
   },
   {
     "id" : 3,
@@ -131,7 +131,7 @@ export const FAKE_EVENTS: Event[] = [
     "isVisible": true,
     "tags": [],
     "ownerId": 2,
-    "pictures": [],
+    "pictures_events": [],
   },
   {
     "id" : 4,
@@ -145,7 +145,7 @@ export const FAKE_EVENTS: Event[] = [
     "isVisible": true,
     "tags": [],
     "ownerId": 2,
-    "pictures": [],
+    "pictures_events": [],
   },
   {
     "id" : 5,
@@ -159,7 +159,7 @@ export const FAKE_EVENTS: Event[] = [
     "isVisible": true,
     "tags": [],
     "ownerId": 3,
-    "pictures": [],
+    "pictures_events": [],
   },
   {
     "id" : 1,
@@ -173,7 +173,7 @@ export const FAKE_EVENTS: Event[] = [
     "isVisible": true,
     "tags": [],
     "ownerId": 1,
-    "pictures": [],
+    "pictures_events": [],
   },
   {
     "id" : 2,
@@ -187,7 +187,7 @@ export const FAKE_EVENTS: Event[] = [
     "isVisible": true,
     "tags": [],
     "ownerId": 1,
-    "pictures": [],
+    "pictures_events": [],
   },
   {
     "id" : 3,
@@ -201,7 +201,7 @@ export const FAKE_EVENTS: Event[] = [
     "isVisible": true,
     "tags": [],
     "ownerId": 2,
-    "pictures": [],
+    "pictures_events": [],
   },
   {
     "id" : 4,
@@ -215,7 +215,7 @@ export const FAKE_EVENTS: Event[] = [
     "isVisible": true,
     "tags": [],
     "ownerId": 2,
-    "pictures": [],
+    "pictures_events": [],
   },
   {
     "id" : 5,
@@ -229,6 +229,6 @@ export const FAKE_EVENTS: Event[] = [
     "isVisible": true,
     "tags": [],
     "ownerId": 3,
-    "pictures": [],
+    "pictures_events": [],
   },
 ];

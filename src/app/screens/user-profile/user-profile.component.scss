@@ -1,10 +1,18 @@
 .detail-card {
-    margin: 1.3rem;
-    padding: 0;
-    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 9px 0px 0 rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.12) !important;
-    border-radius: 10px;
-    height: 84vh;
-  }
+  margin: 1.3rem;
+  padding: 0;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 9px 0px 0 rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.12) !important;
+  border-radius: 10px;
+  height: 89vh;
+}
+
+.detail-card-shorter {
+  margin: 1.3rem;
+  padding: 0;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 9px 0px 0 rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.12) !important;
+  border-radius: 10px;
+  height: 84vh;
+}
   
 .card-subtitle{
   font-size: 2rem;
@@ -45,3 +53,4 @@ mat-card-title {
   color: darkcyan;
   margin: 5vw;
 }
+

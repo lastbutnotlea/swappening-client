@@ -4,7 +4,7 @@
 
 <div class="detail-container">
 
-  <mat-card class="detail-card">
+  <mat-card [ngClass]="isMe ? 'detail-card-shorter' : 'detail-card'">
 
     <mat-card-title>
       <h1 class="event-card-headline">{{mock_user.nickname}}</h1>
@@ -15,7 +15,7 @@
         src="../../../assets/portrait.jpg"
          class="detail-image">
       <div class="description-info">
-        <div>
+        <div *ngIf="isMe">
           <img class="description-icon" src="../../../assets/icons-black/time.png">
           {{mock_user.email}}
         </div>
@@ -32,11 +32,9 @@
   <app-bottom-menu></app-bottom-menu>
 </div>
 
-<!--<div *ngIf="isMe">
-  <button mat-fab class="on-top-button-right">
-    <img src="../../../assets/icons-black/like-2.png">
-  </button>
-</div>-->
+<div *ngIf="isMe">
+  <button mat-fab routerLink="/hostedevents/{{eventId}}/edit" class="on-top-button-right-higher">Edit</button>
+</div>
 
 <div *ngIf="!isMe">
   <button mat-fab class="on-top-button-left">

@@ -112,6 +112,17 @@ mat-card {
   color: $text !important;
 }
 
+.on-top-button-right-higher {
+  position: absolute !important;
+  right: 10vw;
+  bottom: 8.5vh;
+  width: 6rem !important;
+  height: 6rem !important;
+  font-size: 2rem;
+  background-color: $primary1 !important;
+  color: $text !important;
+}
+
 // swipe screen styling:
 .card-item img {
   width: 100%;

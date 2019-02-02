@@ -20,6 +20,7 @@ import { HostedEventsComponent } from './screens/hosted-events/hosted-events.com
 import { LikedEventsComponent } from './screens/liked-events/liked-events.component';
 import { LikedEventDetailsComponent } from './screens/liked-event-details/liked-event-details.component';
 import { UserProfileComponent } from './screens/user-profile/user-profile.component'
+import {OwlDateTimeModule, OwlNativeDateTimeModule} from "ng-pick-datetime";
 
 const appRoutes: Routes = [
   {
@@ -91,6 +92,8 @@ const appRoutes: Routes = [
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
   ],
   providers: [
   ],

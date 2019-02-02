@@ -1,3 +1,7 @@
+<div *ngIf="!isMe" routerLink="/matches" class="back-button">< back</div>
+
+<div *ngIf="isMe" routerLink="/matches" class="back-button-invisible">< back</div>
+
 <div class="detail-container">
 
   <mat-card class="detail-card">
@@ -15,6 +19,7 @@
           <img class="description-icon" src="../../../assets/icons-black/time.png">
           {{mock_user.email}}
         </div>
+        <p class="card-subtitle">{{mock_user.description}}</p>
       </div>
       
     </mat-card-subtitle>
@@ -23,5 +28,22 @@
 
 </div>
 
-<app-bottom-menu></app-bottom-menu>
+<div *ngIf="isMe">
+  <app-bottom-menu></app-bottom-menu>
+</div>
+
+<!--<div *ngIf="isMe">
+  <button mat-fab class="on-top-button-right">
+    <img src="../../../assets/icons-black/like-2.png">
+  </button>
+</div>-->
+
+<div *ngIf="!isMe">
+  <button mat-fab class="on-top-button-left">
+    <img class="button-image" src="../../../assets/icons-black/garbage-2.png">
+  </button>
+  <button mat-fab class="on-top-button-right">
+    <img class="button-image" src="../../../assets/icons-black/like-2.png">
+  </button>
+</div>
 

@@ -1,5 +1,4 @@
-
-// copied from event details; refactor! / remove to styles.scss if reasonable
+@import "../../../styles";
 
 .detail-card {
   margin: 1.3rem;
@@ -7,15 +6,12 @@
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 9px 0px 0 rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.12) !important;
   border-radius: 10px;
   height: 89vh;
+  overflow: auto;
 }
 
-.card-subtitle{
-  font-size: 2rem;
-  padding: 1rem;
-}
-
-.details-container{
+.edit-details-container{
   height: 98vh;
+  padding-bottom: 2rem !important;
 }
 
 .detail-image {
@@ -24,17 +20,68 @@
 
 mat-card-title {
   margin: 0 !important;
-  height: 10vh;
+  /*height: 10vh;*/
 }
 
-.scrollable-content {
-  overflow: auto;
-  height: 79vh;
-  padding-bottom: 2rem !important;
+.image-container {
+  position: relative;
+
+  .upload-picture {
+    position: absolute;
+    bottom: 5%;
+    right: 5%;
+  }
 }
+
 
 .tags{
   font-size: 2rem;
   color: darkcyan;
   margin: 5vw;
+}
+
+.input-info {
+  color: $light-text;
+  font-size: 1.3rem;
+  padding: 1.5rem 1rem 0 2rem;
+  margin: 0;
+}
+
+.edit-headline {
+  background-color: #f6f6f6;
+  padding: 0 0.7rem !important;
+  margin: 0 1.5rem 2rem 1.5rem !important;
+  width: calc(100% - 3rem);
+  border-radius: 9px;
+  border: 2px solid #eeeeee;
+  font-size: 36px !important;
+  font-weight: 900 !important;
+}
+
+.edit-date {
+  background-color: #f6f6f6;
+  padding: 0 0.7rem !important;
+  margin: 0 1.5rem 0 1.5rem !important;
+  width: calc(100% - 3rem);
+  border-radius: 4px;
+  border: 1px solid #eeeeee;
+}
+
+.edit-location {
+  background-color: #f6f6f6;
+  padding: 0 0.7rem !important;
+  margin: 0 1.5rem 0 1.5rem !important;
+  width: calc(100% - 3rem);
+  border-radius: 4px;
+  border: 1px solid #eeeeee;
+}
+
+.edit-description {
+  background-color: #f6f6f6;
+  padding: 0 0.7rem !important;
+  margin: 0 1.5rem 2rem 1.5rem !important;
+  width: calc(100% - 3rem);
+  border-radius: 4px;
+  border: 1px solid #eeeeee;
+  font-size: 2rem;
 }

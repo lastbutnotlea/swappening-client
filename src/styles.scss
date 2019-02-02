@@ -22,6 +22,7 @@ $lighter-mean: rgba(255, 141, 94, 0.37);
 $dark-overlay: rgba(130, 91, 75, 0.25);
 
 $text: rgba(0, 0, 0, 0.87);
+$light-text: rgba(0, 0, 0, 0.4);
 
 /*$primary1: rgb(127, 235, 255);
 $primary2: #654ffd;
@@ -59,7 +60,7 @@ body {
   background-color: $dark-overlay;
 }
 
-.event-card-headline {
+.event-card-headline, .edit-headline {
   margin: 0;
   padding: 1.5rem 2.5rem 1.2rem 2.5rem;
   font-weight: 900;

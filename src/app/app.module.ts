@@ -4,7 +4,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {AppComponent} from './app.component';
 import {SwipeEventsComponent} from './screens/swipe-events/swipe-events.component';
 import {BottomMenuComponent} from './components/bottom-menu/bottom-menu.component';
-import {MatButtonModule, MatCardModule} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatIconModule, MatSlideToggleModule} from '@angular/material';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatInputModule} from '@angular/material/input';
 import {HttpClientModule} from '@angular/common/http';
@@ -100,6 +100,8 @@ const appRoutes: Routes = [
     MatGridListModule,
     MatCardModule,
     MatInputModule,
+    MatIconModule,
+    MatSlideToggleModule,
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,

@@ -6,13 +6,13 @@ import {Observable} from 'rxjs';
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.css']
+  styleUrls: ['./user-profile.component.scss']
 })
 export class UserProfileComponent implements OnInit {
 
 
   private userId: number;
-  private isMe: boolean;
+  private isMe: boolean = true;
   private user$: Observable<User>
   private mock_user: User = FAKE_USER;
 

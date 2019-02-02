@@ -15,17 +15,14 @@
       <div class="description-info">
         <div>
           <img class="description-icon" src="../../../assets/icons-black/time.png">
-          {{(event$ | async).startTime}}
+          {{displayDate((event$ | async).startTime)}}
         </div>
         <div>
           <img class="description-icon" src="../../../assets/icons-black/pin.png">
           {{(event$ | async).place}}
         </div>
       </div>
-      <p class="card-subtitle">{{(event$ | async).description}} lalalalala making this description
-        faaaaaar longer it is sooo incredibly long that we don't finish reading this within the next year
-        and im very convinced about what im writing here we probably need some padding and make it scrollable
-        cant believe it this text is still too short for huuuuuuge iphone x. wow</p>
+      <p class="card-subtitle">{{(event$ | async).description}}</p>
     </mat-card-subtitle>
 
     <!-- TODO: add tags -->

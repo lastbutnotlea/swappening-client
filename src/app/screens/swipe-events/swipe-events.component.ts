@@ -4,6 +4,7 @@ import {Event} from "../../shared/event-model";
 import {DataService} from "../../services/data.service";
 import {environment} from "../../../environments/environment";
 import {Router} from "@angular/router";
+import {DateDisplayService} from "../../services/date-display.service";
 
 @Component({
   selector: 'app-swipe-events',
@@ -18,6 +19,7 @@ export class SwipeEventsComponent implements OnInit {
   private apiUrl: string;
 
   constructor(public dataService: DataService,
+              private dateDisplayService: DateDisplayService,
               private router: Router) {
   }
 
@@ -46,11 +48,13 @@ export class SwipeEventsComponent implements OnInit {
             <h1 class="event-card-headline">
              ${this.swipeEvents[i].headline}
             </h1>
+            <div class="swipe-image-container">
             <img src="${this.apiUrl}/files/${this.swipeEvents[i].pictures_events[0].pictureStorageName}">
+            </div>
             <div class="info">
               <div>
                 <img class="icon" src="../../../assets/icons-black/time.png">
-                ${this.swipeEvents[i].startTime}
+                ${this.dateDisplayService.parseDate(this.swipeEvents[i].startTime)}
               </div>
               <div>
                 <img class="icon" src="../../../assets/icons-black/pin.png">
@@ -370,11 +374,13 @@ export class SwipeEventsComponent implements OnInit {
             <h1 class="event-card-headline">
              ${that.swipeEvents[i + environment.reloadEvery / 2].headline}
             </h1>
+            <div class="swipe-image-container">
             <img style="width: 100%" src="${that.apiUrl}/files/${that.swipeEvents[i + environment.reloadEvery / 2].pictures_events[0].pictureStorageName}">
+            </div>
             <div class="info">
              <div>
                 <img class="icon" src="../../../assets/icons-black/time.png">
-                ${that.swipeEvents[i + environment.reloadEvery / 2].startTime}
+                ${that.dateDisplayService.parseDate(that.swipeEvents[i + environment.reloadEvery / 2].startTime)}
               </div>
               <div>
                 <img class="icon" src="../../../assets/icons-black/pin.png">

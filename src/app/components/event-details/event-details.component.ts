@@ -4,6 +4,7 @@ import {Event} from '../../shared/event-model';
 import {DataService} from '../../services/data.service';
 import {ActivatedRoute} from '@angular/router';
 import {environment} from "../../../environments/environment";
+import {DateDisplayService} from "../../services/date-display.service";
 
 @Component({
   selector: 'app-event-details',
@@ -19,6 +20,7 @@ export class EventDetailsComponent implements OnInit {
   private clickCounter = 0;
 
   constructor(private dataService: DataService,
+              private dateDisplayService: DateDisplayService,
               private route: ActivatedRoute) {
   }
 
@@ -31,4 +33,6 @@ export class EventDetailsComponent implements OnInit {
   cycleThroughPictures() {
     this.clickCounter++;
   }
+
+  displayDate = date => this.dateDisplayService.parseDate(date);
 }

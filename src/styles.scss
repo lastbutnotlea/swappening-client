@@ -130,10 +130,12 @@ mat-card {
 .card-item .icon {
   width: 2rem;
   padding-right: 0.5rem;
+  opacity: 0.7;
 }
 
 .description-info {
   font-size: 1.6rem;
+  color: $text;
   padding: 1rem;
   opacity: 0.7;
 }
@@ -141,4 +143,14 @@ mat-card {
 .description-icon {
   width: 2rem;
   padding-right: 0.5rem;
+  opacity: 0.7;
+}
+
+.swipe-image-container {
+  position: relative;
+  width: calc(100vw - 2.6rem);
+  max-height: calc(100vw - 2.6rem);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
 }

@@ -19,6 +19,15 @@
   width: 100%;
 }
 
+.image-container {
+  position: relative;
+  width: calc(100vw - 2.6rem);
+  max-height: calc(100vw - 2.6rem);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
 mat-card-title {
   margin: 0 !important;
   height: 10vh;

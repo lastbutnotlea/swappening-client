@@ -36,7 +36,15 @@ export class ApiService {
 
   // TODO: logout
 
-  //TODO: getUsetDetails
+  // TODO: getMyDetails
+  public getMyDetails(): Observable<User> {
+    const requestUrl = environment.apiUrl + '/user/me';
+    return this.http.get<User>(requestUrl, {
+      headers: {Authorization: 'Bearer ' + this.userToken}
+    });
+  }
+
+  // TODO: getUserDetails(userId: number)
   public getUserDetails(userId: number): Observable<User> {
     if (environment.useMockData) {
       return of(FAKE_USER);

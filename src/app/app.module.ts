@@ -72,7 +72,7 @@ const appRoutes: Routes = [
     component: MatchesComponent
   },
   {
-    path: 'userprofile',
+    path: 'userprofile/:id',
     component: UserProfileComponent
   },
 ];

@@ -20,6 +20,7 @@ export class DataService implements OnInit {
   private _swipeEventsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   // Users
+  private _me: BehaviorSubject<User> = new BehaviorSubject<User>(null);
   private _interestedUsers: BehaviorSubject<User[]> = new BehaviorSubject([]);
 
 
@@ -37,8 +38,12 @@ export class DataService implements OnInit {
           this._swipeEvents.next(res);
           this._swipeEventsLoaded.next(true);
         });
+        //TODO this should not be done here
         this.apiService.getInterestedUsers(15).subscribe(res => {
           this._interestedUsers.next(res);
+        });
+        this.apiService.getMyDetails().subscribe(res => {
+          this._me.next(res);
         });
       }
     );
@@ -73,6 +78,10 @@ export class DataService implements OnInit {
 
   get interestedUsers(): Observable<User[]> {
     return new Observable<User[]>(fn => this._interestedUsers.subscribe(fn));
+  }
+
+  get me(): Observable<User> {
+    return new Observable<User>(fn => this._me.subscribe(fn));
   }
 
   event(id: number): Observable<Event> {

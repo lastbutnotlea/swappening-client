@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {User} from '../../shared/user-model';
 import {DataService} from '../../services/data.service';
-import {FAKE_USER} from '../../shared/user-model';
 import {Observable} from 'rxjs';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',
@@ -12,18 +12,32 @@ import {Observable} from 'rxjs';
 export class UserProfileComponent implements OnInit {
 
 
-  private userId: number = 1;
-  private isMe: boolean = false;
+  private userId: number;
+  private isMe: boolean;
   private user$: Observable<User>;
-  private mock_user: User = FAKE_USER;
 
   private apiUrl: string;
 
-  constructor(private dataService: DataService,) {
+  constructor(private dataService: DataService,
+              private route: ActivatedRoute,
+              private router: Router) {
   }
 
   ngOnInit() {
-    this.user$ = this.dataService.user(this.userId)
+    const current_id: string = this.route.snapshot.paramMap.get('id');
+    if (current_id == 'me') {
+      this.isMe = true;
+    } else {
+      this.isMe = false;
+      this.userId = parseInt(current_id, 10);
+    }
+    if (this.isMe) {
+      this.user$ = this.dataService.me;
+    }
+    else{
+      this.user$ = this.dataService.user(this.userId);
+    }
+    
   }
 
 }

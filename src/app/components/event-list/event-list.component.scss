@@ -1,8 +1,17 @@
 @import "../../../styles.scss";
 
+.preview-image-container {
+  max-height: 40vw;
+  width: 40vw;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  background-color: black;
+}
+
 img {
-  width: 40%;
-  height: 100%;
+  width: 100%;
 }
 
 .scrollable {
@@ -20,4 +29,3 @@ img {
 mat-card-header {
   padding-top: 1rem;
 }
-

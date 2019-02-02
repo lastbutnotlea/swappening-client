@@ -8,9 +8,9 @@
 
     <mat-card-subtitle class="scrollable-content">
       <div class="image-container">
-      <img
-        src="{{this.apiUrl}}/files/{{(event$ | async).pictures_events[clickCounter%(event$ | async).pictures_events.length].pictureStorageName}}"
-        (click)="cycleThroughPictures()" class="detail-image">
+        <img
+          src="{{this.apiUrl}}/files/{{(event$ | async).pictures_events[clickCounter%(event$ | async).pictures_events.length].pictureStorageName}}"
+          (click)="cycleThroughPictures()" class="detail-image">
       </div>
       <div class="description-info">
         <div>

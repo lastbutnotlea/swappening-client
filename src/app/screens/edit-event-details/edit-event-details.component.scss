@@ -126,3 +126,7 @@ mat-card-title {
   border-radius: 100%;
   height: 4rem;
 }
+
+/deep/ .owl-dt-calendar-table .owl-dt-calendar-cell-selected {
+  background-color: $primary2;
+}

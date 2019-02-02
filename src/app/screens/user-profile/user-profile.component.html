@@ -16,8 +16,14 @@
          class="detail-image">
       <div class="description-info">
         <div *ngIf="isMe">
-          <img class="description-icon" src="../../../assets/icons-black/time.png">
+          <img class="description-icon" src="../../../assets/icons-black/paper-plane-1.png">
           {{mock_user.email}}
+          <br>
+          <img class="description-icon" src="../../../assets/icons-black/home.png">
+          {{mock_user.location}}
+          <br>
+          <img class="description-icon" src="../../../assets/icons-black/view.png">
+          {{mock_user.distance}}Km
         </div>
         <p class="card-subtitle">{{mock_user.description}}</p>
       </div>

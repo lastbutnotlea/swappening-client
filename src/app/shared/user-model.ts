@@ -16,6 +16,6 @@ export const FAKE_USER: User = {
   nickname: 'Michelle',
   description: 'Ich bin ein Mädchen, daswegen kann ich micht nicht zurückhalten so sexy sieht der Martin aus',
   pictureStorageName: 'storage',
-  location: 'home',
+  location: 'München',
   distance: 500,
 };

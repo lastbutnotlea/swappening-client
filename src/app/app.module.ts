@@ -15,11 +15,11 @@ import { EditEventDetailsComponent } from './screens/edit-event-details/edit-eve
 import { FormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { MatchesComponent } from './screens/matches/matches.component';
-import { SettingsComponent } from './screens/settings/settings.component';
 import { EventListComponent } from './components/event-list/event-list.component';
 import { HostedEventsComponent } from './screens/hosted-events/hosted-events.component';
 import { LikedEventsComponent } from './screens/liked-events/liked-events.component';
 import { LikedEventDetailsComponent } from './screens/liked-event-details/liked-event-details.component';
+import { UserProfileComponent } from './screens/user-profile/user-profile.component'
 
 const appRoutes: Routes = [
   {
@@ -60,8 +60,8 @@ const appRoutes: Routes = [
     component: MatchesComponent
   },
   {
-    path: 'settings',
-    component: SettingsComponent
+    path: 'userprofile',
+    component: UserProfileComponent
   },
 ];
 
@@ -75,11 +75,11 @@ const appRoutes: Routes = [
     EventDetailsComponent,
     EditEventDetailsComponent,
     MatchesComponent,
-    SettingsComponent,
     EventListComponent,
     HostedEventsComponent,
     LikedEventsComponent,
     LikedEventDetailsComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,

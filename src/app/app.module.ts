@@ -20,7 +20,18 @@ import { HostedEventsComponent } from './screens/hosted-events/hosted-events.com
 import { LikedEventsComponent } from './screens/liked-events/liked-events.component';
 import { LikedEventDetailsComponent } from './screens/liked-event-details/liked-event-details.component';
 import { UserProfileComponent } from './screens/user-profile/user-profile.component'
-import {OwlDateTimeModule, OwlNativeDateTimeModule} from "ng-pick-datetime";
+import {OWL_DATE_TIME_FORMATS, OwlDateTimeModule, OwlNativeDateTimeModule} from "ng-pick-datetime";
+import {OwlMomentDateTimeModule} from "ng-pick-datetime-moment";
+
+export const MY_MOMENT_FORMATS = {
+  parseInput: 'DD.MM.YY HH:mm',
+  fullPickerInput: 'DD.MM.YY HH:mm',
+  datePickerInput: 'DD.MM.YY',
+  timePickerInput: 'HH:mm',
+  monthYearLabel: 'MM YYYY',
+  dateA11yLabel: 'LL',
+  monthYearA11yLabel: 'MM YYYY',
+};
 
 const appRoutes: Routes = [
   {
@@ -94,8 +105,10 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
+    OwlMomentDateTimeModule,
   ],
   providers: [
+    {provide: OWL_DATE_TIME_FORMATS, useValue: MY_MOMENT_FORMATS},
   ],
   bootstrap: [AppComponent]
 })

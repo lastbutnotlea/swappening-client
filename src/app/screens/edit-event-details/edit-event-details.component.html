@@ -21,10 +21,8 @@
       </div>
 
       <p class="input-info">date and time</p>
-    <input class="edit-date" [owlDateTime]="dt" [owlDateTimeTrigger]="dt">
+    <input class="edit-date" [owlDateTime]="dt" [owlDateTimeTrigger]="dt" [(ngModel)]="eventModel.startTime">
     <owl-date-time [pickerMode]="'dialog'" #dt></owl-date-time>
-
-      <!--<input class="edit-date" matInput [(ngModel)]="eventModel.startTime">-->
       <p class="input-info">location</p>
       <input class="edit-location" matInput [(ngModel)]="eventModel.place">
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {User} from '../../shared/user-model';
+import {DataService} from '../../services/data.service';
 import {FAKE_USER} from '../../shared/user-model';
 import {Observable} from 'rxjs';
 
@@ -11,16 +12,18 @@ import {Observable} from 'rxjs';
 export class UserProfileComponent implements OnInit {
 
 
-  private userId: number;
-  private isMe: boolean = true;
-  private user$: Observable<User>
+  private userId: number = 1;
+  private isMe: boolean = false;
+  private user$: Observable<User>;
   private mock_user: User = FAKE_USER;
 
   private apiUrl: string;
 
-  constructor() { }
+  constructor(private dataService: DataService,) {
+  }
 
   ngOnInit() {
+    this.user$ = this.dataService.user(this.userId)
   }
 
 }

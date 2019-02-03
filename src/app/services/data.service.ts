@@ -21,7 +21,9 @@ export class DataService implements OnInit {
 
   // Users
   private _me: BehaviorSubject<User> = new BehaviorSubject<User>(null);
-  private _interestedUsers: BehaviorSubject<User[]> = new BehaviorSubject([]);
+  //private _interestedUsers: BehaviorSubject<User[]> = new BehaviorSubject([]);
+  private _interestedUsers: BehaviorSubject<Map<number,User[]>> = new BehaviorSubject<Map<number,User[]>>(new Map)
+  private _currentUser: BehaviorSubject<User> = new BehaviorSubject<User>(null);
 
 
   constructor(private apiService: ApiService) {
@@ -29,6 +31,13 @@ export class DataService implements OnInit {
         this.apiService.getHostedEvents('1213').subscribe(res => {
           this._hostedEvents.next(res);
           this._hostedEventsLoaded.next(true);
+          let myMap = new Map();
+          for (let hostedEvent of this._hostedEvents.value) {
+            this.apiService.getInterestedUsers(hostedEvent.id).subscribe(userRes => {
+              myMap.set(hostedEvent.id, userRes);
+              this._interestedUsers.next(myMap);
+            });
+          }
         });
         this.apiService.getLikedEvents('1213').subscribe(res => {
           this._likedEvents.next(res);
@@ -37,11 +46,6 @@ export class DataService implements OnInit {
         this.apiService.getFirstSwipeEvents('1213').subscribe(res => {
           this._swipeEvents.next(res);
           this._swipeEventsLoaded.next(true);
-        });
-        //TODO this should not be done here
-        this.apiService.getInterestedUsers(15).subscribe(res => {
-          //
-          this._interestedUsers.next(res);
         });
         this.apiService.getMyDetails().subscribe(res => {
           this._me.next(res);
@@ -77,8 +81,12 @@ export class DataService implements OnInit {
     return new Observable<boolean>(fn => this._swipeEventsLoaded.subscribe(fn));
   }
 
-  get interestedUsers(): Observable<User[]> {
+  /*get interestedUsers(): Observable<User[]> {
     return new Observable<User[]>(fn =>
+       this._interestedUsers.subscribe(fn));
+  }*/
+  get interestedUsers(): Observable<Map<number,User[]>> {
+    return new Observable<Map<number,User[]>>(fn =>
        this._interestedUsers.subscribe(fn));
   }
 
@@ -98,10 +106,15 @@ export class DataService implements OnInit {
     return findEvent;
   }
 
-  user(id: number): Observable<User> {
+  // We might want to use this at some point
+  /*user(id: number): Observable<User> {
     let findUser = new Observable<User[]>(fn =>
       this._interestedUsers.subscribe(fn)).pipe(map((interestedUsers: User[]) => interestedUsers.find(user => user.id === id)));
     return findUser;
+  }*/
+  public user(userId: number): Observable<User> {
+    this.apiService.getUserDetails(userId).subscribe(res => {this._currentUser.next(res);})
+    return new Observable<User>(fn => this._currentUser.subscribe(fn))
   }
 
   async createNewHostedEvent(newEvent: Event): Promise<number> {

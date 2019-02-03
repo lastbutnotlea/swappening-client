@@ -36,12 +36,23 @@ export class ApiService {
 
   // TODO: logout
 
-  public getUserDetails(): Observable<User> {
+  // TODO: getMyDetails
+  public getMyDetails(): Observable<User> {
+    const requestUrl = environment.apiUrl + '/user/me';
+    return this.http.get<User>(requestUrl, {
+      headers: {Authorization: 'Bearer ' + this.userToken}
+    });
+  }
+
+  // TODO: getUserDetails(userId: number)
+  public getUserDetails(userId: number): Observable<User> {
     if (environment.useMockData) {
       return of(FAKE_USER);
     } else {
-      // TODO
-      return this.http.get<User>('some url');
+      const requestUrl = environment.apiUrl + '/usr/' + userId;
+      return this.http.get<User>(requestUrl, {
+        headers: {Authorization: 'Bearer ' + this.userToken}
+      });
     }
   }
 
@@ -109,12 +120,22 @@ export class ApiService {
   }
 
   // TODO getLikedEvent
+  public getLikedEvents(userId: string): Observable<Event[]> {
+    if (environment.useMockData) {
+      return of(FAKE_EVENTS);
+    } else {
+      const requestUrl = environment.apiUrl + '/event/forUser/liked'; // + this.userId;
+      return this.http.get<Event[]>(requestUrl, {
+        headers: {Authorization: 'Bearer ' + this.userToken}
+      })
+    }
+  }
 
   // TODO likeEvent (?)
 
   // TODO dislikeEvent (?)
 
-  // TODO: deleteEvent(id: string)
+  // TODO: deleteEvent(eventId: string)
 
   public getFirstSwipeEvents(userId: string): Observable<Event[]> {
     if (environment.useMockData) {
@@ -137,4 +158,15 @@ export class ApiService {
       })
     }
   }
+
+  // TODO getInterestedUsers(eventId: number)
+  public getInterestedUsers(eventId: number): Observable<User[]> {
+    const requestUrl = environment.apiUrl + '/user/forEvent/' + eventId;
+      return this.http.get<User[]>(requestUrl, {
+        headers: {Authorization: 'Bearer ' + this.userToken}
+      })
+  }
+
+
+  // TODO getChatUsers(userId: number)
 }

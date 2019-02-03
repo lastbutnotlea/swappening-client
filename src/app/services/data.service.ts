@@ -2,6 +2,7 @@ import {Injectable, OnInit} from '@angular/core';
 import {ApiService} from './api.service';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {Event} from '../shared/event-model'
+import {User} from '../shared/user-model'
 import {map} from 'rxjs/operators';
 
 
@@ -10,6 +11,7 @@ import {map} from 'rxjs/operators';
 })
 export class DataService implements OnInit {
 
+  // Events
   private _hostedEvents: BehaviorSubject<Event[]> = new BehaviorSubject([]);
   private _likedEvents: BehaviorSubject<Event[]> = new BehaviorSubject([]);
   private _swipeEvents: BehaviorSubject<Event[]> = new BehaviorSubject([]);
@@ -17,21 +19,32 @@ export class DataService implements OnInit {
   private _likedEventsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _swipeEventsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
+  // Users
+  private _me: BehaviorSubject<User> = new BehaviorSubject<User>(null);
+  private _interestedUsers: BehaviorSubject<User[]> = new BehaviorSubject([]);
+
 
   constructor(private apiService: ApiService) {
     this.apiService.login().then(() => {
         this.apiService.getHostedEvents('1213').subscribe(res => {
           this._hostedEvents.next(res);
           this._hostedEventsLoaded.next(true);
-          // TODO FIX THIS AS SOON AS ALEX PROVIDES THE CORRECT ENDPOINT
+        });
+        this.apiService.getLikedEvents('1213').subscribe(res => {
           this._likedEvents.next(res);
           this._likedEventsLoaded.next(true);
         });
-        // this.apiService.getLikesEvents();
         this.apiService.getFirstSwipeEvents('1213').subscribe(res => {
           this._swipeEvents.next(res);
           this._swipeEventsLoaded.next(true);
-        })
+        });
+        //TODO this should not be done here
+        this.apiService.getInterestedUsers(15).subscribe(res => {
+          this._interestedUsers.next(res);
+        });
+        this.apiService.getMyDetails().subscribe(res => {
+          this._me.next(res);
+        });
       }
     );
   }
@@ -63,6 +76,14 @@ export class DataService implements OnInit {
     return new Observable<boolean>(fn => this._swipeEventsLoaded.subscribe(fn));
   }
 
+  get interestedUsers(): Observable<User[]> {
+    return new Observable<User[]>(fn => this._interestedUsers.subscribe(fn));
+  }
+
+  get me(): Observable<User> {
+    return new Observable<User>(fn => this._me.subscribe(fn));
+  }
+
   event(id: number): Observable<Event> {
     let findEvent = new Observable<Event[]>(fn =>
       this._hostedEvents.subscribe(fn)).pipe(map((hostedEvents: Event[]) => hostedEvents.find(event => event.id === id)));
@@ -73,6 +94,12 @@ export class DataService implements OnInit {
     findEvent = new Observable<Event[]>(fn =>
       this._swipeEvents.subscribe(fn)).pipe(map((swipeEvents: Event[]) => swipeEvents.find(event => event.id === id)));
     return findEvent;
+  }
+
+  user(id: number): Observable<User> {
+    let findUser = new Observable<User[]>(fn =>
+      this._interestedUsers.subscribe(fn)).pipe(map((interestedUsers: User[]) => interestedUsers.find(user => user.id === id)));
+    return findUser;
   }
 
   async createNewHostedEvent(newEvent: Event): Promise<number> {

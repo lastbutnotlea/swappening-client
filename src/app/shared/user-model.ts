@@ -1,5 +1,5 @@
 export class User {
-  userId: string;
+  id: number;
   email: string;
   password: string;
   nickname: string;
@@ -10,7 +10,7 @@ export class User {
 }
 
 export const FAKE_USER: User = {
-  userId: '001',
+  id: 1,
   email: 'michelle.obama@mail.com',
   password: '****',
   nickname: 'Michelle',

@@ -82,6 +82,23 @@ export class ApiService {
     );
   }
 
+  public deletePicture(pictureStorageName: string): Observable<any> {
+    const requestUrl = environment.apiUrl + '/event/image/' + pictureStorageName;
+    return this.http.delete(requestUrl, {
+        headers: {Authorization: 'Bearer ' + this.userToken}
+      }
+    );
+  }
+
+  public makeFirstPicture(pictureOrdering, eventId: number): Observable<any> {
+    const requestUrl = environment.apiUrl + '/event/image/updateOrder/' + eventId;
+    return this.http.put(requestUrl,
+      pictureOrdering,
+      {
+        headers: {Authorization: 'Bearer ' + this.userToken}
+      });
+  }
+
   public updateHostedEvent(updatedEvent: Event): Observable<Event> {
     const requestUrl = environment.apiUrl + '/event/' + updatedEvent.id;
     return this.http.put<Event>(requestUrl, {

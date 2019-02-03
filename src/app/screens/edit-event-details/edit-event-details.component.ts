@@ -18,7 +18,11 @@ export class EditEventDetailsComponent implements OnInit {
   private eventId;
   private apiUrl: string;
   private isEdit: boolean;
+  private numberOfPictures = 0;
   private clickCounter = 0;
+  private checked = true;
+  private soonToBeFirst = 0;
+  private orderArray = [];
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
@@ -32,7 +36,10 @@ export class EditEventDetailsComponent implements OnInit {
       this.isEdit = true;
       this.eventId = parseInt(current_id, 10);
       this.event$ = this.dataService.event(this.eventId);
-      this.event$.subscribe(newEvent => this.eventModel = newEvent);
+      this.event$.subscribe(newEvent => {
+        this.eventModel = newEvent;
+        this.numberOfPictures = this.eventModel.pictures_events.length;
+      });
     } else {
       this.isEdit = false;
       this.eventModel = {
@@ -55,12 +62,44 @@ export class EditEventDetailsComponent implements OnInit {
   onFileChanged(event) {
     console.log(event);
     this.selectedFile = event.target.files[0];
+    if (this.selectedFile !== null) {
+      this.dataService.uploadPicture(this.selectedFile, this.eventId);
+      this.selectedFile = null;
+      this.clickCounter = this.eventModel.pictures_events.length;
+      this.checked = false;
+    }
+  }
+
+  deletePicture() {
+    const pictureStorageName = this.eventModel.pictures_events[this.clickCounter % this.numberOfPictures].pictureStorageName;
+    this.dataService.deletePicture(pictureStorageName, this.eventId);
+  }
+
+  makeFirst(index: number) {
+    console.log('MAKE FIRST');
+    if (!this.checked) {
+      let order = 1;
+      for (let i = 0; i < this.eventModel.pictures_events.length; i++) {
+        if (i == index) order = 1;
+        else order = 2;
+        this.orderArray.push({
+            pictureStorageName: this.eventModel.pictures_events[i].pictureStorageName,
+            order: order
+          }
+        );
+      }
+      this.soonToBeFirst = this.clickCounter % this.numberOfPictures;
+      console.log('MAKE FIRST; soonToBeFirst: ' + this.soonToBeFirst);
+      this.checked = true;
+    }
   }
 
   onUpload() {
     this.clickCounter = 0;
     if (this.isEdit) {
       this.dataService.updateHostedEvent(this.eventModel);
+      this.dataService.makeFirstPicture(this.orderArray, this.eventId);
+      this.clickCounter = 0;
       if (this.selectedFile !== null) {
         this.dataService.uploadPicture(this.selectedFile, this.eventId);
         this.selectedFile = null;
@@ -82,6 +121,7 @@ export class EditEventDetailsComponent implements OnInit {
 
   cycleThroughPictures() {
     this.clickCounter++;
+    this.checked = (this.clickCounter % this.numberOfPictures) == this.soonToBeFirst;
   }
 
   goBack() {

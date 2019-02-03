@@ -9,11 +9,13 @@
     <div class="image-container">
       <img
         src="{{this.apiUrl}}/files/{{(event$ | async).pictures_events[clickCounter%(event$ | async).pictures_events.length].pictureStorageName}}"
-        (click)="cycleThroughPictures()" class="detail-image">
-      <div class="overlay">
-
-      </div>
-      <mat-slide-toggle class="toggle-first">Cover</mat-slide-toggle>
+        class="detail-image">
+      <div class="overlay" (click)="cycleThroughPictures()"></div>
+      <mat-slide-toggle (change)="makeFirst(clickCounter%(eventModel.pictures_events.length))"
+        class="toggle-first"
+        [checked]="checked"
+        >Cover
+      </mat-slide-toggle>
       <button class="delete-picture" mat-mini-fab (click)="deletePicture()">
         <img src="../../../assets/icons-black/substract.png">
       </button>
@@ -25,7 +27,7 @@
         <button class="plus" mat-mini-fab (click)="fileInput.click()">
           <img src="../../../assets/icons-black/add.png">
         </button>
-      <!--        <mat-label *ngIf="selectedFile">{{selectedFile.name}} selected</mat-label>-->
+        <!--        <mat-label *ngIf="selectedFile">{{selectedFile.name}} selected</mat-label>-->
       </div>
     </div>
 

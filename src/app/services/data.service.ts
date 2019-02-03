@@ -95,6 +95,30 @@ export class DataService implements OnInit {
     })
   }
 
+  public deletePicture(pictureStorageName: string, eventId: number) {
+    this.apiService.deletePicture(pictureStorageName).subscribe(res => console.log(res));
+    let editedEventIndex = this._hostedEvents.value.findIndex(event => event.id === eventId);
+    let newEventsArray = this._hostedEvents.value;
+    newEventsArray[editedEventIndex].pictures_events = newEventsArray[editedEventIndex].pictures_events.filter(
+      pic => pic.pictureStorageName !== pictureStorageName
+    );
+    this._hostedEvents.next(newEventsArray);
+  }
+
+  public makeFirstPicture(pictureOrdering, eventId: number) {
+    if(pictureOrdering.length === 0) return;
+    let firstPictureStorageName = pictureOrdering.find(picture => picture.order === 1).pictureStorageName;
+    let editedEventIndex = this._hostedEvents.value.findIndex(event => event.id === eventId);
+    let newEventsArray = this._hostedEvents.value;
+    let newFirstPictureIndex = newEventsArray[editedEventIndex].pictures_events.findIndex(picture => picture.pictureStorageName === firstPictureStorageName);
+    newEventsArray[editedEventIndex].pictures_events.splice(0, 0, newEventsArray[editedEventIndex].pictures_events.splice(newFirstPictureIndex, 1)[0]);
+    this._hostedEvents.next(newEventsArray);
+    this.apiService.makeFirstPicture(pictureOrdering, eventId).subscribe(res => {
+      newEventsArray[editedEventIndex].pictures_events = res;
+      this._hostedEvents.next(newEventsArray);
+    });
+  }
+
   public updateHostedEvent(newEvent: Event) {
     this.apiService.updateHostedEvent(newEvent).subscribe(res => {
       let editedEventIndex = this._hostedEvents.value.findIndex(event => event.id === newEvent.id);
@@ -105,6 +129,6 @@ export class DataService implements OnInit {
   }
 
   public fetchNewSwipeEvents() {
-    this.apiService.getSwipeEvents('1213').subscribe(res => this._swipeEvents.next(this._swipeEvents.value.slice(10,15).concat(res)));
+    this.apiService.getSwipeEvents('1213').subscribe(res => this._swipeEvents.next(this._swipeEvents.value.slice(10, 15).concat(res)));
   }
 }

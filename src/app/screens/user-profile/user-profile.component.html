@@ -12,17 +12,17 @@
 
     <mat-card-subtitle class="scrollable-content">
       <img
-        src="../../../assets/portrait.jpg"
+        src="./assets/portrait.jpg"
          class="detail-image">
       <div class="description-info">
         <div *ngIf="isMe">
-          <img class="description-icon" src="../../../assets/icons-black/paper-plane-1.png">
+          <img class="description-icon" src="./assets/icons-black/paper-plane-1.png">
           {{(user$ | async).email}}
           <br>
-          <img class="description-icon" src="../../../assets/icons-black/home.png">
+          <img class="description-icon" src="./assets/icons-black/home.png">
           {{(user$ | async).location}}
           <br>
-          <img class="description-icon" src="../../../assets/icons-black/view.png">
+          <img class="description-icon" src="./assets/icons-black/view.png">
           {{(user$ | async).distance}}Km
         </div>
         <p class="card-subtitle">{{(user$ | async).description}}</p>
@@ -44,10 +44,10 @@
 
 <div *ngIf="!isMe">
   <button mat-fab class="on-top-button-left">
-    <img class="button-image" src="../../../assets/icons-black/garbage-2.png">
+    <img class="button-image" src="./assets/icons-black/garbage-2.png">
   </button>
   <button mat-fab class="on-top-button-right">
-    <img class="button-image" src="../../../assets/icons-black/like-2.png">
+    <img class="button-image" src="./assets/icons-black/like-2.png">
   </button>
 </div>
 

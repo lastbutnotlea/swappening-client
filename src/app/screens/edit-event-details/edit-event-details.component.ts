@@ -73,6 +73,8 @@ export class EditEventDetailsComponent implements OnInit {
   deletePicture() {
     const pictureStorageName = this.eventModel.pictures_events[this.clickCounter % this.numberOfPictures].pictureStorageName;
     this.dataService.deletePicture(pictureStorageName, this.eventId);
+    this.clickCounter--;
+    this.checked = (this.clickCounter % this.numberOfPictures) == this.soonToBeFirst;
   }
 
   makeFirst(index: number) {

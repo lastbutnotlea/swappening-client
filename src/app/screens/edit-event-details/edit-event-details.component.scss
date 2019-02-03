@@ -52,6 +52,10 @@ mat-card-title {
     position: absolute;
     bottom: 5%;
     right: 20%;
+
+    img {
+      padding-bottom: 2px;
+    }
   }
 
   .toggle-first {
@@ -98,8 +102,8 @@ mat-card-title {
   padding: 0 0.7rem !important;
   margin: 0 1.5rem 1.5rem 1.5rem !important;
   width: calc(100% - 3rem);
-  border-radius: 9px;
-  border: 2px solid #eeeeee;
+  border-radius: 5px;
+  border: 1px solid #eeeeee;
   font-size: 36px !important;
   font-weight: 900 !important;
   outline: none;

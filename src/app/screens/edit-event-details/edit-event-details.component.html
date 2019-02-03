@@ -16,8 +16,8 @@
         [checked]="checked"
         >Cover
       </mat-slide-toggle>
-      <button class="delete-picture" mat-mini-fab (click)="deletePicture()">
-        <img src="../../../assets/icons-black/substract.png">
+      <button class="delete-picture" [disabled]="numberOfPictures === 1" mat-mini-fab (click)="deletePicture()">
+        <img src="./assets/icons-black/substract.png">
       </button>
       <div class="upload-picture">
         <input
@@ -25,9 +25,8 @@
           type="file" (change)="onFileChanged($event)"
           #fileInput>
         <button class="plus" mat-mini-fab (click)="fileInput.click()">
-          <img src="../../../assets/icons-black/add.png">
+          <img src="./assets/icons-black/add.png">
         </button>
-        <!--        <mat-label *ngIf="selectedFile">{{selectedFile.name}} selected</mat-label>-->
       </div>
     </div>
 

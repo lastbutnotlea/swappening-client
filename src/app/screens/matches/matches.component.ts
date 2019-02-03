@@ -16,7 +16,7 @@ export class MatchesComponent implements OnInit {
   private eventId: number = 15;
   
   private interestedUsersMap$: Observable<Map<number,User[]>>;
-  private interestedUsers$: Observable<User[]> //= this.interestedUsersMap$.pipe(map(userMap => userMap[this.eventId]));
+  private interestedUsers$: Observable<User[]>; //= this.interestedUsersMap$.pipe(map(userMap => userMap[this.eventId]));
   private chats$: Observable<User[]>;
   
 
@@ -25,9 +25,9 @@ export class MatchesComponent implements OnInit {
 
   ngOnInit() {
     this.interestedUsersMap$ = this.dataService.interestedUsers;
-    this.interestedUsersMap$.subscribe(whatever => console.log(whatever))
+    this.interestedUsersMap$.subscribe(whatever => console.log(whatever));
     this.interestedUsers$ = this.interestedUsersMap$.pipe(map(userMap => 
-      {return userMap[this.eventId];}));
+      {return userMap.get(this.eventId);}));
     this.interestedUsers$.subscribe(data => console.log(data))
   }
 

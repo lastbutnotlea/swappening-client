@@ -29,6 +29,7 @@ mat-card-title {
   overflow: hidden;
   display: flex;
   align-items: center;
+  min-height: 15vw;
 
   .overlay {
     position: absolute;

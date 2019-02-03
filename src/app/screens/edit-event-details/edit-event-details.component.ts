@@ -42,18 +42,19 @@ export class EditEventDetailsComponent implements OnInit {
       });
     } else {
       this.isEdit = false;
+      this.numberOfPictures = 0;
       this.eventModel = {
-        id: null,
+        id: 0,
         headline: '',
         description: '',
         place: '',
         startTime: '',
-        endTime: '',
+        endTime: new Date().toDateString(),
         isPrivate: false,
         hasChat: false,
         isVisible: true,
         tags: [],
-        ownerId: null,
+        ownerId: 0,
         pictures_events: [],
       }
     }

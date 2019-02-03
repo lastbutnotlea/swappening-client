@@ -32,12 +32,19 @@ export class DataService implements OnInit {
           this._hostedEvents.next(res);
           this._hostedEventsLoaded.next(true);
           let myMap = new Map();
-          for (let hostedEvent of this._hostedEvents.value) {
+          let hostedEvents: Event[] = this._hostedEvents.value;
+          hostedEvents.forEach(hostedEvent => {
             this.apiService.getInterestedUsers(hostedEvent.id).subscribe(userRes => {
               myMap.set(hostedEvent.id, userRes);
               this._interestedUsers.next(myMap);
             });
-          }
+          });
+/*          for (let hostedEvent in hostedEvents) {
+            this.apiService.getInterestedUsers(hostedEvent.id).subscribe(userRes => {
+              myMap.set(hostedEvent.id, userRes);
+              this._interestedUsers.next(myMap);
+            });
+          }*/
         });
         this.apiService.getLikedEvents('1213').subscribe(res => {
           this._likedEvents.next(res);

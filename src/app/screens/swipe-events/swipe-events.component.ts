@@ -49,15 +49,15 @@ export class SwipeEventsComponent implements OnInit {
              ${this.swipeEvents[i].headline}
             </h1>
             <div class="swipe-image-container">
-            <img src="${this.apiUrl}/files/${this.swipeEvents[i].pictures_events[0].pictureStorageName}">
+            <img alt="image" src="${this.apiUrl}/files/${this.swipeEvents[i].pictures_events[0].pictureStorageName}">
             </div>
             <div class="info">
               <div>
-                <img class="icon" src="../../../assets/icons-black/time.png">
+                <img class="icon" src="./assets/icons-black/time.png">
                 ${this.dateDisplayService.parseDate(this.swipeEvents[i].startTime)}
               </div>
               <div>
-                <img class="icon" src="../../../assets/icons-black/pin.png">
+                <img class="icon" src="./assets/icons-black/pin.png">
                 ${this.swipeEvents[i].place}
               </div>
             </div>
@@ -375,15 +375,15 @@ export class SwipeEventsComponent implements OnInit {
              ${that.swipeEvents[i + environment.reloadEvery / 2].headline}
             </h1>
             <div class="swipe-image-container">
-            <img style="width: 100%" src="${that.apiUrl}/files/${that.swipeEvents[i + environment.reloadEvery / 2].pictures_events[0].pictureStorageName}">
+            <img style="width: 100%" alt="image" src="${that.apiUrl}/files/${that.swipeEvents[i + environment.reloadEvery / 2].pictures_events[0].pictureStorageName}">
             </div>
             <div class="info">
              <div>
-                <img class="icon" src="../../../assets/icons-black/time.png">
+                <img class="icon" src="./assets/icons-black/time.png">
                 ${that.dateDisplayService.parseDate(that.swipeEvents[i + environment.reloadEvery / 2].startTime)}
               </div>
               <div>
-                <img class="icon" src="../../../assets/icons-black/pin.png">
+                <img class="icon" src="./assets/icons-black/pin.png">
                 ${that.swipeEvents[i + environment.reloadEvery / 2].place}
               </div>
              </div>

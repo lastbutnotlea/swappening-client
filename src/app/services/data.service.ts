@@ -40,6 +40,7 @@ export class DataService implements OnInit {
         });
         //TODO this should not be done here
         this.apiService.getInterestedUsers(15).subscribe(res => {
+          //
           this._interestedUsers.next(res);
         });
         this.apiService.getMyDetails().subscribe(res => {
@@ -77,7 +78,8 @@ export class DataService implements OnInit {
   }
 
   get interestedUsers(): Observable<User[]> {
-    return new Observable<User[]>(fn => this._interestedUsers.subscribe(fn));
+    return new Observable<User[]>(fn =>
+       this._interestedUsers.subscribe(fn));
   }
 
   get me(): Observable<User> {

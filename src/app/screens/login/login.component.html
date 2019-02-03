@@ -1,0 +1,23 @@
+<div class="edit-details-container">
+
+  <mat-card class="detail-card">
+
+    <p class="input-info some-padding">email</p>
+    <textarea class="edit-description" matInput [(ngModel)]="email"></textarea>
+
+    <p class="input-info some-padding">password</p>
+    <textarea class="edit-description" matInput [(ngModel)]="password"></textarea>
+
+    <!-- TODO: add tags -->
+    <!--<p class="tags" *ngIf="(myItem$ | async).tags">
+      <b *ngFor="let tag of (myItem$ | async).tags">
+      {{tag}}
+      </b>
+    </p>-->
+
+  </mat-card>
+</div>
+
+<button mat-fab color="warn" class="on-top-button-right" (click)="login()">Login</button>
+<button mat-fab color="warn" class="on-top-button-left" (click)="loginUser1()">User 1</button>
+<button mat-fab color="warn" class="on-top-button-middle" (click)="loginUser2()">User 2</button>

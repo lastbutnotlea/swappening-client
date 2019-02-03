@@ -1,6 +1,6 @@
 @import "../../../styles.scss";
 
-.outmost-container {
+:host ::ng-deep .outmost-container {
   height: 94vh;
   display: flex;
   align-content: center;
@@ -11,47 +11,47 @@
 }
 
 /* Stacked Cards component css */
-body {
+:host ::ng-deep body {
   overflow-x: hidden;
   font-size: 12px;
   background: #6c7177;
   padding: 10%;
 }
 
-.no-transition {
+:host ::ng-deep .no-transition {
   -webkit-transition: none ! important;
   -o-transition: none ! important;
   transition: none ! important;
 }
 
-.stackedcards-overflow {
+:host ::ng-deep .stackedcards-overflow {
   overflow-y: hidden !important;
 }
 
-.stackedcards.init {
+:host ::ng-deep .stackedcards.init {
   opacity: 0;/* set the opacity to 0 if you want a fade-in effect to stacked cards on page load */
 }
 
-.stackedcards {
+:host ::ng-deep .stackedcards {
   position: relative;
   width: 93vw;
   height: 76vh;
 }
 
-.stackedcards * {
+:host ::ng-deep .stackedcards * {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
 
-.stackedcards--animatable {
+:host ::ng-deep .stackedcards--animatable {
   -webkit-transition: all 400ms ease;
   -o-transition: all 400ms ease;
   transition: all 400ms ease;
 }
 
-.stackedcards .stackedcards-container > *,
+:host ::ng-deep .stackedcards .stackedcards-container > *,
 .stackedcards-overlay {
   position: absolute;
   width: 100%; /* set 100% */
@@ -61,7 +61,7 @@ body {
   border-radius: 10px;
 }
 
-.stackedcards-overlay.left > div,
+:host ::ng-deep .stackedcards-overlay.left > div,
 .stackedcards-overlay.right > div,
 .stackedcards-overlay.top > div {
   width: 100%;
@@ -77,7 +77,7 @@ body {
   justify-content: center;
 }
 
-.stackedcards-overlay.left,
+:host ::ng-deep .stackedcards-overlay.left,
 .stackedcards-overlay.right,
 .stackedcards-overlay.top {
   -webkit-box-align: center;
@@ -99,41 +99,41 @@ body {
   color: #fff; /* this style was added only for better preview */
 }
 
-.stackedcards-overlay.top {
+:host ::ng-deep .stackedcards-overlay.top {
   background: $mean;
 }
 
-.stackedcards-overlay.right {
+:host ::ng-deep .stackedcards-overlay.right {
   background: $primary2;
 }
 
-.stackedcards-overlay.left {
+:host ::ng-deep .stackedcards-overlay.left {
   background: $primary1;
 }
 
-.stackedcards-overlay.left:empty,
+:host ::ng-deep .stackedcards-overlay.left:empty,
 .stackedcards-overlay.right:empty,
 .stackedcards-overlay.top:empty {
   display: none !important;
 }
 
-.stackedcards-overlay-hidden {
+:host ::ng-deep .stackedcards-overlay-hidden {
   display: none;
 }
 
-.stackedcards-origin-bottom {
+:host ::ng-deep .stackedcards-origin-bottom {
   -webkit-transform-origin: bottom;
   -ms-transform-origin: bottom;
   transform-origin: bottom;
 }
 
-.stackedcards-origin-top {
+:host ::ng-deep .stackedcards-origin-top {
   -webkit-transform-origin: top;
   -ms-transform-origin: top;
   transform-origin: top;
 }
 
-.stackedcards-bottom,
+:host ::ng-deep .stackedcards-bottom,
 .stackedcards-top,
 .stackedcards-none {
   background: #c3c3c3; /* set card background background */
@@ -141,7 +141,7 @@ body {
 }
 
 /* global actions buttons*/
-.global-actions {
+:host ::ng-deep .global-actions {
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
@@ -151,7 +151,7 @@ body {
   padding: 0 4rem;
 }
 
-.top-action,
+:host ::ng-deep .top-action,
 .right-action,
 .left-action {
   display: -webkit-box;
@@ -185,7 +185,7 @@ img {
 .left-action { background-color: $primary1 !important; }
 
 /* elements on stacked cards */
-.card-item {
+:host ::ng-deep .card-item {
   background: #ffffff;
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 9px 0px 0 rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.12) !important;
   -webkit-box-align: center;

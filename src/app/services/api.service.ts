@@ -16,13 +16,13 @@ export class ApiService {
   constructor(private http: HttpClient) {
   }
 
-  public login(): Promise<void> {
+  public login(email, password): Promise<void> {
     if (environment.useMockData) {
     } else {
       const requestUrl = environment.apiUrl + '/login';
       return this.http.post<string>(requestUrl, {
-        email: 'test123@beispiel.de',
-        password: 'password123'
+        email,
+        password
       }).toPromise().then(
         (res: any) => {
           this.userToken = res.token;

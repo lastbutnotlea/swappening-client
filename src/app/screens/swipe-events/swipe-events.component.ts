@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from "@angular/core";
 import {Observable} from "rxjs";
 import {Event} from "../../shared/event-model";
 import {DataService} from "../../services/data.service";
@@ -7,9 +7,9 @@ import {Router} from "@angular/router";
 import {DateDisplayService} from "../../services/date-display.service";
 
 @Component({
-  selector: 'app-swipe-events',
-  templateUrl: './swipe-events.component.html',
-  styleUrls: ['./swipe-events.component.scss']
+  selector: "app-swipe-events",
+  templateUrl: "./swipe-events.component.html",
+  styleUrls: ["./swipe-events.component.scss"],
 })
 export class SwipeEventsComponent implements OnInit {
 
@@ -21,6 +21,8 @@ export class SwipeEventsComponent implements OnInit {
   constructor(public dataService: DataService,
               private dateDisplayService: DateDisplayService,
               private router: Router) {
+
+
   }
 
   ngOnInit(): void {
@@ -30,20 +32,21 @@ export class SwipeEventsComponent implements OnInit {
       this.swipeEvents = newEvents;
     });
     this.dataService.swipeEventsLoaded.subscribe(ready => {
-      if (!ready) return;
-      if (ready) {
+      if (!ready) {
+        return;
+      } else {
         this.setUpCards();
         this.stackedCards();
       }
-    })
+    });
   }
 
   setUpCards() {
     const initialNumberOfEvents = environment.reloadEvery * 1.5;
-    const container = document.getElementById('stackedcards-container');
+    const container = document.getElementById("stackedcards-container");
     for (let i = 0; i < initialNumberOfEvents; i++) {
       container.innerHTML = container.innerHTML.concat(
-        `<div _ngcontent-c1="" class="card-item stackedcards-top stackedcards--animatable 
+        `<div _ngcontent-c1="" class="card-item stackedcards-top stackedcards--animatable
             stackedcards-origin-top stackedcards-active">
             <h1 class="event-card-headline">
              ${this.swipeEvents[i].headline}
@@ -67,7 +70,7 @@ export class SwipeEventsComponent implements OnInit {
   }
 
   stackedCards(): void {
-    const stackedOptions = 'Top';
+    const stackedOptions = "Top";
     /*Change stacked cards view from 'Bottom', 'Top' or 'None'.*/
     const rotate = true;
     /*Activate the elements' rotation for each move on stacked cards.*/
@@ -79,7 +82,7 @@ export class SwipeEventsComponent implements OnInit {
     /*Enable or disable the overlays for swipe elements.*/
     let maxElements;
     /*Total of stacked cards on DOM.*/
-    let currentPosition = 0;
+    const currentPosition = 0;
     /*Keep the position of active stacked card.*/
     const velocity = 0.3;
     /*Minimum velocity allowed to trigger a swipe.*/
@@ -100,16 +103,16 @@ export class SwipeEventsComponent implements OnInit {
     let elementHeight;
     let obj;
     let elTrans;
-    let that = this;
+    const that = this;
 
     function init() {
-      obj = document.getElementById('stacked-cards-block');
-      stackedCardsObj = obj.querySelector('.stackedcards-container');
+      obj = document.getElementById("stacked-cards-block");
+      stackedCardsObj = obj.querySelector(".stackedcards-container");
       listElNodesObj = stackedCardsObj.children;
 
-      topObj = obj.querySelector('.stackedcards-overlay.top');
-      rightObj = obj.querySelector('.stackedcards-overlay.right');
-      leftObj = obj.querySelector('.stackedcards-overlay.left');
+      topObj = obj.querySelector(".stackedcards-overlay.top");
+      rightObj = obj.querySelector(".stackedcards-overlay.right");
+      leftObj = obj.querySelector(".stackedcards-overlay.left");
 
       countElements();
       currentElement();
@@ -119,33 +122,33 @@ export class SwipeEventsComponent implements OnInit {
       updateUi();
 
       //  Prepare elements on DOM
-      const addMargin = elementsMargin * (items - 1) + 'px';
+      const addMargin = elementsMargin * (items - 1) + "px";
 
-      if (stackedOptions === 'Top') {
+      if (stackedOptions === "Top") {
 
         for (let i = items; i < maxElements; i++) {
-          listElNodesObj[i].classList.add('stackedcards-top', 'stackedcards--animatable', 'stackedcards-origin-top');
+          listElNodesObj[i].classList.add("stackedcards-top", "stackedcards--animatable", "stackedcards-origin-top");
         }
 
         elTrans = elementsMargin * (items - 1);
 
         stackedCardsObj.style.marginBottom = addMargin;
 
-      } else if (stackedOptions === 'Bottom') {
+      } else if (stackedOptions === "Bottom") {
 
 
         for (let i = items; i < maxElements; i++) {
-          listElNodesObj[i].classList.add('stackedcards-bottom', 'stackedcards--animatable', 'stackedcards-origin-bottom');
+          listElNodesObj[i].classList.add("stackedcards-bottom", "stackedcards--animatable", "stackedcards-origin-bottom");
         }
 
         elTrans = 0;
 
         stackedCardsObj.style.marginBottom = addMargin;
 
-      } else if (stackedOptions === 'None') {
+      } else if (stackedOptions === "None") {
 
         for (let i = items; i < maxElements; i++) {
-          listElNodesObj[i].classList.add('stackedcards-none', 'stackedcards--animatable');
+          listElNodesObj[i].classList.add("stackedcards-none", "stackedcards--animatable");
         }
 
         elTrans = 0;
@@ -155,41 +158,41 @@ export class SwipeEventsComponent implements OnInit {
       for (let i = items; i < maxElements; i++) {
         listElNodesObj[i].style.zIndex = 0;
         listElNodesObj[i].style.opacity = 0;
-        listElNodesObj[i].style.webkitTransform = 'scale(' + (1 - (items * 0.04))
-          + ') translateX(0) translateY(' + elTrans + 'px) translateZ(0)';
-        listElNodesObj[i].style.transform = 'scale(' + (1 - (items * 0.04)) + ') translateX(0) translateY(' + elTrans + 'px) translateZ(0)';
+        listElNodesObj[i].style.webkitTransform = "scale(" + (1 - (items * 0.04))
+          + ") translateX(0) translateY(" + elTrans + "px) translateZ(0)";
+        listElNodesObj[i].style.transform = "scale(" + (1 - (items * 0.04)) + ") translateX(0) translateY(" + elTrans + "px) translateZ(0)";
       }
 
       if (listElNodesObj[currentPosition]) {
-        listElNodesObj[currentPosition].classList.add('stackedcards-active');
+        listElNodesObj[currentPosition].classList.add("stackedcards-active");
       }
     }
 
     init();
 
     if (useOverlays) {
-      leftObj.style.transform = 'translateX(0px) translateY(' + elTrans + 'px) translateZ(0px) rotate(0deg)';
-      leftObj.style.webkitTransform = 'translateX(0px) translateY(' + elTrans + 'px) translateZ(0px) rotate(0deg)';
+      leftObj.style.transform = "translateX(0px) translateY(" + elTrans + "px) translateZ(0px) rotate(0deg)";
+      leftObj.style.webkitTransform = "translateX(0px) translateY(" + elTrans + "px) translateZ(0px) rotate(0deg)";
 
-      rightObj.style.transform = 'translateX(0px) translateY(' + elTrans + 'px) translateZ(0px) rotate(0deg)';
-      rightObj.style.webkitTransform = 'translateX(0px) translateY(' + elTrans + 'px) translateZ(0px) rotate(0deg)';
+      rightObj.style.transform = "translateX(0px) translateY(" + elTrans + "px) translateZ(0px) rotate(0deg)";
+      rightObj.style.webkitTransform = "translateX(0px) translateY(" + elTrans + "px) translateZ(0px) rotate(0deg)";
 
-      topObj.style.transform = 'translateX(0px) translateY(' + elTrans + 'px) translateZ(0px) rotate(0deg)';
-      topObj.style.webkitTransform = 'translateX(0px) translateY(' + elTrans + 'px) translateZ(0px) rotate(0deg)';
+      topObj.style.transform = "translateX(0px) translateY(" + elTrans + "px) translateZ(0px) rotate(0deg)";
+      topObj.style.webkitTransform = "translateX(0px) translateY(" + elTrans + "px) translateZ(0px) rotate(0deg)";
 
     } else {
-      leftObj.className = '';
-      rightObj.className = '';
-      topObj.className = '';
+      leftObj.className = "";
+      rightObj.className = "";
+      topObj.className = "";
 
-      leftObj.classList.add('stackedcards-overlay-hidden');
-      rightObj.classList.add('stackedcards-overlay-hidden');
-      topObj.classList.add('stackedcards-overlay-hidden');
+      leftObj.classList.add("stackedcards-overlay-hidden");
+      rightObj.classList.add("stackedcards-overlay-hidden");
+      topObj.classList.add("stackedcards-overlay-hidden");
     }
 
     //  Remove class init
     setTimeout(function () {
-      obj.classList.remove('init');
+      obj.classList.remove("init");
     }, 150);
 
 
@@ -209,7 +212,7 @@ export class SwipeEventsComponent implements OnInit {
       if (!(currentPosition >= maxElements)) {
         //  roll back the opacity of second element
         if ((currentPosition + 1) < maxElements) {
-          listElNodesObj[currentPosition + 1].style.opacity = '.8';
+          listElNodesObj[currentPosition + 1].style.opacity = ".8";
         }
       }
     }
@@ -229,19 +232,19 @@ export class SwipeEventsComponent implements OnInit {
 
     // Change background for each swipe.
     function changeBackground() {
-      document.body.classList.add('background-' + currentPosition + '');
+      document.body.classList.add("background-" + currentPosition + "");
     }
 
     // Change states
     function changeStages() {
       if (currentPosition === maxElements) {
         // Event listener created to know when transition ends and changes states
-        listElNodesObj[maxElements - 1].addEventListener('transitionend', function () {
-          document.body.classList.add('background-7');
-          document.querySelector('.stage').classList.add('hidden');
-          document.querySelector('.final-state').classList.remove('hidden');
-          document.querySelector('.final-state').classList.add('active');
-          listElNodesObj[maxElements - 1].removeEventListener('transitionend', null, false);
+        listElNodesObj[maxElements - 1].addEventListener("transitionend", function () {
+          document.body.classList.add("background-7");
+          document.querySelector(".stage").classList.add("hidden");
+          document.querySelector(".final-state").classList.remove("hidden");
+          document.querySelector(".final-state").classList.add("active");
+          listElNodesObj[maxElements - 1].removeEventListener("transitionend", null, false);
         });
       }
     }
@@ -250,9 +253,9 @@ export class SwipeEventsComponent implements OnInit {
     function onActionLeft() {
       if (!(currentPosition >= maxElements)) {
         if (useOverlays) {
-          leftObj.classList.remove('no-transition');
-          topObj.classList.remove('no-transition');
-          leftObj.style.zIndex = '8';
+          leftObj.classList.remove("no-transition");
+          topObj.classList.remove("no-transition");
+          leftObj.style.zIndex = "8";
           transformUi(0, 0, 1, leftObj);
 
         }
@@ -268,9 +271,9 @@ export class SwipeEventsComponent implements OnInit {
     function onActionRight() {
       if (!(currentPosition >= maxElements)) {
         if (useOverlays) {
-          rightObj.classList.remove('no-transition');
-          topObj.classList.remove('no-transition');
-          rightObj.style.zIndex = '8';
+          rightObj.classList.remove("no-transition");
+          topObj.classList.remove("no-transition");
+          rightObj.style.zIndex = "8";
           transformUi(0, 0, 1, rightObj);
         }
 
@@ -285,10 +288,10 @@ export class SwipeEventsComponent implements OnInit {
     function onActionTop() {
       if (!(currentPosition >= maxElements)) {
         if (useOverlays) {
-          leftObj.classList.remove('no-transition');
-          rightObj.classList.remove('no-transition');
-          topObj.classList.remove('no-transition');
-          topObj.style.zIndex = '8';
+          leftObj.classList.remove("no-transition");
+          rightObj.classList.remove("no-transition");
+          topObj.classList.remove("no-transition");
+          topObj.style.zIndex = "8";
           transformUi(0, 0, 1, topObj);
         }
 
@@ -365,11 +368,11 @@ export class SwipeEventsComponent implements OnInit {
       that.eventCounter++;
       if (that.eventCounter === environment.reloadEvery) {
         that.dataService.fetchNewSwipeEvents();
-        const container = document.getElementById('stackedcards-container');
+        const container = document.getElementById("stackedcards-container");
         for (let i = 0; i < environment.reloadEvery; i++) {
           container.innerHTML = container.innerHTML.concat(
             // TODO deal with code duplicat
-            `<div _ngcontent-c1="" class="card-item stackedcards-top stackedcards--animatable 
+            `<div _ngcontent-c1="" class="card-item stackedcards-top stackedcards--animatable
             stackedcards-origin-top stackedcards-active">
             <h1 class="event-card-headline">
              ${that.swipeEvents[i + environment.reloadEvery / 2].headline}
@@ -401,12 +404,12 @@ export class SwipeEventsComponent implements OnInit {
       if (listElNodesObj[currentPosition]) {
 
         if (useOverlays) {
-          leftObj.classList.remove('no-transition');
-          rightObj.classList.remove('no-transition');
-          topObj.classList.remove('no-transition');
+          leftObj.classList.remove("no-transition");
+          rightObj.classList.remove("no-transition");
+          topObj.classList.remove("no-transition");
         }
 
-        listElNodesObj[currentPosition].classList.remove('no-transition');
+        listElNodesObj[currentPosition].classList.remove("no-transition");
         listElNodesObj[currentPosition].style.zIndex = 6;
       }
 
@@ -414,15 +417,16 @@ export class SwipeEventsComponent implements OnInit {
 
     // Move the overlay left to initial position.
     function resetOverlayLeft() {
+
       if (!(currentPosition >= maxElements)) {
         if (useOverlays) {
           setTimeout(function () {
 
-            if (stackedOptions === 'Top') {
+            if (stackedOptions === "Top") {
 
               elTrans = elementsMargin * (items - 1);
 
-            } else if (stackedOptions === 'Bottom' || stackedOptions === 'None') {
+            } else if (stackedOptions === "Bottom" || stackedOptions === "None") {
 
               elTrans = 0;
 
@@ -430,20 +434,20 @@ export class SwipeEventsComponent implements OnInit {
 
             if (!isFirstTime) {
 
-              leftObj.classList.add('no-transition');
-              topObj.classList.add('no-transition');
+              leftObj.classList.add("no-transition");
+              topObj.classList.add("no-transition");
 
             }
 
             requestAnimationFrame(function () {
 
-              leftObj.style.transform = 'translateX(0) translateY(' + elTrans + 'px) translateZ(0)';
-              leftObj.style.webkitTransform = 'translateX(0) translateY(' + elTrans + 'px) translateZ(0)';
-              leftObj.style.opacity = '0';
+              leftObj.style.transform = "translateX(0) translateY(" + elTrans + "px) translateZ(0)";
+              leftObj.style.webkitTransform = "translateX(0) translateY(" + elTrans + "px) translateZ(0)";
+              leftObj.style.opacity = "0";
 
-              topObj.style.transform = 'translateX(0) translateY(' + elTrans + 'px) translateZ(0)';
-              topObj.style.webkitTransform = 'translateX(0) translateY(' + elTrans + 'px) translateZ(0)';
-              topObj.style.opacity = '0';
+              topObj.style.transform = "translateX(0) translateY(" + elTrans + "px) translateZ(0)";
+              topObj.style.webkitTransform = "translateX(0) translateY(" + elTrans + "px) translateZ(0)";
+              topObj.style.opacity = "0";
 
             });
 
@@ -456,15 +460,16 @@ export class SwipeEventsComponent implements OnInit {
 
     // Move the overlay right to initial position.
     function resetOverlayRight() {
+
       if (!(currentPosition >= maxElements)) {
         if (useOverlays) {
           setTimeout(function () {
 
-            if (stackedOptions === 'Top') {
+            if (stackedOptions === "Top") {
 
               elTrans = elementsMargin * (items - 1);
 
-            } else if (stackedOptions === 'Bottom' || stackedOptions === 'None') {
+            } else if (stackedOptions === "Bottom" || stackedOptions === "None") {
 
               elTrans = 0;
 
@@ -472,20 +477,20 @@ export class SwipeEventsComponent implements OnInit {
 
             if (!isFirstTime) {
 
-              rightObj.classList.add('no-transition');
-              topObj.classList.add('no-transition');
+              rightObj.classList.add("no-transition");
+              topObj.classList.add("no-transition");
 
             }
 
             requestAnimationFrame(function () {
 
-              rightObj.style.transform = 'translateX(0) translateY(' + elTrans + 'px) translateZ(0)';
-              rightObj.style.webkitTransform = 'translateX(0) translateY(' + elTrans + 'px) translateZ(0)';
-              rightObj.style.opacity = '0';
+              rightObj.style.transform = "translateX(0) translateY(" + elTrans + "px) translateZ(0)";
+              rightObj.style.webkitTransform = "translateX(0) translateY(" + elTrans + "px) translateZ(0)";
+              rightObj.style.opacity = "0";
 
-              topObj.style.transform = 'translateX(0) translateY(' + elTrans + 'px) translateZ(0)';
-              topObj.style.webkitTransform = 'translateX(0) translateY(' + elTrans + 'px) translateZ(0)';
-              topObj.style.opacity = '0';
+              topObj.style.transform = "translateX(0) translateY(" + elTrans + "px) translateZ(0)";
+              topObj.style.webkitTransform = "translateX(0) translateY(" + elTrans + "px) translateZ(0)";
+              topObj.style.opacity = "0";
 
             });
 
@@ -498,15 +503,16 @@ export class SwipeEventsComponent implements OnInit {
 
     // Move the overlays to initial position.
     function resetOverlays() {
+
       if (!(currentPosition >= maxElements)) {
         if (useOverlays) {
 
           setTimeout(function () {
-            if (stackedOptions === 'Top') {
+            if (stackedOptions === "Top") {
 
               elTrans = elementsMargin * (items - 1);
 
-            } else if (stackedOptions === 'Bottom' || stackedOptions === 'None') {
+            } else if (stackedOptions === "Bottom" || stackedOptions === "None") {
 
               elTrans = 0;
 
@@ -514,25 +520,25 @@ export class SwipeEventsComponent implements OnInit {
 
             if (!isFirstTime) {
 
-              leftObj.classList.add('no-transition');
-              rightObj.classList.add('no-transition');
-              topObj.classList.add('no-transition');
+              leftObj.classList.add("no-transition");
+              rightObj.classList.add("no-transition");
+              topObj.classList.add("no-transition");
 
             }
 
             requestAnimationFrame(function () {
 
-              leftObj.style.transform = 'translateX(0) translateY(' + elTrans + 'px) translateZ(0)';
-              leftObj.style.webkitTransform = 'translateX(0) translateY(' + elTrans + 'px) translateZ(0)';
-              leftObj.style.opacity = '0';
+              leftObj.style.transform = "translateX(0) translateY(" + elTrans + "px) translateZ(0)";
+              leftObj.style.webkitTransform = "translateX(0) translateY(" + elTrans + "px) translateZ(0)";
+              leftObj.style.opacity = "0";
 
-              rightObj.style.transform = 'translateX(0) translateY(' + elTrans + 'px) translateZ(0)';
-              rightObj.style.webkitTransform = 'translateX(0) translateY(' + elTrans + 'px) translateZ(0)';
-              rightObj.style.opacity = '0';
+              rightObj.style.transform = "translateX(0) translateY(" + elTrans + "px) translateZ(0)";
+              rightObj.style.webkitTransform = "translateX(0) translateY(" + elTrans + "px) translateZ(0)";
+              rightObj.style.opacity = "0";
 
-              topObj.style.transform = 'translateX(0) translateY(' + elTrans + 'px) translateZ(0)';
-              topObj.style.webkitTransform = 'translateX(0) translateY(' + elTrans + 'px) translateZ(0)';
-              topObj.style.opacity = '0';
+              topObj.style.transform = "translateX(0) translateY(" + elTrans + "px) translateZ(0)";
+              topObj.style.webkitTransform = "translateX(0) translateY(" + elTrans + "px) translateZ(0)";
+              topObj.style.opacity = "0";
 
             });
 
@@ -569,7 +575,7 @@ export class SwipeEventsComponent implements OnInit {
     function removeElement() {
       currentElementObj.remove();
       if (!(currentPosition >= maxElements)) {
-        listElNodesObj[currentPosition].classList.add('stackedcards-active');
+        listElNodesObj[currentPosition].classList.add("stackedcards-active");
       }
     }
 
@@ -593,22 +599,22 @@ export class SwipeEventsComponent implements OnInit {
           rotateElement = RotateRegulator(moveX);
         }
 
-        if (stackedOptions === 'Top') {
+        if (stackedOptions === "Top") {
           elTrans = elementsMargin * (items - 1);
           if (element) {
-            element.style.webkitTransform = 'translateX(' + moveX + 'px) translateY('
-              + (moveY + elTrans) + 'px) translateZ(0) rotate(' + rotateElement + 'deg)';
-            element.style.transform = 'translateX(' + moveX + 'px) translateY('
-              + (moveY + elTrans) + 'px) translateZ(0) rotate(' + rotateElement + 'deg)';
+            element.style.webkitTransform = "translateX(" + moveX + "px) translateY("
+              + (moveY + elTrans) + "px) translateZ(0) rotate(" + rotateElement + "deg)";
+            element.style.transform = "translateX(" + moveX + "px) translateY("
+              + (moveY + elTrans) + "px) translateZ(0) rotate(" + rotateElement + "deg)";
             element.style.opacity = opacity;
           }
-        } else if (stackedOptions === 'Bottom' || stackedOptions === 'None') {
+        } else if (stackedOptions === "Bottom" || stackedOptions === "None") {
 
           if (element) {
-            element.style.webkitTransform = 'translateX(' + moveX + 'px) translateY(' + (moveY)
-              + 'px) translateZ(0) rotate(' + rotateElement + 'deg)';
-            element.style.transform = 'translateX(' + moveX + 'px) translateY('
-              + (moveY) + 'px) translateZ(0) rotate(' + rotateElement + 'deg)';
+            element.style.webkitTransform = "translateX(" + moveX + "px) translateY(" + (moveY)
+              + "px) translateZ(0) rotate(" + rotateElement + "deg)";
+            element.style.transform = "translateX(" + moveX + "px) translateY("
+              + (moveY) + "px) translateZ(0) rotate(" + rotateElement + "deg)";
             element.style.opacity = opacity;
           }
 
@@ -628,41 +634,41 @@ export class SwipeEventsComponent implements OnInit {
 
         for (let i = currentPosition; i < (currentPosition + items); i++) {
           if (listElNodesObj[i]) {
-            if (stackedOptions === 'Top') {
+            if (stackedOptions === "Top") {
 
-              listElNodesObj[i].classList.add('stackedcards-top', 'stackedcards--animatable', 'stackedcards-origin-top');
+              listElNodesObj[i].classList.add("stackedcards-top", "stackedcards--animatable", "stackedcards-origin-top");
 
               if (useOverlays) {
-                leftObj.classList.add('stackedcards-origin-top');
-                rightObj.classList.add('stackedcards-origin-top');
-                topObj.classList.add('stackedcards-origin-top');
+                leftObj.classList.add("stackedcards-origin-top");
+                rightObj.classList.add("stackedcards-origin-top");
+                topObj.classList.add("stackedcards-origin-top");
               }
 
               elTrans = elTransInc * elTransTop;
               elTransTop--;
 
-            } else if (stackedOptions === 'Bottom') {
-              listElNodesObj[i].classList.add('stackedcards-bottom', 'stackedcards--animatable', 'stackedcards-origin-bottom');
+            } else if (stackedOptions === "Bottom") {
+              listElNodesObj[i].classList.add("stackedcards-bottom", "stackedcards--animatable", "stackedcards-origin-bottom");
 
               if (useOverlays) {
-                leftObj.classList.add('stackedcards-origin-bottom');
-                rightObj.classList.add('stackedcards-origin-bottom');
-                topObj.classList.add('stackedcards-origin-bottom');
+                leftObj.classList.add("stackedcards-origin-bottom");
+                rightObj.classList.add("stackedcards-origin-bottom");
+                topObj.classList.add("stackedcards-origin-bottom");
               }
 
               elTrans = elTrans + elTransInc;
 
-            } else if (stackedOptions === 'None') {
+            } else if (stackedOptions === "None") {
 
-              listElNodesObj[i].classList.add('stackedcards-none', 'stackedcards--animatable');
+              listElNodesObj[i].classList.add("stackedcards-none", "stackedcards--animatable");
               elTrans = elTrans + elTransInc;
 
             }
 
-            listElNodesObj[i].style.transform = 'scale(' + elScale + ') translateX(0) translateY('
-              + (elTrans - elTransInc) + 'px) translateZ(0)';
-            listElNodesObj[i].style.webkitTransform = 'scale(' + elScale + ') translateX(0) translateY('
-              + (elTrans - elTransInc) + 'px) translateZ(0)';
+            listElNodesObj[i].style.transform = "scale(" + elScale + ") translateX(0) translateY("
+              + (elTrans - elTransInc) + "px) translateZ(0)";
+            listElNodesObj[i].style.webkitTransform = "scale(" + elScale + ") translateX(0) translateY("
+              + (elTrans - elTransInc) + "px) translateZ(0)";
             listElNodesObj[i].style.opacity = elOpac;
             listElNodesObj[i].style.zIndex = elZindex;
 
@@ -725,17 +731,17 @@ export class SwipeEventsComponent implements OnInit {
       touchingElement = true;
       if (!(currentPosition >= maxElements)) {
         if (listElNodesObj[currentPosition]) {
-          listElNodesObj[currentPosition].classList.add('no-transition');
+          listElNodesObj[currentPosition].classList.add("no-transition");
           setZindex(6);
 
           if (useOverlays) {
-            leftObj.classList.add('no-transition');
-            rightObj.classList.add('no-transition');
-            topObj.classList.add('no-transition');
+            leftObj.classList.add("no-transition");
+            rightObj.classList.add("no-transition");
+            topObj.classList.add("no-transition");
           }
 
           if ((currentPosition + 1) < maxElements) {
-            listElNodesObj[currentPosition + 1].style.opacity = '1';
+            listElNodesObj[currentPosition + 1].style.opacity = "1";
           }
 
           elementHeight = listElNodesObj[currentPosition].offsetHeight / 3;
@@ -827,23 +833,23 @@ export class SwipeEventsComponent implements OnInit {
       }
     }
 
-    element.addEventListener('touchstart', gestureStart, false);
-    element.addEventListener('touchmove', gestureMove, false);
-    element.addEventListener('touchend', gestureEnd, false);
-    element.addEventListener('click', route, false);
+    element.addEventListener("touchstart", gestureStart, false);
+    element.addEventListener("touchmove", gestureMove, false);
+    element.addEventListener("touchend", gestureEnd, false);
+    element.addEventListener("click", route, false);
 
     // Add listeners to call global action for swipe cards
-    const buttonLeft = document.querySelector('.left-action');
-    const buttonTop = document.querySelector('.top-action');
-    const buttonRight = document.querySelector('.right-action');
+    const buttonLeft = document.querySelector(".left-action");
+    const buttonTop = document.querySelector(".top-action");
+    const buttonRight = document.querySelector(".right-action");
 
-    buttonLeft.addEventListener('click', onActionLeft, false);
-    buttonTop.addEventListener('click', onActionTop, false);
-    buttonRight.addEventListener('click', onActionRight, false);
+    buttonLeft.addEventListener("click", onActionLeft, false);
+    buttonTop.addEventListener("click", onActionTop, false);
+    buttonRight.addEventListener("click", onActionRight, false);
 
     function route() {
       const currentId = that.swipeEvents[that.eventCounter].id;
-      that.router.navigate(['/swipeevents/' + currentId]);
+      that.router.navigate(["/swipeevents/" + currentId]);
     }
   }
 }

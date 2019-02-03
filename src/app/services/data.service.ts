@@ -1,13 +1,13 @@
-import {Injectable, OnInit} from '@angular/core';
-import {ApiService} from './api.service';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {Event} from '../shared/event-model'
-import {User} from '../shared/user-model'
-import {map} from 'rxjs/operators';
+import {Injectable, OnInit} from "@angular/core";
+import {ApiService} from "./api.service";
+import {BehaviorSubject, Observable} from "rxjs";
+import {Event} from "../shared/event-model";
+import {User} from "../shared/user-model";
+import {map} from "rxjs/operators";
 
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class DataService implements OnInit {
 
@@ -25,28 +25,25 @@ export class DataService implements OnInit {
 
 
   constructor(private apiService: ApiService) {
-    this.apiService.login().then(() => {
-        this.apiService.getHostedEvents('1213').subscribe(res => {
-          this._hostedEvents.next(res);
-          this._hostedEventsLoaded.next(true);
-        });
-        this.apiService.getLikedEvents('1213').subscribe(res => {
-          this._likedEvents.next(res);
-          this._likedEventsLoaded.next(true);
-        });
-        this.apiService.getFirstSwipeEvents('1213').subscribe(res => {
-          this._swipeEvents.next(res);
-          this._swipeEventsLoaded.next(true);
-        });
-        //TODO this should not be done here
-        this.apiService.getInterestedUsers(15).subscribe(res => {
-          this._interestedUsers.next(res);
-        });
-        this.apiService.getMyDetails().subscribe(res => {
-          this._me.next(res);
-        });
-      }
-    );
+    this.apiService.getHostedEvents("1213").subscribe(res => {
+      this._hostedEvents.next(res);
+      this._hostedEventsLoaded.next(true);
+    });
+    this.apiService.getLikedEvents("1213").subscribe(res => {
+      this._likedEvents.next(res);
+      this._likedEventsLoaded.next(true);
+    });
+    this.apiService.getFirstSwipeEvents("1213").subscribe(res => {
+      this._swipeEvents.next(res);
+      this._swipeEventsLoaded.next(true);
+    });
+    // TODO this should not be done here
+    this.apiService.getInterestedUsers(15).subscribe(res => {
+      this._interestedUsers.next(res);
+    });
+    this.apiService.getMyDetails().subscribe(res => {
+      this._me.next(res);
+    });
   }
 
   ngOnInit() {
@@ -119,7 +116,7 @@ export class DataService implements OnInit {
       let newEventsArray = this._hostedEvents.value;
       newEventsArray[editedEventIndex].pictures_events = res;
       this._hostedEvents.next(newEventsArray);
-    })
+    });
   }
 
   public deletePicture(pictureStorageName: string, eventId: number) {
@@ -133,7 +130,7 @@ export class DataService implements OnInit {
   }
 
   public makeFirstPicture(pictureOrdering, eventId: number) {
-    if(pictureOrdering.length === 0) return;
+    if (pictureOrdering.length === 0) return;
     let firstPictureStorageName = pictureOrdering.find(picture => picture.order === 1).pictureStorageName;
     let editedEventIndex = this._hostedEvents.value.findIndex(event => event.id === eventId);
     let newEventsArray = this._hostedEvents.value;
@@ -152,10 +149,10 @@ export class DataService implements OnInit {
       let newEventsArray = this._hostedEvents.value;
       newEventsArray[editedEventIndex] = res;
       this._hostedEvents.next(newEventsArray);
-    })
+    });
   }
 
   public fetchNewSwipeEvents() {
-    this.apiService.getSwipeEvents('1213').subscribe(res => this._swipeEvents.next(this._swipeEvents.value.slice(10, 15).concat(res)));
+    this.apiService.getSwipeEvents("1213").subscribe(res => this._swipeEvents.next(this._swipeEvents.value.slice(10, 15).concat(res)));
   }
 }

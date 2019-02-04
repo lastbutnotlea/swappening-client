@@ -21,7 +21,7 @@ export class DataService implements OnInit {
 
   // Users
   private _me: BehaviorSubject<User> = new BehaviorSubject<User>(null);
-  //private _interestedUsers: BehaviorSubject<User[]> = new BehaviorSubject([]);
+  // private _interestedUsers: BehaviorSubject<User[]> = new BehaviorSubject([]);
   private _interestedUsers: BehaviorSubject<Map<number, User[]>> = new BehaviorSubject<Map<number, User[]>>(new Map);
   private _currentUser: BehaviorSubject<User> = new BehaviorSubject<User>(null);
 
@@ -85,8 +85,13 @@ export class DataService implements OnInit {
     return new Observable<boolean>(fn => this._swipeEventsLoaded.subscribe(fn));
   }
 
-  get interestedUsers(): Observable<User[]> {
-    return new Observable<User[]>(fn => this._interestedUsers.subscribe(fn));
+  /*get interestedUsers(): Observable<User[]> {
+    return new Observable<User[]>(fn =>
+       this._interestedUsers.subscribe(fn));
+  }*/
+  get interestedUsers(): Observable<Map<number, User[]>> {
+    return new Observable<Map<number, User[]>>(fn =>
+      this._interestedUsers.subscribe(fn));
   }
 
   get me(): Observable<User> {
@@ -96,19 +101,28 @@ export class DataService implements OnInit {
   event(id: number): Observable<Event> {
     let findEvent = new Observable<Event[]>(fn =>
       this._hostedEvents.subscribe(fn)).pipe(map((hostedEvents: Event[]) => hostedEvents.find(event => event.id === id)));
-    if (findEvent) return findEvent;
+    if (findEvent) {
+      return findEvent;
+    }
     findEvent = new Observable<Event[]>(fn =>
       this._likedEvents.subscribe(fn)).pipe(map((likedEvents: Event[]) => likedEvents.find(event => event.id === id)));
-    if (findEvent) return findEvent;
+    if (findEvent) {
+      return findEvent;
+    }
     findEvent = new Observable<Event[]>(fn =>
       this._swipeEvents.subscribe(fn)).pipe(map((swipeEvents: Event[]) => swipeEvents.find(event => event.id === id)));
     return findEvent;
   }
 
-  user(id: number): Observable<User> {
-    const findUser = new Observable<User[]>(fn =>
+  // We might want to use this at some point
+  /*user(id: number): Observable<User> {
+    let findUser = new Observable<User[]>(fn =>
       this._interestedUsers.subscribe(fn)).pipe(map((interestedUsers: User[]) => interestedUsers.find(user => user.id === id)));
     return findUser;
+  }*/
+  public user(userId: number): Observable<User> {
+    this.apiService.getUserDetails(userId).subscribe(res => {this._currentUser.next(res); });
+    return new Observable<User>(fn => this._currentUser.subscribe(fn));
   }
 
   async createNewHostedEvent(newEvent: Event): Promise<number> {
@@ -142,12 +156,17 @@ export class DataService implements OnInit {
   }
 
   public makeFirstPicture(pictureOrdering, eventId: number) {
-    if (pictureOrdering.length === 0) return;
+    if (pictureOrdering.length === 0) {
+      return;
+    }
     const firstPictureStorageName = pictureOrdering.find(picture => picture.order === 1).pictureStorageName;
     const editedEventIndex = this._hostedEvents.value.findIndex(event => event.id === eventId);
     const newEventsArray = this._hostedEvents.value;
-    const newFirstPictureIndex = newEventsArray[editedEventIndex].pictures_events.findIndex(picture => picture.pictureStorageName === firstPictureStorageName);
-    newEventsArray[editedEventIndex].pictures_events.splice(0, 0, newEventsArray[editedEventIndex].pictures_events.splice(newFirstPictureIndex, 1)[0]);
+    const newFirstPictureIndex = newEventsArray[editedEventIndex].pictures_events
+      .findIndex(picture => picture.pictureStorageName === firstPictureStorageName);
+    newEventsArray[editedEventIndex].pictures_events
+      .splice(0, 0, newEventsArray[editedEventIndex].pictures_events
+        .splice(newFirstPictureIndex, 1)[0]);
     this._hostedEvents.next(newEventsArray);
     this.apiService.makeFirstPicture(pictureOrdering, eventId).subscribe(res => {
       newEventsArray[editedEventIndex].pictures_events = res;

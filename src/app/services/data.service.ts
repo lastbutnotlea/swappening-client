@@ -27,34 +27,39 @@ export class DataService implements OnInit {
 
 
   constructor(private apiService: ApiService) {
-    this.apiService.getHostedEvents("1213").subscribe(res => {
-      this._hostedEvents.next(res);
-      this._hostedEventsLoaded.next(true);
-      const myMap = new Map();
-      const hostedEvents: Event[] = this._hostedEvents.value;
-      hostedEvents.forEach(hostedEvent => {
-        this.apiService.getInterestedUsers(hostedEvent.id).subscribe(userRes => {
-          myMap.set(hostedEvent.id, userRes);
-          this._interestedUsers.next(myMap);
+    // TODO don't forget to delete this
+    this.apiService.login('test123@beispiel.de', 'password123').then(() =>
+    {
+
+      this.apiService.getHostedEvents("1213").subscribe(res => {
+        this._hostedEvents.next(res);
+        this._hostedEventsLoaded.next(true);
+        const myMap = new Map();
+        const hostedEvents: Event[] = this._hostedEvents.value;
+        hostedEvents.forEach(hostedEvent => {
+          this.apiService.getInterestedUsers(hostedEvent.id).subscribe(userRes => {
+            myMap.set(hostedEvent.id, userRes);
+            this._interestedUsers.next(myMap);
+          });
         });
+        /*          for (let hostedEvent in hostedEvents) {
+                this.apiService.getInterestedUsers(hostedEvent.id).subscribe(userRes => {
+                  myMap.set(hostedEvent.id, userRes);
+                  this._interestedUsers.next(myMap);
+                });
+              }*/
       });
-/*          for (let hostedEvent in hostedEvents) {
-        this.apiService.getInterestedUsers(hostedEvent.id).subscribe(userRes => {
-          myMap.set(hostedEvent.id, userRes);
-          this._interestedUsers.next(myMap);
-        });
-      }*/
-    });
-    this.apiService.getLikedEvents("1213").subscribe(res => {
-      this._likedEvents.next(res);
-      this._likedEventsLoaded.next(true);
-    });
-    this.apiService.getFirstSwipeEvents("1213").subscribe(res => {
-      this._swipeEvents.next(res);
-      this._swipeEventsLoaded.next(true);
-    });
-    this.apiService.getMyDetails().subscribe(res => {
-      this._me.next(res);
+      this.apiService.getLikedEvents("1213").subscribe(res => {
+        this._likedEvents.next(res);
+        this._likedEventsLoaded.next(true);
+      });
+      this.apiService.getFirstSwipeEvents("1213").subscribe(res => {
+        this._swipeEvents.next(res);
+        this._swipeEventsLoaded.next(true);
+      });
+      this.apiService.getMyDetails().subscribe(res => {
+        this._me.next(res);
+      });
     });
   }
 
@@ -142,7 +147,7 @@ export class DataService implements OnInit {
     const deletedEventIndex = this._hostedEvents.value.findIndex(event => event.id === eventId);
     const newEventsArray = this._hostedEvents.value;
     newEventsArray.splice(deletedEventIndex, 1);
-    this._hostedEvents.next(newEventsArray);
+    this._hostedEvents.next(newEventsArray);a
   }
 
   public uploadPicture(selectedFile: File, eventId: number) {

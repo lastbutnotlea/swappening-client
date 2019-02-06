@@ -12,9 +12,9 @@
         class="detail-image">
       <div class="overlay" (click)="cycleThroughPictures()"></div>
       <mat-slide-toggle (change)="makeFirst(clickCounter%(eventModel.pictures_events.length))"
-        class="toggle-first"
-        [checked]="checked"
-        >Cover
+                        class="toggle-first"
+                        [checked]="checked"
+      >Cover
       </mat-slide-toggle>
       <button class="delete-picture" [disabled]="numberOfPictures === 1" mat-mini-fab (click)="deletePicture()">
         <img src="./assets/icons-black/substract.png">

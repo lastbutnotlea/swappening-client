@@ -128,7 +128,11 @@ export class EditEventDetailsComponent implements OnInit {
   deleteEvent() {
     if (this.isEdit) {
       const dialogReference = this.confirmationDialog.open(ConfirmationDialogComponent, {
-        width: '50vw'
+        width: '50vw',
+        data: {
+          title: 'Are you sure you want to delete this event?'
+        },
+        autoFocus: false
       });
 
       dialogReference.afterClosed().subscribe(result => {

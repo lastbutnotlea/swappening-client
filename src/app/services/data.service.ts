@@ -147,7 +147,7 @@ export class DataService implements OnInit {
     const deletedEventIndex = this._hostedEvents.value.findIndex(event => event.id === eventId);
     const newEventsArray = this._hostedEvents.value;
     newEventsArray.splice(deletedEventIndex, 1);
-    this._hostedEvents.next(newEventsArray);a
+    this._hostedEvents.next(newEventsArray);
   }
 
   public uploadPicture(selectedFile: File, eventId: number) {

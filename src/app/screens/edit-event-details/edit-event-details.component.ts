@@ -4,6 +4,8 @@ import {Event} from '../../shared/event-model';
 import {DataService} from '../../services/data.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from "../../../environments/environment";
+import {MatDialog} from "@angular/material";
+import {ConfirmationDialogComponent} from "../../components/confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'app-edit-event-details',
@@ -26,7 +28,8 @@ export class EditEventDetailsComponent implements OnInit {
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private confirmationDialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -123,7 +126,18 @@ export class EditEventDetailsComponent implements OnInit {
   }
 
   deleteEvent() {
-    console.log('DELETE!');
+    if (this.isEdit) {
+      const dialogReference = this.confirmationDialog.open(ConfirmationDialogComponent, {
+        width: '50vw'
+      });
+
+      dialogReference.afterClosed().subscribe(result => {
+        if (result === true) {
+          this.dataService.deleteHostedEvent(this.eventId);
+          this.router.navigate(["/hostedevents"]);
+        }
+      });
+    }
   }
 
   cycleThroughPictures() {

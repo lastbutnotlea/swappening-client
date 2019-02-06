@@ -1,0 +1,7 @@
+<div mat-dialog-content>
+  <p>Are you sure about this?</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="false">Noooo</button>
+  <button mat-button mat-dialog-close [mat-dialog-close]="true" cdkFocusInitial>Yesss</button>
+</div>

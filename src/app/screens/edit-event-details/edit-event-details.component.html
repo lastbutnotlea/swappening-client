@@ -50,6 +50,6 @@
 </div>
 
 <button mat-fab class="on-top-button-right" (click)="saveEvent()">Save</button>
-<button mat-fab class="on-top-button-left" (click)="deleteEvent()">
+<button *ngIf="isEdit" mat-fab class="on-top-button-left" (click)="deleteEvent()">
   <img class="delete-icon" src="./assets/icons-black/garbage-2.png">
 </button>

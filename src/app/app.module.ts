@@ -4,7 +4,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {AppComponent} from "./app.component";
 import {SwipeEventsComponent} from "./screens/swipe-events/swipe-events.component";
 import {BottomMenuComponent} from "./components/bottom-menu/bottom-menu.component";
-import {MatButtonModule, MatCardModule, MatIconModule, MatSlideToggleModule} from "@angular/material";
+import {MatButtonModule, MatCardModule, MatDialogModule, MatIconModule, MatSlideToggleModule} from "@angular/material";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatInputModule} from "@angular/material/input";
 import {HttpClientModule} from "@angular/common/http";
@@ -23,6 +23,7 @@ import {UserProfileComponent} from "./screens/user-profile/user-profile.componen
 import {OWL_DATE_TIME_FORMATS, OwlDateTimeModule, OwlNativeDateTimeModule} from "ng-pick-datetime";
 import {OwlMomentDateTimeModule} from "ng-pick-datetime-moment";
 import {LoginComponent} from "./screens/login/login.component";
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
 export const MY_MOMENT_FORMATS = {
   parseInput: "DD.MM.YY HH:mm",
@@ -97,7 +98,8 @@ const appRoutes: Routes = [
     LikedEventsComponent,
     LikedEventDetailsComponent,
     UserProfileComponent,
-    LoginComponent
+    LoginComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -108,6 +110,7 @@ const appRoutes: Routes = [
     MatInputModule,
     MatIconModule,
     MatSlideToggleModule,
+    MatDialogModule,
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
@@ -117,6 +120,9 @@ const appRoutes: Routes = [
   ],
   providers: [
     {provide: OWL_DATE_TIME_FORMATS, useValue: MY_MOMENT_FORMATS},
+  ],
+  entryComponents: [
+    ConfirmationDialogComponent,
   ],
   bootstrap: [AppComponent]
 })

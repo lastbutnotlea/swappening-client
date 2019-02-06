@@ -97,7 +97,7 @@ export class EditEventDetailsComponent implements OnInit {
     }
   }
 
-  onUpload() {
+  saveEvent() {
     this.clickCounter = 0;
     if (this.isEdit) {
       this.dataService.updateHostedEvent(this.eventModel);
@@ -120,6 +120,10 @@ export class EditEventDetailsComponent implements OnInit {
       });
     }
     this.goBack();
+  }
+
+  deleteEvent() {
+    console.log('DELETE!');
   }
 
   cycleThroughPictures() {

@@ -80,6 +80,13 @@ export class ApiService {
     })
   }
 
+  public deleteHostedEvent(eventId: number): Observable<any> {
+    const requestUrl = environment.apiUrl + '/event/' + eventId;
+    return this.http.delete(requestUrl, {
+      headers: {Authorization: 'Bearer ' + this.userToken}
+    });
+  }
+
   public uploadPicture(selectedFile: File, eventId: number): Observable<any[]> {
     const uploadData = new FormData();
     uploadData.append('data', selectedFile, selectedFile.name);

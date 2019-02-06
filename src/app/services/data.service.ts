@@ -136,6 +136,15 @@ export class DataService implements OnInit {
     });
   }
 
+  public deleteHostedEvent(eventId: number) {
+    this.apiService.deleteHostedEvent(eventId).subscribe();
+    // TODO: refactor?
+    const deletedEventIndex = this._hostedEvents.value.findIndex(event => event.id === eventId);
+    const newEventsArray = this._hostedEvents.value;
+    newEventsArray.splice(deletedEventIndex, 1);
+    this._hostedEvents.next(newEventsArray);
+  }
+
   public uploadPicture(selectedFile: File, eventId: number) {
     this.apiService.uploadPicture(selectedFile, eventId).subscribe(res => {
       const editedEventIndex = this._hostedEvents.value.findIndex(event => event.id === eventId);
@@ -146,7 +155,7 @@ export class DataService implements OnInit {
   }
 
   public deletePicture(pictureStorageName: string, eventId: number) {
-    this.apiService.deletePicture(pictureStorageName).subscribe(res => console.log(res));
+    this.apiService.deletePicture(pictureStorageName).subscribe();
     const editedEventIndex = this._hostedEvents.value.findIndex(event => event.id === eventId);
     const newEventsArray = this._hostedEvents.value;
     newEventsArray[editedEventIndex].pictures_events = newEventsArray[editedEventIndex].pictures_events.filter(

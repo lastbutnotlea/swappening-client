@@ -15,6 +15,7 @@ import {ConfirmationDialogComponent} from "../../components/confirmation-dialog/
 export class EditEventDetailsComponent implements OnInit {
 
   private selectedFile: File = null;
+  private previewImage: any;
   private event$: Observable<Event>;
   private eventModel: Event;
   private eventId;
@@ -66,19 +67,22 @@ export class EditEventDetailsComponent implements OnInit {
   onFileChanged(event) {
     console.log(event);
     this.selectedFile = event.target.files[0];
-    if (this.selectedFile !== null) {
-      this.dataService.uploadPicture(this.selectedFile, this.eventId);
-      this.selectedFile = null;
-      this.clickCounter = this.eventModel.pictures_events.length;
-      this.checked = false;
-    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.previewImage = reader.result;
+    };
+    reader.readAsDataURL(this.selectedFile);
   }
 
   deletePicture() {
-    const pictureStorageName = this.eventModel.pictures_events[this.clickCounter % this.numberOfPictures].pictureStorageName;
-    this.dataService.deletePicture(pictureStorageName, this.eventId);
-    this.clickCounter--;
-    this.checked = (this.clickCounter % this.numberOfPictures) == this.soonToBeFirst;
+    if (this.isEdit) {
+      const pictureStorageName = this.eventModel.pictures_events[this.clickCounter % this.numberOfPictures].pictureStorageName;
+      this.dataService.deletePicture(pictureStorageName, this.eventId);
+      this.clickCounter--;
+      this.checked = (this.clickCounter % this.numberOfPictures) == this.soonToBeFirst;
+    } else {
+      this.selectedFile = null;
+    }
   }
 
   makeFirst(index: number) {
@@ -110,19 +114,19 @@ export class EditEventDetailsComponent implements OnInit {
         this.dataService.uploadPicture(this.selectedFile, this.eventId);
         this.selectedFile = null;
       }
+      this.goBack();
     } else {
-      this.isEdit = true;
       this.dataService.createNewHostedEvent(this.eventModel).then(res => {
         this.eventId = res;
         this.event$ = this.dataService.event(this.eventId);
         this.event$.subscribe(newEvent => this.eventModel = newEvent);
         if (this.selectedFile !== null) {
           this.dataService.uploadPicture(this.selectedFile, this.eventId);
+          this.selectedFile = null;
         }
-        this.selectedFile = null;
+        this.router.navigate([`/hostedevents/${this.eventId}`]);
       });
     }
-    this.goBack();
   }
 
   deleteEvent() {
@@ -137,16 +141,18 @@ export class EditEventDetailsComponent implements OnInit {
 
       dialogReference.afterClosed().subscribe(result => {
         if (result === true) {
-          this.dataService.deleteHostedEvent(this.eventId);
           this.router.navigate(["/hostedevents"]);
+          this.dataService.deleteHostedEvent(this.eventId);
         }
       });
     }
   }
 
   cycleThroughPictures() {
-    this.clickCounter++;
-    this.checked = (this.clickCounter % this.numberOfPictures) == this.soonToBeFirst;
+    if (this.isEdit) {
+      this.clickCounter++;
+      this.checked = (this.clickCounter % this.numberOfPictures) == this.soonToBeFirst;
+    }
   }
 
   goBack() {

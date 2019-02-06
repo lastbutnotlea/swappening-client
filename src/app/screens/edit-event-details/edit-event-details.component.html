@@ -7,7 +7,9 @@
     <input class="edit-headline" matInput [(ngModel)]="eventModel.headline">
 
     <div class="image-container">
+      <img *ngIf="!isEdit && previewImage" [src]="previewImage" class="detail-image">
       <img
+        *ngIf="isEdit && (event$ | async).pictures_events[clickCounter%(event$ | async).pictures_events.length]"
         src="{{this.apiUrl}}/files/{{(event$ | async).pictures_events[clickCounter%(event$ | async).pictures_events.length].pictureStorageName}}"
         class="detail-image">
       <div class="overlay" (click)="cycleThroughPictures()"></div>

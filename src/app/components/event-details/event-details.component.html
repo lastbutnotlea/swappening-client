@@ -9,6 +9,7 @@
     <mat-card-subtitle class="scrollable-content">
       <div class="image-container">
         <img
+          *ngIf="(event$ | async).pictures_events[clickCounter%(event$ | async).pictures_events.length]"
           src="{{this.apiUrl}}/files/{{(event$ | async).pictures_events[clickCounter%(event$ | async).pictures_events.length].pictureStorageName}}"
           (click)="cycleThroughPictures()" class="detail-image">
       </div>

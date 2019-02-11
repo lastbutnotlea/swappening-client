@@ -67,11 +67,20 @@ export class EditEventDetailsComponent implements OnInit {
   onFileChanged(event) {
     console.log(event);
     this.selectedFile = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.previewImage = reader.result;
-    };
-    reader.readAsDataURL(this.selectedFile);
+    if (!this.isEdit) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.previewImage = reader.result;
+      };
+      reader.readAsDataURL(this.selectedFile);
+    } else {
+      if (this.selectedFile !== null) {
+        this.dataService.uploadPicture(this.selectedFile, this.eventId);
+        this.selectedFile = null;
+        this.clickCounter = this.eventModel.pictures_events.length;
+        this.checked = false;
+      }
+    }
   }
 
   deletePicture() {
@@ -114,7 +123,7 @@ export class EditEventDetailsComponent implements OnInit {
         this.dataService.uploadPicture(this.selectedFile, this.eventId);
         this.selectedFile = null;
       }
-      this.goBack();
+      this.router.navigate([`/hostedevents/${this.eventId}`]);
     } else {
       this.dataService.createNewHostedEvent(this.eventModel).then(res => {
         this.eventId = res;
@@ -152,14 +161,6 @@ export class EditEventDetailsComponent implements OnInit {
     if (this.isEdit) {
       this.clickCounter++;
       this.checked = (this.clickCounter % this.numberOfPictures) == this.soonToBeFirst;
-    }
-  }
-
-  goBack() {
-    if (this.eventId) {
-      this.router.navigate([`/hostedevents/${this.eventId}`]);
-    } else {
-      this.router.navigate(['/hostedevents']);
     }
   }
 }

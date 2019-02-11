@@ -47,7 +47,7 @@ export class ApiService {
     if (environment.useMockData) {
       return of(FAKE_USER);
     } else {
-      const requestUrl = environment.apiUrl + '/usr/' + userId;
+      const requestUrl = environment.apiUrl + '/user/' + userId;
       return this.http.get<User>(requestUrl, {
         headers: {Authorization: 'Bearer ' + this.userToken}
       });

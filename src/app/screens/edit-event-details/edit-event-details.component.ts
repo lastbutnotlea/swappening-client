@@ -14,8 +14,8 @@ import {ConfirmationDialogComponent} from "../../components/confirmation-dialog/
 })
 export class EditEventDetailsComponent implements OnInit {
 
-  private selectedFile: File = null;
-  private previewImage: any;
+  private selectedFile: File[] = [];
+  private previewImage: any[] = [];
   private event$: Observable<Event>;
   private eventModel: Event;
   private eventId: number;
@@ -66,17 +66,19 @@ export class EditEventDetailsComponent implements OnInit {
 
   onFileChanged(event) {
     console.log(event);
-    this.selectedFile = event.target.files[0];
+    this.selectedFile.push(event.target.files[0]);
     if (!this.isEdit) {
       const reader = new FileReader();
       reader.onload = () => {
-        this.previewImage = reader.result;
+        this.previewImage.push(reader.result);
+        this.clickCounter = this.numberOfPictures - 1;
       };
-      reader.readAsDataURL(this.selectedFile);
+      this.numberOfPictures = this.selectedFile.length;
+      reader.readAsDataURL(this.selectedFile[this.numberOfPictures - 1]);
     } else {
-      if (this.selectedFile !== null) {
-        this.dataService.uploadPicture(this.selectedFile, this.eventId);
-        this.selectedFile = null;
+      if (this.selectedFile.length > 0) {
+        this.dataService.uploadPicture(this.selectedFile[0], this.eventId);
+        this.selectedFile = [];
         this.clickCounter = this.eventModel.pictures_events.length;
         this.checked = false;
       }
@@ -90,7 +92,8 @@ export class EditEventDetailsComponent implements OnInit {
       this.clickCounter--;
       this.checked = (this.clickCounter % this.numberOfPictures) == this.soonToBeFirst;
     } else {
-      this.selectedFile = null;
+      // TODO
+      this.selectedFile = [];
     }
   }
 
@@ -119,9 +122,9 @@ export class EditEventDetailsComponent implements OnInit {
       this.dataService.updateHostedEvent(this.eventModel);
       this.dataService.makeFirstPicture(this.orderArray, this.eventId);
       this.clickCounter = 0;
-      if (this.selectedFile !== null) {
-        this.dataService.uploadPicture(this.selectedFile, this.eventId);
-        this.selectedFile = null;
+      if (this.selectedFile.length > 0) {
+        this.dataService.uploadPicture(this.selectedFile[0], this.eventId);
+        this.selectedFile = [];
       }
       this.router.navigate([`/hostedevents/${this.eventId}`]);
     } else {
@@ -129,9 +132,9 @@ export class EditEventDetailsComponent implements OnInit {
         this.eventId = res;
         this.event$ = this.dataService.event(this.eventId);
         this.event$.subscribe(newEvent => this.eventModel = newEvent);
-        if (this.selectedFile !== null) {
-          this.dataService.uploadPicture(this.selectedFile, this.eventId);
-          this.selectedFile = null;
+        if (this.selectedFile.length > 0) {
+          this.selectedFile.forEach(file => this.dataService.uploadPicture(file, this.eventId));
+          this.selectedFile = [];
         }
         this.router.navigate([`/hostedevents/${this.eventId}`]);
       });
@@ -158,9 +161,7 @@ export class EditEventDetailsComponent implements OnInit {
   }
 
   cycleThroughPictures() {
-    if (this.isEdit) {
-      this.clickCounter++;
-      this.checked = (this.clickCounter % this.numberOfPictures) == this.soonToBeFirst;
-    }
+    this.clickCounter++;
+    this.checked = (this.clickCounter % this.numberOfPictures) == this.soonToBeFirst;
   }
 }

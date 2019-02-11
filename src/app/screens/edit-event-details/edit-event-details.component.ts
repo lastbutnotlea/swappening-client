@@ -18,7 +18,7 @@ export class EditEventDetailsComponent implements OnInit {
   private previewImage: any;
   private event$: Observable<Event>;
   private eventModel: Event;
-  private eventId;
+  private eventId: number;
   private apiUrl: string;
   private isEdit: boolean;
   private numberOfPictures = 0;

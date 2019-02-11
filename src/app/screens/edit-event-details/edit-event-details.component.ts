@@ -26,7 +26,6 @@ export class EditEventDetailsComponent implements OnInit {
   private clickCounter = 0;
   private checked = true;
   private soonToBeFirst = 0;
-  private orderArray = [];
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
@@ -74,6 +73,7 @@ export class EditEventDetailsComponent implements OnInit {
       reader.onload = () => {
         this.previewImage.push(reader.result);
         this.clickCounter = this.numberOfPictures - 1;
+        if (this.numberOfPictures > 1) this.checked = false;
       };
       this.numberOfPictures = this.selectedFile.length;
       reader.readAsDataURL(this.selectedFile[this.numberOfPictures - 1]);
@@ -102,59 +102,54 @@ export class EditEventDetailsComponent implements OnInit {
 
   makeFirst(index: number) {
     if (!this.checked) {
-      let order = 1;
-      for (let i = 0; i < this.eventModel.pictures_events.length; i++) {
-        if (i == index) order = 1;
-        else order = 2;
-        this.orderArray.push({
-            pictureStorageName: this.eventModel.pictures_events[i].pictureStorageName,
-            order: order
-          }
-        );
-      }
       this.soonToBeFirst = this.clickCounter % this.numberOfPictures;
       this.checked = true;
     }
   }
 
+  orderArray() {
+    let order = 1;
+    let orderArray = [];
+    for (let i = 0; i < this.eventModel.pictures_events.length; i++) {
+      if (i == this.soonToBeFirst) order = 1;
+      else order = 2;
+      orderArray.push({
+          pictureStorageName: this.eventModel.pictures_events[i].pictureStorageName,
+          order: order
+        }
+      );
+    }
+    return orderArray;
+  }
+
   saveEvent() {
-    this.clickCounter = 0;
     if (this.isEdit) {
       this.dataService.updateHostedEvent(this.eventModel);
-      this.dataService.makeFirstPicture(this.orderArray, this.eventId);
-      this.clickCounter = 0;
-      if (this.selectedFile.length > 0) {
-        this.dataService.uploadPicture(this.selectedFile[0], this.eventId);
-        this.selectedFile = [];
-      }
+      this.dataService.makeFirstPicture(this.orderArray(), this.eventId);
       this.router.navigate([`/hostedevents/${this.eventId}`]);
     } else {
       // TODO check for empty location and empty start time as well!
       if (this.selectedFile.length === 0) {
         const dialogReference = this.informationDialog.open(InformationDialogComponent, {
           width: '50vw',
-          data: {
-            title: 'Please upload a picture'
-          },
+          data: { title: 'Please upload a picture' },
           autoFocus: false
         });
       } else if (this.eventModel.headline === '') {
         const dialogReference = this.informationDialog.open(InformationDialogComponent, {
           width: '50vw',
-          data: {
-            title: 'Please insert a headline'
-          },
+          data: { title: 'Please insert a headline' },
           autoFocus: false
         });
       } else {
         this.dataService.createNewHostedEvent(this.eventModel).then(res => {
           this.eventId = res;
           this.event$ = this.dataService.event(this.eventId);
-          this.event$.subscribe(newEvent => this.eventModel = newEvent);
           if (this.selectedFile.length > 0) {
-            this.selectedFile.forEach(file => this.dataService.uploadPicture(file, this.eventId));
+            this.selectedFile.forEach(file => setTimeout(() => this.dataService.uploadPicture(file, this.eventId), 100));
             this.selectedFile = [];
           }
+          this.dataService.makeFirstPicture(this.orderArray(), this.eventId);
           this.router.navigate([`/hostedevents/${this.eventId}`]);
         });
       }

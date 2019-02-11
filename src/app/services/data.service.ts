@@ -21,6 +21,7 @@ export class DataService implements OnInit {
 
   // Users
   private _me: BehaviorSubject<User> = new BehaviorSubject<User>(null);
+  private _myId: string;
   // private _interestedUsers: BehaviorSubject<User[]> = new BehaviorSubject([]);
   private _interestedUsers: BehaviorSubject<Map<number, User[]>> = new BehaviorSubject<Map<number, User[]>>(new Map);
   private _currentUser: BehaviorSubject<User> = new BehaviorSubject<User>(null);
@@ -28,38 +29,39 @@ export class DataService implements OnInit {
 
   constructor(private apiService: ApiService) {
     // TODO don't forget to delete this
-    this.apiService.login('test123@beispiel.de', 'password123').then(() =>
+    this.apiService.login('test1234@beispiel.de', 'password123').then(() =>
     {
-
-      this.apiService.getHostedEvents("1213").subscribe(res => {
-        this._hostedEvents.next(res);
-        this._hostedEventsLoaded.next(true);
-        const myMap = new Map();
-        const hostedEvents: Event[] = this._hostedEvents.value;
-        hostedEvents.forEach(hostedEvent => {
-          this.apiService.getInterestedUsers(hostedEvent.id).subscribe(userRes => {
-            myMap.set(hostedEvent.id, userRes);
-            this._interestedUsers.next(myMap);
-          });
-        });
-        /*          for (let hostedEvent in hostedEvents) {
-                this.apiService.getInterestedUsers(hostedEvent.id).subscribe(userRes => {
-                  myMap.set(hostedEvent.id, userRes);
-                  this._interestedUsers.next(myMap);
-                });
-              }*/
-      });
-      this.apiService.getLikedEvents("1213").subscribe(res => {
-        this._likedEvents.next(res);
-        this._likedEventsLoaded.next(true);
-      });
-      this.apiService.getFirstSwipeEvents("1213").subscribe(res => {
-        this._swipeEvents.next(res);
-        this._swipeEventsLoaded.next(true);
-      });
       this.apiService.getMyDetails().subscribe(res => {
         this._me.next(res);
+        this._myId = this._me.value.id.toString();
+        this.apiService.getHostedEvents(this._myId).subscribe(res => {
+          this._hostedEvents.next(res);
+          this._hostedEventsLoaded.next(true);
+          const myMap = new Map();
+          const hostedEvents: Event[] = this._hostedEvents.value;
+          hostedEvents.forEach(hostedEvent => {
+            this.apiService.getInterestedUsers(hostedEvent.id).subscribe(userRes => {
+              myMap.set(hostedEvent.id, userRes);
+              this._interestedUsers.next(myMap);
+            });
+          });
+          /*          for (let hostedEvent in hostedEvents) {
+                  this.apiService.getInterestedUsers(hostedEvent.id).subscribe(userRes => {
+                    myMap.set(hostedEvent.id, userRes);
+                    this._interestedUsers.next(myMap);
+                  });
+                }*/
+        });
+        this.apiService.getLikedEvents(this._myId).subscribe(res => {
+          this._likedEvents.next(res);
+          this._likedEventsLoaded.next(true);
+        });
+        this.apiService.getFirstSwipeEvents(this._myId).subscribe(res => {
+          this._swipeEvents.next(res);
+          this._swipeEventsLoaded.next(true);
+        });
       });
+      
     });
   }
 
@@ -204,6 +206,6 @@ export class DataService implements OnInit {
   }
 
   public fetchNewSwipeEvents() {
-    this.apiService.getSwipeEvents("1213").subscribe(res => this._swipeEvents.next(this._swipeEvents.value.slice(10, 15).concat(res)));
+    this.apiService.getSwipeEvents(this._myId).subscribe(res => this._swipeEvents.next(this._swipeEvents.value.slice(10, 15).concat(res)));
   }
 }

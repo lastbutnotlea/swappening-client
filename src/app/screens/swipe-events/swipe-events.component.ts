@@ -45,6 +45,10 @@ export class SwipeEventsComponent implements OnInit {
     const initialNumberOfEvents = environment.reloadEvery * 1.5;
     const container = document.getElementById("stackedcards-container");
     for (let i = 0; i < initialNumberOfEvents; i++) {
+      if (this.swipeEvents[i].pictures_events.length === 0){
+        this.eventCounter++;
+        continue
+      }
       container.innerHTML = container.innerHTML.concat(
         `<div _ngcontent-c1="" class="card-item stackedcards-top stackedcards--animatable
             stackedcards-origin-top stackedcards-active">
@@ -364,12 +368,17 @@ export class SwipeEventsComponent implements OnInit {
     }
 
     function afterSwipe() {
+      // TODO check this, it could go wrong
       stackedCardsObj.removeChild(currentElementObj);
       that.eventCounter++;
       if (that.eventCounter === environment.reloadEvery) {
         that.dataService.fetchNewSwipeEvents();
         const container = document.getElementById("stackedcards-container");
         for (let i = 0; i < environment.reloadEvery; i++) {
+          if (that.swipeEvents[i].pictures_events.length === 0){
+            that.eventCounter++;
+            continue
+          }
           container.innerHTML = container.innerHTML.concat(
             // TODO deal with code duplicat
             `<div _ngcontent-c1="" class="card-item stackedcards-top stackedcards--animatable

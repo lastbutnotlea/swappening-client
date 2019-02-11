@@ -130,6 +130,12 @@ export class DataService implements OnInit {
     return new Observable<User>(fn => this._currentUser.subscribe(fn));
   }
 
+  public updateUserDetails(updatedUser: User, selectedFile: File) {
+    this.apiService.updateUserDetails(updatedUser, selectedFile).subscribe(res => {
+      this._me = res;
+    })
+  }
+
   async createNewHostedEvent(newEvent: Event): Promise<number> {
     return new Promise<number>((resolve, reject) => {
       let newEventId;

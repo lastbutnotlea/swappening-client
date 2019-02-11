@@ -36,7 +36,6 @@ export class ApiService {
 
   // TODO: logout
 
-  // TODO: getMyDetails
   public getMyDetails(): Observable<User> {
     const requestUrl = environment.apiUrl + '/user/me';
     return this.http.get<User>(requestUrl, {
@@ -44,7 +43,6 @@ export class ApiService {
     });
   }
 
-  // TODO: getUserDetails(userId: number)
   public getUserDetails(userId: number): Observable<User> {
     if (environment.useMockData) {
       return of(FAKE_USER);
@@ -56,7 +54,21 @@ export class ApiService {
     }
   }
 
-  // TODO: updateUserDetails
+  // TODO use data that backend returns?
+  public updateUserDetails(updatedUser: User, selectedFile: File): Observable<any> {
+    const requestUrl = environment.apiUrl + '/user/' + updatedUser.id;
+    const uploadData = new FormData();
+    if(selectedFile) uploadData.append('data', selectedFile, selectedFile.name);
+    uploadData.append('description', updatedUser.description);
+    uploadData.append('distance', updatedUser.distance.toString());
+    uploadData.append('location', updatedUser.location);
+    uploadData.append('nickname', updatedUser.nickname);
+    uploadData.append('password', updatedUser.password);
+    return this.http.put(requestUrl,
+      uploadData, {
+        headers: {Authorization: 'Bearer ' + this.userToken}
+    });
+  }
 
   // TODO: deleteAccount
 
@@ -126,7 +138,6 @@ export class ApiService {
     })
   }
 
-  // TODO getLikedEvent
   public getLikedEvents(userId: string): Observable<Event[]> {
     if (environment.useMockData) {
       return of(FAKE_EVENTS);
@@ -142,7 +153,6 @@ export class ApiService {
 
   // TODO dislikeEvent (?)
 
-  // TODO: deleteEvent(eventId: string)
 
   public getFirstSwipeEvents(userId: string): Observable<Event[]> {
     if (environment.useMockData) {
@@ -166,7 +176,6 @@ export class ApiService {
     }
   }
 
-  // TODO getInterestedUsers(eventId: number)
   public getInterestedUsers(eventId: number): Observable<User[]> {
     const requestUrl = environment.apiUrl + '/user/forEvent/' + eventId;
       return this.http.get<User[]>(requestUrl, {

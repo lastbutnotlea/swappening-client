@@ -586,6 +586,7 @@ export class SwipeEventsComponent implements OnInit {
 
         //  Function to generate rotate value
         function RotateRegulator(value) {
+          // TODO 15 entspricht rotation nach rechts; -15 entspricht rotation nach links; wenn man immer -15 zurückgibt hat man keine probleme mehr
           if (value / 10 > 15) {
             return 15;
           } else if (value / 10 < -15) {
@@ -594,6 +595,7 @@ export class SwipeEventsComponent implements OnInit {
           return value / 10;
         }
 
+        // TODO: es liegt an der rotation; wenn man rotateElement auf 0 lässt, keine Probleme mehr
         let rotateElement = 0;
         if (rotate) {
           rotateElement = RotateRegulator(moveX);
@@ -602,6 +604,8 @@ export class SwipeEventsComponent implements OnInit {
         if (stackedOptions === "Top") {
           elTrans = elementsMargin * (items - 1);
           if (element) {
+            // TODO jan meint das hier ist besonders teuer; vielleicht kommt man irgendwie drum herum die styles so
+            // zu setzen? oder man setzt die rotation nur wenn man wirklich rotieren muss? geht das getrennt vom rest?
             element.style.webkitTransform = "translateX(" + moveX + "px) translateY("
               + (moveY + elTrans) + "px) translateZ(0) rotate(" + rotateElement + "deg)";
             element.style.transform = "translateX(" + moveX + "px) translateY("

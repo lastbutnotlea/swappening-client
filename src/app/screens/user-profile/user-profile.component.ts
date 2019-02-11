@@ -11,7 +11,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class UserProfileComponent implements OnInit {
 
-
   private userId: number;
   private isMe: boolean;
   private user$: Observable<User>;
@@ -37,7 +36,5 @@ export class UserProfileComponent implements OnInit {
     else{
       this.user$ = this.dataService.user(this.userId);
     }
-    
   }
-
 }

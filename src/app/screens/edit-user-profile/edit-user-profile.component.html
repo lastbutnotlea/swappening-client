@@ -1,0 +1,49 @@
+<div routerLink="/userprofile/me" class="back-button">< back</div>
+
+<div class="edit-details-container">
+
+  <mat-card class="detail-card">
+
+    <p class="input-info some-padding">nickname</p>
+    <input class="edit-headline" matInput [(ngModel)]="userModel.nickname">
+
+    <div class="image-container">
+      <img *ngIf="newPicture && previewImage" [src]="previewImage" class="detail-image">
+      <img
+        *ngIf="!newPicture && (user$ | async).pictureStorageName"
+        src="{{this.apiUrl}}/files/{{(user$ | async).pictureStorageName}}"
+        class="detail-image">
+      <div class="overlay"></div>
+      <button class="delete-picture" [disabled]="numberOfPictures === 1" mat-mini-fab (click)="deletePicture()">
+        <img src="./assets/icons-black/substract.png">
+      </button>
+      <div class="upload-picture">
+        <input
+          style="display: none"
+          type="file" (change)="onFileChanged($event)"
+          #fileInput>
+        <button class="plus" mat-mini-fab (click)="fileInput.click()">
+          <img src="./assets/icons-black/add.png">
+        </button>
+      </div>
+    </div>
+
+    <p class="input-info">e-mail</p>
+    <input class="edit-location" matInput [(ngModel)]="userModel.email">
+    <p class="input-info">location</p>
+    <input class="edit-location" matInput [(ngModel)]="userModel.location">
+    <p class="input-info">distance</p>
+    <input class="edit-location" matInput [(ngModel)]="userModel.distance">
+
+    <p class="input-info some-padding">description</p>
+    <textarea class="edit-description" matInput [(ngModel)]="userModel.description"></textarea>
+
+  </mat-card>
+
+</div>
+
+<button mat-fab class="on-top-button-right" (click)="saveUser()">Save</button>
+<!-- TODO delete user?? -->
+
+
+

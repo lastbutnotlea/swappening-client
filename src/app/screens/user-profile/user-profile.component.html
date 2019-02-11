@@ -23,7 +23,7 @@
           {{(user$ | async).location}}
           <br>
           <img class="description-icon" src="./assets/icons-black/view.png">
-          {{(user$ | async).distance}}Km
+          {{(user$ | async).distance}} km
         </div>
         <p class="card-subtitle">{{(user$ | async).description}}</p>
       </div>
@@ -39,7 +39,7 @@
 </div>
 
 <div *ngIf="isMe">
-  <button mat-fab routerLink="/hostedevents/{{eventId}}/edit" class="on-top-button-right-higher">Edit</button>
+  <button mat-fab routerLink="/edituserprofile" class="on-top-button-right-higher">Edit</button>
 </div>
 
 <div *ngIf="!isMe">

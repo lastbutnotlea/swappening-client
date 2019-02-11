@@ -28,7 +28,7 @@ export class DataService implements OnInit {
 
   constructor(private apiService: ApiService) {
     // TODO don't forget to delete this
-    this.apiService.login('test123@beispiel.de', 'password123').then(() =>
+    this.apiService.login('test1234@beispiel.de', 'password123').then(() =>
     {
 
       this.apiService.getHostedEvents("1213").subscribe(res => {

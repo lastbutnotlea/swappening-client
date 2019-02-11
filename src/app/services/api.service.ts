@@ -60,7 +60,7 @@ export class ApiService {
     const uploadData = new FormData();
     if(selectedFile) uploadData.append('data', selectedFile, selectedFile.name);
     uploadData.append('description', updatedUser.description);
-    uploadData.append('distance', updatedUser.distance.toString());
+    if(updatedUser.distance) uploadData.append('distance', updatedUser.distance.toString());
     uploadData.append('location', updatedUser.location);
     uploadData.append('nickname', updatedUser.nickname);
     uploadData.append('password', updatedUser.password);

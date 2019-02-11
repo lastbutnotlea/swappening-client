@@ -11,9 +11,8 @@
     </mat-card-title>
 
     <mat-card-subtitle class="scrollable-content">
-      <img
-        src="./assets/portrait.jpg"
-         class="detail-image">
+      <img *ngIf="(user$ | async).pictureStorageName" 
+      src="{{this.apiUrl}}/files/{{(user$ | async).pictureStorageName}}" class="detail-image">
       <div class="description-info">
         <div *ngIf="isMe">
           <img class="description-icon" src="./assets/icons-black/paper-plane-1.png">

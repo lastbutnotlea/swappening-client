@@ -3,6 +3,7 @@ import {User} from '../../shared/user-model';
 import {DataService} from '../../services/data.service';
 import {Observable} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-user-profile',
@@ -23,6 +24,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.apiUrl = environment.apiUrl;
     const current_id: string = this.route.snapshot.paramMap.get('id');
     if (current_id == 'me') {
       this.isMe = true;

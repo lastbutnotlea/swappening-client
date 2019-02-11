@@ -6,6 +6,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from "../../../environments/environment";
 import {MatDialog} from "@angular/material";
 import {ConfirmationDialogComponent} from "../../components/confirmation-dialog/confirmation-dialog.component";
+import {InformationDialogComponent} from "../../components/information-dialog/information-dialog.component";
 
 @Component({
   selector: 'app-edit-event-details',
@@ -30,7 +31,8 @@ export class EditEventDetailsComponent implements OnInit {
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
               private router: Router,
-              private confirmationDialog: MatDialog) {
+              private confirmationDialog: MatDialog,
+              private informationDialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -89,16 +91,16 @@ export class EditEventDetailsComponent implements OnInit {
     if (this.isEdit) {
       const pictureStorageName = this.eventModel.pictures_events[this.clickCounter % this.numberOfPictures].pictureStorageName;
       this.dataService.deletePicture(pictureStorageName, this.eventId);
-      this.clickCounter--;
-      this.checked = (this.clickCounter % this.numberOfPictures) == this.soonToBeFirst;
     } else {
-      // TODO
-      this.selectedFile = [];
+      this.selectedFile.splice(this.clickCounter % this.numberOfPictures, 1);
+      this.previewImage.splice(this.clickCounter % this.numberOfPictures, 1);
+      this.numberOfPictures--;
     }
+    this.clickCounter--;
+    this.checked = (this.clickCounter % this.numberOfPictures) == this.soonToBeFirst;
   }
 
   makeFirst(index: number) {
-    console.log('MAKE FIRST');
     if (!this.checked) {
       let order = 1;
       for (let i = 0; i < this.eventModel.pictures_events.length; i++) {
@@ -111,7 +113,6 @@ export class EditEventDetailsComponent implements OnInit {
         );
       }
       this.soonToBeFirst = this.clickCounter % this.numberOfPictures;
-      console.log('MAKE FIRST; soonToBeFirst: ' + this.soonToBeFirst);
       this.checked = true;
     }
   }
@@ -128,16 +129,35 @@ export class EditEventDetailsComponent implements OnInit {
       }
       this.router.navigate([`/hostedevents/${this.eventId}`]);
     } else {
-      this.dataService.createNewHostedEvent(this.eventModel).then(res => {
-        this.eventId = res;
-        this.event$ = this.dataService.event(this.eventId);
-        this.event$.subscribe(newEvent => this.eventModel = newEvent);
-        if (this.selectedFile.length > 0) {
-          this.selectedFile.forEach(file => this.dataService.uploadPicture(file, this.eventId));
-          this.selectedFile = [];
-        }
-        this.router.navigate([`/hostedevents/${this.eventId}`]);
-      });
+      // TODO check for empty location and empty start time as well!
+      if (this.selectedFile.length === 0) {
+        const dialogReference = this.informationDialog.open(InformationDialogComponent, {
+          width: '50vw',
+          data: {
+            title: 'Please upload a picture'
+          },
+          autoFocus: false
+        });
+      } else if (this.eventModel.headline === '') {
+        const dialogReference = this.informationDialog.open(InformationDialogComponent, {
+          width: '50vw',
+          data: {
+            title: 'Please insert a headline'
+          },
+          autoFocus: false
+        });
+      } else {
+        this.dataService.createNewHostedEvent(this.eventModel).then(res => {
+          this.eventId = res;
+          this.event$ = this.dataService.event(this.eventId);
+          this.event$.subscribe(newEvent => this.eventModel = newEvent);
+          if (this.selectedFile.length > 0) {
+            this.selectedFile.forEach(file => this.dataService.uploadPicture(file, this.eventId));
+            this.selectedFile = [];
+          }
+          this.router.navigate([`/hostedevents/${this.eventId}`]);
+        });
+      }
     }
   }
 

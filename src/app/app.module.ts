@@ -25,6 +25,7 @@ import {OwlMomentDateTimeModule} from "ng-pick-datetime-moment";
 import {LoginComponent} from "./screens/login/login.component";
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { EditUserProfileComponent } from './screens/edit-user-profile/edit-user-profile.component';
+import {InformationDialogComponent} from "./components/information-dialog/information-dialog.component";
 
 export const MY_MOMENT_FORMATS = {
   parseInput: "DD.MM.YY HH:mm",
@@ -109,6 +110,7 @@ const appRoutes: Routes = [
     UserProfileComponent,
     LoginComponent,
     ConfirmationDialogComponent,
+    InformationDialogComponent,
     EditUserProfileComponent
   ],
   imports: [
@@ -133,6 +135,7 @@ const appRoutes: Routes = [
   ],
   entryComponents: [
     ConfirmationDialogComponent,
+    InformationDialogComponent,
   ],
   bootstrap: [AppComponent]
 })

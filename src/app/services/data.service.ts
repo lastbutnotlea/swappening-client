@@ -158,12 +158,15 @@ export class DataService implements OnInit {
     this._hostedEvents.next(newEventsArray);
   }
 
-  public uploadPicture(selectedFile: File, eventId: number) {
-    this.apiService.uploadPicture(selectedFile, eventId).subscribe(res => {
-      const editedEventIndex = this._hostedEvents.value.findIndex(event => event.id === eventId);
-      const newEventsArray = this._hostedEvents.value;
-      newEventsArray[editedEventIndex].pictures_events = res;
-      this._hostedEvents.next(newEventsArray);
+  async uploadPicture(selectedFile: File, eventId: number): Promise<boolean> {
+    return new Promise<boolean>((resolve, reject) => {
+      this.apiService.uploadPicture(selectedFile, eventId).subscribe(res => {
+        const editedEventIndex = this._hostedEvents.value.findIndex(event => event.id === eventId);
+        const newEventsArray = this._hostedEvents.value;
+        newEventsArray[editedEventIndex].pictures_events = res;
+        this._hostedEvents.next(newEventsArray);
+        resolve(true);
+      });
     });
   }
 

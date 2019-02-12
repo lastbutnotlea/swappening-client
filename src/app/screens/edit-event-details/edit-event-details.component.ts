@@ -145,11 +145,19 @@ export class EditEventDetailsComponent implements OnInit {
         this.dataService.createNewHostedEvent(this.eventModel).then(res => {
           this.eventId = res;
           this.event$ = this.dataService.event(this.eventId);
+          this.event$.subscribe(event => this.eventModel = event);
           if (this.selectedFile.length > 0) {
-            this.selectedFile.forEach(file => setTimeout(() => this.dataService.uploadPicture(file, this.eventId), 100));
+            this.selectedFile.forEach((file, index) => {
+              if (index !== this.selectedFile.length - 1) {
+                this.dataService.uploadPicture(file, this.eventId);
+              } else {
+                setTimeout(() => this.dataService.uploadPicture(file, this.eventId).then(res =>
+                  this.dataService.makeFirstPicture(this.orderArray(), this.eventId)
+                ), 100);
+              }
+            });
             this.selectedFile = [];
           }
-          this.dataService.makeFirstPicture(this.orderArray(), this.eventId);
           this.router.navigate([`/hostedevents/${this.eventId}`]);
         });
       }

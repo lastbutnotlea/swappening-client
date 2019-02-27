@@ -1,6 +1,8 @@
 <div *ngIf="!isMe" routerLink="/matches" class="back-button">< back</div>
 
-<div *ngIf="isMe" routerLink="/matches" class="back-button-invisible">< back</div>
+<div *ngIf="isMe" class="logout-button">
+  <button (click)="logout()">logout</button>
+</div>
 
 <div class="details-container">
 

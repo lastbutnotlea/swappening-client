@@ -34,7 +34,10 @@ export class ApiService {
 
   // TODO: register
 
-  // TODO: logout
+  public logout() {
+    this.userToken = null;
+    this.userId = null;
+  }
 
   public getMyDetails(): Observable<User> {
     const requestUrl = environment.apiUrl + '/user/me';

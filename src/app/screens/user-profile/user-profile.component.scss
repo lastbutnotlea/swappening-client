@@ -11,12 +11,13 @@
   padding: 1rem 0 0 0;
 }
 
-.back-button-invisible {
+.logout-button {
   height: 2vh;
   font-size: 1.6rem;
-  margin-left: 1.5rem;
+  margin-right: 1.5rem;
   padding-top: 0.1rem;
-  opacity: 0;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .profile-picture-container {

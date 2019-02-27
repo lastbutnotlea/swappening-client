@@ -134,7 +134,7 @@ export class DataService implements OnInit {
 
   public updateUserDetails(updatedUser: User, selectedFile: File) {
     this.apiService.updateUserDetails(updatedUser, selectedFile).subscribe(res => {
-      this._me = res;
+      this._me.next(res);
     })
   }
 

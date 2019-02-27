@@ -1,19 +1,20 @@
-<div class="back-button"></div>
+<div class="login-container">
 
-<div class="details-container">
+  <div class="logo-container">
+    <img class="logo" src="./assets/logo2.png">
+  </div>
 
-  <mat-card class="detail-card">
-
+  <div class="login-fields">
     <p class="input-info some-padding">email</p>
-    <textarea class="edit-multiple-lines" matInput [(ngModel)]="email"></textarea>
+    <input class="edit-single-line" matInput [(ngModel)]="email">
 
     <p class="input-info some-padding">password</p>
-    <textarea class="edit-multiple-lines" matInput [(ngModel)]="password"></textarea>
-
-  </mat-card>
+    <input class="edit-single-line" matInput [(ngModel)]="password">
+  </div>
 </div>
 
-<button mat-fab color="warn" class="on-top-button-right" (click)="login()">Login</button>
-<button mat-fab color="warn" class="on-top-button-left" (click)="loginUser1()">User 1</button>
-<button mat-fab color="warn" class="on-top-button-middle" (click)="loginUser2()">User 2</button>
-
+<div class="login-button">
+  <button mat-fab color="warn" class="on-top-button-right" (click)="login()">Login</button>
+  <button mat-fab color="warn" class="on-top-button-left" (click)="loginUser1()">User 1</button>
+  <button mat-fab color="warn" class="on-top-button-middle" (click)="loginUser2()">User 2</button>
+</div>

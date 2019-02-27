@@ -1,0 +1,29 @@
+.logo {
+  width: 70%;
+  height: 100%;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  opacity: 0.7;
+}
+
+.login-fields {
+  margin: 0 4rem;
+}
+
+.login-container {
+  height: 100vh;
+  padding-top: 20vh;
+}
+
+.login-button {
+  button {
+    margin: 0 2rem 10rem 2rem !important;
+  }
+
+  .on-top-button-middle {
+    left: 37vw !important;
+  }
+}

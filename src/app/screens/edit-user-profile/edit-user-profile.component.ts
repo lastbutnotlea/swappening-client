@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {DataService} from "../../services/data.service";
 import {User} from "../../shared/user-model";
 import {Observable} from "rxjs";
@@ -21,7 +21,8 @@ export class EditUserProfileComponent implements OnInit {
   private newPicture = false;
 
   constructor(private route: ActivatedRoute,
-              private dataService: DataService) { }
+              private dataService: DataService,
+              private router: Router) { }
 
   ngOnInit() {
     this.apiUrl = environment.apiUrl;
@@ -61,6 +62,7 @@ export class EditUserProfileComponent implements OnInit {
   saveUser() {
     if (this.isEdit) {
       this.dataService.updateUserDetails(this.userModel, this.selectedFile);
+      this.router.navigate(['/userprofile/me']);
     } else {
 /*      this.dataService.createNewHostedEvent(this.eventModel).then(res => {
         this.eventId = res;

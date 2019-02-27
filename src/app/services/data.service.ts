@@ -29,7 +29,7 @@ export class DataService implements OnInit {
 
   constructor(private apiService: ApiService) {
     // TODO don't forget to delete this
-    this.apiService.login('test1234@beispiel.de', 'password123').then(() =>
+    this.apiService.login('kevin@mail.de', 'kevinkevin').then(() =>
     {
       this.apiService.getMyDetails().subscribe(res => {
         this._me.next(res);

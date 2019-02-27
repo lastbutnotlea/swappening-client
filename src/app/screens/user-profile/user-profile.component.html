@@ -2,7 +2,7 @@
 
 <div *ngIf="isMe" routerLink="/matches" class="back-button-invisible">< back</div>
 
-<div class="detail-container">
+<div class="details-container">
 
   <mat-card [ngClass]="isMe ? 'detail-card-shorter' : 'detail-card'">
 
@@ -12,7 +12,7 @@
 
     <mat-card-subtitle class="scrollable-content">
       <img *ngIf="(user$ | async).pictureStorageName" 
-      src="{{this.apiUrl}}/files/{{(user$ | async).pictureStorageName}}" class="detail-image">
+      src="{{this.apiUrl}}/files/{{(user$ | async).pictureStorageName}}" class="profile-picture">
       <div class="description-info">
         <div *ngIf="isMe">
           <img class="description-icon" src="./assets/icons-black/paper-plane-1.png">

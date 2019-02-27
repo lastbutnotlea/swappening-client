@@ -1,19 +1,14 @@
-<div class="edit-details-container">
+<div class="back-button"></div>
+
+<div class="details-container">
 
   <mat-card class="detail-card">
 
     <p class="input-info some-padding">email</p>
-    <textarea class="edit-description" matInput [(ngModel)]="email"></textarea>
+    <textarea class="edit-multiple-lines" matInput [(ngModel)]="email"></textarea>
 
     <p class="input-info some-padding">password</p>
-    <textarea class="edit-description" matInput [(ngModel)]="password"></textarea>
-
-    <!-- TODO: add tags -->
-    <!--<p class="tags" *ngIf="(myItem$ | async).tags">
-      <b *ngFor="let tag of (myItem$ | async).tags">
-      {{tag}}
-      </b>
-    </p>-->
+    <textarea class="edit-multiple-lines" matInput [(ngModel)]="password"></textarea>
 
   </mat-card>
 </div>

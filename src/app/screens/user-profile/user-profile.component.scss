@@ -1,11 +1,3 @@
-.detail-card {
-  margin: 1.3rem;
-  padding: 0;
-  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 9px 0px 0 rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.12) !important;
-  border-radius: 10px;
-  height: 89vh;
-}
-
 .detail-card-shorter {
   margin: 1.3rem;
   padding: 0;
@@ -14,13 +6,9 @@
   height: 84vh;
 }
   
-.card-subtitle{
+.card-subtitle {
   font-size: 2rem;
   padding: 1rem 0 0 0;
-}
-
-.detail-container{
-  height: 96vh;
 }
 
 .back-button-invisible {
@@ -31,26 +19,13 @@
   opacity: 0;
 }
 
-.detail-image {
+.profile-picture {
   width: 80%;
   margin: 0 10% 0 10%;
   border-radius: 100%;
 }
 
 mat-card-title {
-  margin: 0 !important;
   height: 10vh;
-}
-
-.scrollable-content {
-  overflow: auto;
-  height: 79vh;
-  padding-bottom: 2rem !important;
-}
-
-.tags{
-  font-size: 2rem;
-  color: darkcyan;
-  margin: 5vw;
 }
 

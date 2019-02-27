@@ -1,46 +1,5 @@
-.detail-card {
-  margin: 1.3rem;
-  padding: 0;
-  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 9px 0px 0 rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.12) !important;
-  border-radius: 10px;
-  height: 89vh;
-}
-
 .description {
   font-size: 2rem;
   padding: 1rem;
   word-break: break-word;
-}
-
-.details-container{
-  height: 96vh;
-}
-
-.detail-image {
-  width: 100%;
-}
-
-.image-container {
-  position: relative;
-  width: calc(100vw - 2.6rem);
-  max-height: calc(100vw - 2.6rem);
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-}
-
-mat-card-title {
-  margin: 0 !important;
-}
-
-.scrollable-content {
-  overflow: auto;
-  height: 79vh;
-  padding-bottom: 2rem !important;
-}
-
-.tags{
-  font-size: 2rem;
-  color: darkcyan;
-  margin: 5vw;
 }

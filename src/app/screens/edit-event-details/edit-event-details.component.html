@@ -1,6 +1,6 @@
 <div class="back-button"></div>
 
-<div class="edit-details-container">
+<div class="details-container">
 
   <mat-card class="detail-card">
     <p class="input-info some-padding">headline</p>
@@ -39,17 +39,10 @@
     <input class="edit-date" [owlDateTime]="dt" [owlDateTimeTrigger]="dt" [(ngModel)]="eventModel.startTime">
     <owl-date-time [pickerMode]="'dialog'" #dt></owl-date-time>
     <p class="input-info">location</p>
-    <input class="edit-location" matInput [(ngModel)]="eventModel.place">
+    <input class="edit-single-line" matInput [(ngModel)]="eventModel.place">
 
     <p class="input-info some-padding">description</p>
-    <textarea class="edit-description" matInput [(ngModel)]="eventModel.description"></textarea>
-
-    <!-- TODO: add tags -->
-    <!--<p class="tags" *ngIf="(myItem$ | async).tags">
-      <b *ngFor="let tag of (myItem$ | async).tags">
-      {{tag}}
-      </b>
-    </p>-->
+    <textarea class="edit-multiple-lines" matInput [(ngModel)]="eventModel.description"></textarea>
 
   </mat-card>
 </div>

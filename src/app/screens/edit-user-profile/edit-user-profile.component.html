@@ -1,6 +1,6 @@
 <div routerLink="/userprofile/me" class="back-button">< back</div>
 
-<div class="edit-details-container">
+<div class="details-container">
 
   <mat-card class="detail-card">
 
@@ -29,14 +29,14 @@
     </div>
 
     <p class="input-info">e-mail</p>
-    <input class="edit-location" matInput [(ngModel)]="userModel.email">
+    <input class="edit-single-line" matInput [(ngModel)]="userModel.email">
     <p class="input-info">location</p>
-    <input class="edit-location" matInput [(ngModel)]="userModel.location">
+    <input class="edit-single-line" matInput [(ngModel)]="userModel.location">
     <p class="input-info">distance</p>
-    <input class="edit-location" matInput [(ngModel)]="userModel.distance">
+    <input class="edit-single-line" matInput [(ngModel)]="userModel.distance">
 
     <p class="input-info some-padding">description</p>
-    <textarea class="edit-description" matInput [(ngModel)]="userModel.description"></textarea>
+    <textarea class="edit-multiple-lines" matInput [(ngModel)]="userModel.description"></textarea>
 
   </mat-card>
 

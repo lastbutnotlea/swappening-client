@@ -19,6 +19,10 @@ export class DataService implements OnInit {
   private _likedEventsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _swipeEventsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
+  // Tags
+  private _allTags: BehaviorSubject<String[]> = new BehaviorSubject([]);
+  private _allTagsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
   // Users
   private _me: BehaviorSubject<User> = new BehaviorSubject<User>(null);
   private _myId: string;
@@ -60,8 +64,12 @@ export class DataService implements OnInit {
           this._swipeEvents.next(res);
           this._swipeEventsLoaded.next(true);
         });
+        this.apiService.getAllTags().subscribe(res => {
+          this._allTags.next(res.map(tag => tag.tagName));
+          this._allTagsLoaded.next(true);
+        })
       });
-      
+
     });
   }
 
@@ -90,6 +98,14 @@ export class DataService implements OnInit {
 
   get swipeEventsLoaded(): Observable<boolean> {
     return new Observable<boolean>(fn => this._swipeEventsLoaded.subscribe(fn));
+  }
+
+  get allTags(): Observable<String[]> {
+    return new Observable<String[]>(fn => this._allTags.subscribe(fn));
+  }
+
+  get allTagsLoaded(): Observable<boolean> {
+    return new Observable<boolean>(fn => this._allTagsLoaded.subscribe(fn));
   }
 
   /*get interestedUsers(): Observable<User[]> {
@@ -128,14 +144,16 @@ export class DataService implements OnInit {
     return findUser;
   }*/
   public user(userId: number): Observable<User> {
-    this.apiService.getUserDetails(userId).subscribe(res => {this._currentUser.next(res); });
+    this.apiService.getUserDetails(userId).subscribe(res => {
+      this._currentUser.next(res);
+    });
     return new Observable<User>(fn => this._currentUser.subscribe(fn));
   }
 
   public updateUserDetails(updatedUser: User, selectedFile: File) {
     this.apiService.updateUserDetails(updatedUser, selectedFile).subscribe(res => {
       this._me.next(res);
-    })
+    });
   }
 
   async createNewHostedEvent(newEvent: Event): Promise<number> {

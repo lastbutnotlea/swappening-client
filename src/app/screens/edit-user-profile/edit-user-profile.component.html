@@ -14,9 +14,6 @@
         src="{{this.apiUrl}}/files/{{(user$ | async).pictureStorageName}}"
         class="detail-image">
       <div class="overlay"></div>
-      <button class="delete-picture" [disabled]="numberOfPictures === 1" mat-mini-fab (click)="deletePicture()">
-        <img src="./assets/icons-black/substract.png">
-      </button>
       <div class="upload-picture">
         <input
           style="display: none"

@@ -4,7 +4,15 @@ import {RouterModule, Routes} from "@angular/router";
 import {AppComponent} from "./app.component";
 import {SwipeEventsComponent} from "./screens/swipe-events/swipe-events.component";
 import {BottomMenuComponent} from "./components/bottom-menu/bottom-menu.component";
-import {MatButtonModule, MatCardModule, MatDialogModule, MatIconModule, MatSlideToggleModule} from "@angular/material";
+import {
+  MatAutocompleteModule,
+  MatButtonModule,
+  MatCardModule,
+  MatChipsModule,
+  MatDialogModule,
+  MatIconModule,
+  MatSlideToggleModule
+} from "@angular/material";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatInputModule} from "@angular/material/input";
 import {HttpClientModule} from "@angular/common/http";
@@ -12,7 +20,7 @@ import {HostedEventDetailsComponent} from "./screens/hosted-event-details/hosted
 import {SwipeEventDetailsComponent} from "./screens/swipe-event-details/swipe-event-details.component";
 import {EventDetailsComponent} from "./components/event-details/event-details.component";
 import {EditEventDetailsComponent} from "./screens/edit-event-details/edit-event-details.component";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatchesComponent} from "./screens/matches/matches.component";
 import {EventListComponent} from "./components/event-list/event-list.component";
@@ -123,8 +131,11 @@ const appRoutes: Routes = [
     MatIconModule,
     MatSlideToggleModule,
     MatDialogModule,
+    MatChipsModule,
+    MatAutocompleteModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,

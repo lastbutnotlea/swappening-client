@@ -32,7 +32,23 @@ export class ApiService {
     }
   }
 
-  // TODO: register
+  public register(user: User, confirmedPassword: string, selectedFile: File): Promise<any> {
+    const requestUrl = environment.apiUrl + "/register";
+    const uploadData = new FormData();
+    if (selectedFile) uploadData.append("data", selectedFile, selectedFile.name);
+    uploadData.append("description", user.description);
+    if (user.distance) uploadData.append("distance", user.distance.toString());
+    uploadData.append("location", user.location);
+    uploadData.append("nickname", user.nickname);
+    uploadData.append("email", user.email);
+    uploadData.append("password", user.password);
+    uploadData.append("confirmPassword", confirmedPassword);
+    const test = this.http.post<any>(requestUrl,
+      uploadData, {
+        headers: {Authorization: "Bearer " + this.userToken}
+      }).toPromise();
+    return test;
+  }
 
   public logout() {
     this.userToken = null;

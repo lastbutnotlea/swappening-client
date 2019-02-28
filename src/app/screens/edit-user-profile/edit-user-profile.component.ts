@@ -4,6 +4,9 @@ import {DataService} from "../../services/data.service";
 import {User} from "../../shared/user-model";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
+import {ApiService} from "../../services/api.service";
+import {InformationDialogComponent} from "../../components/information-dialog/information-dialog.component";
+import {MatDialog} from "@angular/material";
 
 @Component({
   selector: "app-edit-user-profile",
@@ -15,6 +18,7 @@ export class EditUserProfileComponent implements OnInit {
   private isEdit;
   private user$: Observable<User>;
   private userModel: User;
+  private confirmedPassword: string;
   private apiUrl: string;
   private selectedFile: File = null;
   private previewImage: any;
@@ -22,7 +26,9 @@ export class EditUserProfileComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private dataService: DataService,
-              private router: Router) {
+              private router: Router,
+              private apiService: ApiService,
+              private informationDialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -46,6 +52,7 @@ export class EditUserProfileComponent implements OnInit {
         location: null,
         distance: null
       };
+      this.confirmedPassword = null;
     }
   }
 
@@ -65,16 +72,19 @@ export class EditUserProfileComponent implements OnInit {
       this.dataService.updateUserDetails(this.userModel, this.selectedFile);
       this.router.navigate(['/userprofile/me']);
     } else {
-      /*      this.dataService.createNewHostedEvent(this.eventModel).then(res => {
-              this.eventId = res;
-              this.event$ = this.dataService.event(this.eventId);
-              this.event$.subscribe(newEvent => this.eventModel = newEvent);
-              if (this.selectedFile !== null) {
-                this.dataService.uploadPicture(this.selectedFile, this.eventId);
-                this.selectedFile = null;
-              }
-              this.router.navigate([`/hostedevents/${this.eventId}`]);
-            });*/
+      this.apiService.register(this.userModel, this.confirmedPassword, this.selectedFile).then(
+        () => {
+          console.log("you registered successfully");
+          this.router.navigate(['/userprofile/me']);
+        }
+      ).catch(err => {
+        console.log(err);
+        const dialogReference = this.informationDialog.open(InformationDialogComponent, {
+          width: "50vw",
+          data: {title: err.error[0].msg},
+          autoFocus: false
+        });
+      });
     }
   }
 }

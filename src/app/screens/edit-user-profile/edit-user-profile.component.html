@@ -5,8 +5,10 @@
 
   <mat-card class="detail-card">
 
+    <p *ngIf="!isEdit" class="instructions">to become part of the fam, please enter your personal details and upload a nice profile picture</p>
+
     <p class="input-info some-padding">nickname</p>
-    <input class="edit-headline" matInput [(ngModel)]="userModel.nickname">
+    <input class="edit-single-line special-margin" matInput [(ngModel)]="userModel.nickname">
 
     <div class="image-container">
       <img *ngIf="newPicture && previewImage" [src]="previewImage" class="detail-image">
@@ -28,6 +30,13 @@
 
     <p class="input-info">e-mail</p>
     <input class="edit-single-line" matInput [(ngModel)]="userModel.email">
+
+    <p class="input-info">password</p>
+    <input type="password" class="edit-single-line" matInput [(ngModel)]="userModel.password">
+
+    <p class="input-info">confirm password</p>
+    <input type="password" class="edit-single-line" matInput [(ngModel)]="confirmedPassword">
+
     <p class="input-info">location</p>
     <input class="edit-single-line" matInput [(ngModel)]="userModel.location">
     <p class="input-info">distance</p>

@@ -63,7 +63,7 @@ export class EditEventDetailsComponent implements OnInit {
     if (current_id !== "new") {
       this.isEdit = true;
       this.eventId = parseInt(current_id, 10);
-      this.event$ = this.dataService.event(this.eventId);
+      this.event$ = this.dataService.hostedEvent(this.eventId);
       this.event$.subscribe(newEvent => {
         this.eventModel = newEvent;
         this.numberOfPictures = this.eventModel.pictures_events.length;
@@ -213,7 +213,7 @@ export class EditEventDetailsComponent implements OnInit {
       } else {
         this.dataService.createNewHostedEvent(this.eventModel).then(res => {
           this.eventId = res;
-          this.event$ = this.dataService.event(this.eventId);
+          this.event$ = this.dataService.hostedEvent(this.eventId);
           this.event$.subscribe(event => this.eventModel = event);
           if (this.selectedFile.length > 0) {
             this.selectedFile.forEach((file, index) => {

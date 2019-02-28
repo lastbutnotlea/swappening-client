@@ -121,20 +121,18 @@ export class DataService implements OnInit {
     return new Observable<User>(fn => this._me.subscribe(fn));
   }
 
-  event(id: number): Observable<Event> {
-    let findEvent = new Observable<Event[]>(fn =>
+  hostedEvent(id: number): Observable<Event> {
+    return new Observable<Event[]>(fn =>
       this._hostedEvents.subscribe(fn)).pipe(map((hostedEvents: Event[]) => hostedEvents.find(event => event.id === id)));
-    if (findEvent) {
-      return findEvent;
-    }
-    findEvent = new Observable<Event[]>(fn =>
+  }
+
+  likedEvent(id: number): Observable<Event> {
+    return new Observable<Event[]>(fn =>
       this._likedEvents.subscribe(fn)).pipe(map((likedEvents: Event[]) => likedEvents.find(event => event.id === id)));
-    if (findEvent) {
-      return findEvent;
-    }
-    findEvent = new Observable<Event[]>(fn =>
+  }
+  swipeEvent(id: number): Observable<Event> {
+    return new Observable<Event[]>(fn =>
       this._swipeEvents.subscribe(fn)).pipe(map((swipeEvents: Event[]) => swipeEvents.find(event => event.id === id)));
-    return findEvent;
   }
 
   // We might want to use this at some point

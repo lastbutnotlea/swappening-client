@@ -27,7 +27,18 @@ export class EventDetailsComponent implements OnInit {
   ngOnInit() {
     this.apiUrl = environment.apiUrl;
     this.eventId = parseInt(this.route.snapshot.paramMap.get('id'), 10);
-    this.event$ = this.dataService.event(this.eventId);
+    const eventType: string = this.route.snapshot.url[0].path;
+    switch (eventType) {
+      case 'hostedevents':
+        this.event$ = this.dataService.hostedEvent(this.eventId);
+        break;
+      case 'likedevents':
+        this.event$ = this.dataService.likedEvent(this.eventId);
+        break;
+      case 'swipeevents':
+        this.event$ = this.dataService.swipeEvent(this.eventId);
+        break;
+    }
   }
 
   cycleThroughPictures() {

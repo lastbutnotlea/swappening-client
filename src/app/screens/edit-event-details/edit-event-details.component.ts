@@ -68,6 +68,7 @@ export class EditEventDetailsComponent implements OnInit {
         this.eventModel = newEvent;
         this.numberOfPictures = this.eventModel.pictures_events.length;
         this.tags = this.eventModel.taggedEvents.map(tag => tag.tag.tagName);
+        this.eventModel.taggedEvents = this.tags;
       });
     } else {
       this.isEdit = false;
@@ -99,7 +100,7 @@ export class EditEventDetailsComponent implements OnInit {
       // Add our fruit
       if ((value || "").trim()) {
         this.tags.push(value.trim());
-        apiService;
+        this.eventModel.taggedEvents.push(value.trim());
       }
 
       // Reset the input value
@@ -116,6 +117,7 @@ export class EditEventDetailsComponent implements OnInit {
 
     if (index >= 0) {
       this.tags.splice(index, 1);
+      this.eventModel.taggedEvents.splice(index, 1);
     }
   }
 

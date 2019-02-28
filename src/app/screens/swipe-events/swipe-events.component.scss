@@ -201,3 +201,22 @@ img {
   top: 0;
   height: 100%;
 }
+
+//####### TAGS #############
+
+:host ::ng-deep .mat-standard-chip {
+  display: inline-flex;
+  padding: 7px 12px;
+  border-radius: 16px;
+  align-items: center;
+  cursor: default;
+  min-height: 32px;
+  height: 1px;
+}
+
+:host ::ng-deep .mat-chip-list-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}

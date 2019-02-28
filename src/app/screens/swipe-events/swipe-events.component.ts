@@ -58,10 +58,12 @@ export class SwipeEventsComponent implements OnInit {
             <div class="swipe-image-container">
             <img alt="image" src="${this.apiUrl}/files/${this.swipeEvents[i].pictures_events[0].pictureStorageName}">
             </div>
-            <mat-chip-list>
+            <mat-chip-list _ngcontent-c7="" class="mat-chip-list" tabindex="0" aria-required="false" aria-disabled="false" aria-invalid="false" aria-multiselectable="false" role="listbox" aria-orientation="horizontal" id="mat-chip-list-0">
+            <div class="mat-chip-list-wrapper">
             ${this.swipeEvents[i].taggedEvents.map(
-          tag => `<mat-chip _ngcontent-c1="" class="mat-chip mat-primary mat-standard-chip" role="option" tabindex="-1" aria-disabled="false" aria-selected="false">
+          tag => `<mat-chip _ngcontent-c7="" class="mat-chip mat-primary mat-standard-chip" role="option" tabindex="-1" aria-disabled="false" aria-selected="false">
               ${tag.tag.tagName}</mat-chip>`)}
+            </div>
             </mat-chip-list>
             <div class="info">
               <div>

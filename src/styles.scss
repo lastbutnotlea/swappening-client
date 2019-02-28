@@ -106,7 +106,8 @@ mat-card {
 }
 
 .scrollable-content {
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   height: calc(100% - 10vh);
   padding-bottom: 2rem !important;
 }
@@ -276,8 +277,7 @@ mat-card {
 
 .card-item .info {
   font-size: 1.6rem;
-  padding-left: 1rem;
-  padding-top: 1rem;
+  padding: 1.5rem 1.5rem 0 1.5rem;
   color: rgba(0, 0, 0, 0.54);
 }
 
@@ -311,4 +311,18 @@ mat-card {
 
 .button-image{
   width: 55%
+}
+
+//######### TAGS ##############################################
+
+/deep/ .mat-chip-list-wrapper {
+  padding: 1.5rem 1.5rem 0 1.5rem;
+}
+
+/deep/ .mat-standard-chip {
+  background-color: $primary1 !important;
+}
+
+/deep/ .mat-form-field-wrapper .mat-chip-list-wrapper {
+  padding: 0 !important;
 }

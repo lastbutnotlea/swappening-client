@@ -12,7 +12,7 @@
       <h1 class="event-card-headline">{{(user$ | async).nickname}}</h1>
     </mat-card-title>
 
-    <mat-card-subtitle class="scrollable-content">
+    <mat-card-subtitle class="padding-bottom">
       <div class="profile-picture-container">
         <img *ngIf="(user$ | async).pictureStorageName"
              src="{{this.apiUrl}}/files/{{(user$ | async).pictureStorageName}}" class="profile-picture">

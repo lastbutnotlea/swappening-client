@@ -33,10 +33,10 @@ export class EditEventDetailsComponent implements OnInit {
   private selectable = true;
   private removable = true;
   private addOnBlur = true;
-  private tags: String[];
+  private tags: string[];
   private tagCtrl = new FormControl();
-  private filteredTags: Observable<String[]>;
-  private allTags: String[] = ["Pool", "Shit"];
+  private filteredTags: Observable<string[]>;
+  private allTags: string[] = ["Pool", "Shit"];
 
   @ViewChild("tagInput") tagInput: ElementRef<HTMLInputElement>;
   @ViewChild("auto") matAutocomplete: MatAutocomplete;
@@ -99,7 +99,8 @@ export class EditEventDetailsComponent implements OnInit {
       // Add our fruit
       if ((value || "").trim()) {
         this.tags.push(value.trim());
-        apiService;
+        // TODO @Alex what is this?
+        // apiService;
       }
 
       // Reset the input value

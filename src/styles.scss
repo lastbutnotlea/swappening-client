@@ -107,7 +107,7 @@ mat-card {
 
 .scrollable-content {
   overflow: auto;
-  height: 79vh;
+  height: calc(100% - 10vh);
   padding-bottom: 2rem !important;
 }
 

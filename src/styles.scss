@@ -25,6 +25,7 @@ $lighter-mean: rgba(255, 141, 94, 0.37);
 $dark-overlay: rgba(130, 91, 75, 0.25);
 $text: rgba(0, 0, 0, 0.87);
 $light-text: rgba(0, 0, 0, 0.4);
+$disabled: rgba(0, 0, 0, 0.12);
 
 $app-theme: mat-light-theme(
     $theme-primary,
@@ -151,6 +152,10 @@ mat-card {
       width: 50%;
       height: 50%;
     }
+  }
+
+  button:disabled {
+    background-color: $disabled !important;
   }
 }
 

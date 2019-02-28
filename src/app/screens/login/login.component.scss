@@ -1,5 +1,7 @@
+@import "../../../styles";
+
 .logo {
-  width: 70%;
+  width: 80%;
   height: 100%;
 }
 
@@ -10,20 +12,39 @@
 }
 
 .login-fields {
-  margin: 0 4rem;
+  margin: 0 6rem;
 }
 
 .login-container {
   height: 100vh;
-  padding-top: 20vh;
+  padding-top: 34vh;
 }
 
-.login-button {
-  button {
-    margin: 0 2rem 10rem 2rem !important;
-  }
+button {
+  position: absolute !important;
+  width: 6rem !important;
+  height: 6rem !important;
+  font-size: 1.5rem;
+  color: rgba(0, 0, 0, 0.87) !important;
+  bottom: 24vh;
+  box-shadow: none !important;
+  background-color: $primary1 !important;
+}
 
-  .on-top-button-middle {
-    left: 37vw !important;
-  }
+.sign-in-button {
+  right: 23vw;
+}
+
+.sign-up-button {
+  left: 23vw;
+}
+
+.on-top-button-left {
+  bottom: 2vh;
+  opacity: 0.3;
+}
+
+.on-top-button-middle {
+  bottom: 2vh;
+  opacity: 0.3;
 }

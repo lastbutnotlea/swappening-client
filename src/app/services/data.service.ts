@@ -100,8 +100,8 @@ export class DataService implements OnInit {
     return new Observable<boolean>(fn => this._swipeEventsLoaded.subscribe(fn));
   }
 
-  get allTags(): Observable<String[]> {
-    return new Observable<String[]>(fn => this._allTags.subscribe(fn));
+  get allTags(): Observable<string[]> {
+    return new Observable<string[]>(fn => this._allTags.subscribe(fn));
   }
 
   get allTagsLoaded(): Observable<boolean> {

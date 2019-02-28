@@ -1,4 +1,5 @@
-<div routerLink="/userprofile/me" class="back-button">< back</div>
+<div *ngIf="isEdit" routerLink="/userprofile/me" class="back-button">< back</div>
+<div *ngIf="!isEdit" routerLink="/login" class="back-button">< back</div>
 
 <div class="details-container">
 
@@ -10,7 +11,7 @@
     <div class="image-container">
       <img *ngIf="newPicture && previewImage" [src]="previewImage" class="detail-image">
       <img
-        *ngIf="!newPicture && (user$ | async).pictureStorageName"
+        *ngIf="isEdit && !newPicture && (user$ | async).pictureStorageName"
         src="{{this.apiUrl}}/files/{{(user$ | async).pictureStorageName}}"
         class="detail-image">
       <div class="overlay"></div>

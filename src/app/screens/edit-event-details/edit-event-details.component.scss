@@ -17,13 +17,38 @@
 }
 
 .edit-date {
-  background-color: #f6f6f6;
+  background-color: #ffffff;
   padding: 0 0.7rem !important;
   margin: 0 1.5rem 0 1.5rem !important;
   width: calc(100% - 3rem);
   border-radius: 4px;
-  border: 1px solid #eeeeee;
+  border: none !important;
   outline: none;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.10), 0 1px 0 0 rgba(0, 0, 0, 0.02), 0 0 1px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+.tag-input {
+  margin: 0 1.5rem 0 1.5rem !important;
+  background-color: #ffffff;
+  padding: 0 0.7rem !important;
+  width: calc(100% - 3rem);
+  border-radius: 4px;
+  border: none #eeeeee;
+  outline: none;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.10), 0 1px 0 0 rgba(0, 0, 0, 0.02), 0 0 1px 0 rgba(0, 0, 0, 0.05) !important;
+
+  /deep/ .mat-form-field-wrapper {
+    padding-bottom: 0.5rem !important;
+    padding-top: 0.5rem !important;
+  }
+
+  /deep/ .mat-form-field-underline {
+    display: none !important;
+  }
+
+  /deep/ .mat-form-field-label {
+    padding-bottom: 5px !important;
+  }
 }
 
 /deep/ .owl-dt-dialog-container {

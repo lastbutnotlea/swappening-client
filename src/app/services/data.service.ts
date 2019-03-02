@@ -34,7 +34,7 @@ export class DataService implements OnInit {
 
   constructor(private apiService: ApiService) {
     if (environment.autoLogin) this.apiService.login('kevin@mail.de', 'kevinkevin');
-    this.apiService.loggedIn.subscribe(loggedIn => {
+    this.apiService.getLoggedIn().subscribe(loggedIn => {
       if (!loggedIn) return;
       else {
         this.apiService.getMyDetails().subscribe(res => {

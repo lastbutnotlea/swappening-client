@@ -29,10 +29,6 @@ export class EditEventDetailsComponent implements OnInit {
   private clickCounter = 0;
   private checked = true;
   private soonToBeFirst = 0;
-  private visible = true;
-  private selectable = true;
-  private removable = true;
-  private addOnBlur = true;
   private tags: string[];
   private tagCtrl = new FormControl();
   private filteredTags: Observable<string[]>;
@@ -52,9 +48,9 @@ export class EditEventDetailsComponent implements OnInit {
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
       map((tag: string | null) => tag ? this._filter(tag) : this.allTags.slice()));
-      dataService.allTags.subscribe(allTags => {
-        this.allTags = allTags;
-      });
+    dataService.allTags.subscribe(allTags => {
+      this.allTags = allTags;
+    });
   }
 
   ngOnInit() {
@@ -91,19 +87,15 @@ export class EditEventDetailsComponent implements OnInit {
   }
 
   add(event: MatChipInputEvent): void {
-    // Add fruit only when MatAutocomplete is not open
-    // To make sure this does not conflict with OptionSelected Event
     if (!this.matAutocomplete.isOpen) {
       const input = event.input;
       const value = event.value;
 
-      // Add our fruit
       if ((value || "").trim()) {
         this.tags.push(value.trim());
         this.eventModel.taggedEvents.push(value.trim());
       }
 
-      // Reset the input value
       if (input) {
         input.value = "";
       }

@@ -22,10 +22,10 @@ $mean: #ff8d5e;
 $light-mean: rgba(255, 141, 94, 0.67);
 $lighter-mean: rgba(255, 141, 94, 0.37);
 
-$dark-overlay: rgba(130, 91, 75, 0.25);
 $text: rgba(0, 0, 0, 0.87);
 $light-text: rgba(0, 0, 0, 0.4);
 $disabled: rgba(0, 0, 0, 0.12);
+$dark-overlay: rgba(0, 0, 0, 0.32);
 
 $app-theme: mat-light-theme(
     $theme-primary,

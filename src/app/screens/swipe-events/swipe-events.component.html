@@ -1,14 +1,14 @@
-<div class="filter-container">
+<div *ngIf="filterExpanded" class="filter-container">
   <mat-form-field class="tag-input">
     <mat-chip-list #filterChipList>
       <mat-chip
         *ngFor="let tag of tags"
-        [selectable]="selectable"
-        [removable]="removable"
+        [selectable]="true"
+        [removable]="true"
         (removed)="remove(tag)"
         [disableRipple]="true">
         {{tag}}
-        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        <mat-icon matChipRemove>cancel</mat-icon>
       </mat-chip>
       <input
         placeholder="add new tags"
@@ -27,6 +27,11 @@
     </mat-autocomplete>
   </mat-form-field>
 </div>
+<button mat-fab class="filter-button" (click)="filter()">
+  <img *ngIf="!filterExpanded" src="./assets/icons-black/funnel.png">
+  <img *ngIf="filterExpanded" src="./assets/icons-black/search.png">
+</button>
+<div *ngIf="filterExpanded" class="dark-overlay" (click)="hideFilter()"></div>
 <div class="outmost-container">
   <div id="stacked-cards-block" class="stackedcards stackedcards--animatable init">
 

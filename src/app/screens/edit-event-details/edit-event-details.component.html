@@ -40,12 +40,12 @@
       <mat-chip-list #chipList>
         <mat-chip
           *ngFor="let tag of tags"
-          [selectable]="selectable"
-          [removable]="removable"
+          [selectable]="true"
+          [removable]="true"
           (removed)="remove(tag)"
           [disableRipple]="true">
           {{tag}}
-          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>
         <input
           placeholder="add new tags"
@@ -54,7 +54,7 @@
           [matAutocomplete]="auto"
           [matChipInputFor]="chipList"
           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-          [matChipInputAddOnBlur]="addOnBlur"
+          [matChipInputAddOnBlur]="true"
           (matChipInputTokenEnd)="add($event)">
       </mat-chip-list>
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">

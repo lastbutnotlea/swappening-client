@@ -1,10 +1,13 @@
-import {Component, OnInit, ViewEncapsulation} from "@angular/core";
+import {Component, ElementRef, OnInit, ViewChild, ViewEncapsulation} from "@angular/core";
 import {Observable} from "rxjs";
 import {Event} from "../../shared/event-model";
 import {DataService} from "../../services/data.service";
 import {environment} from "../../../environments/environment";
 import {Router} from "@angular/router";
 import {DateDisplayService} from "../../services/date-display.service";
+import {FormControl} from "@angular/forms";
+import {MatAutocomplete, MatAutocompleteSelectedEvent, MatChipInputEvent} from "@angular/material";
+import {map, startWith} from "rxjs/operators";
 
 @Component({
   selector: "app-swipe-events",
@@ -18,11 +21,24 @@ export class SwipeEventsComponent implements OnInit {
   private eventCounter = 0;
   private apiUrl: string;
 
+  private filterExpanded = false;
+  private tags: string[] = [];
+  private tagCtrl = new FormControl();
+  private filteredTags: Observable<string[]>;
+  private allTags: string[] = ["Pool", "Shit"];
+
+  @ViewChild("tagInput") tagInput: ElementRef<HTMLInputElement>;
+  @ViewChild("auto") matAutocomplete: MatAutocomplete;
+
   constructor(public dataService: DataService,
               private dateDisplayService: DateDisplayService,
               private router: Router) {
-
-
+    this.filteredTags = this.tagCtrl.valueChanges.pipe(
+      startWith(null),
+      map((tag: string | null) => tag ? this._filterTags(tag) : this.allTags.slice()));
+    dataService.allTags.subscribe(allTags => {
+      this.allTags = allTags;
+    });
   }
 
   ngOnInit(): void {
@@ -39,6 +55,55 @@ export class SwipeEventsComponent implements OnInit {
         this.stackedCards();
       }
     });
+  }
+
+  filter() {
+    if (this.filterExpanded) {
+      this.filterExpanded = false;
+    } else {
+      this.filterExpanded = true;
+    }
+  }
+
+  hideFilter() {
+    this.filterExpanded = false;
+  }
+
+  private _filterTags(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.allTags.filter(tag => tag.toLowerCase().indexOf(filterValue) === 0);
+  }
+
+  add(event: MatChipInputEvent): void {
+    if (!this.matAutocomplete.isOpen) {
+      const input = event.input;
+      const value = event.value;
+
+      if ((value || "").trim()) {
+        this.tags.push(value.trim());
+      }
+
+      if (input) {
+        input.value = "";
+      }
+
+      this.tagCtrl.setValue(null);
+    }
+  }
+
+  remove(fruit: string): void {
+    const index = this.tags.indexOf(fruit);
+
+    if (index >= 0) {
+      this.tags.splice(index, 1);
+    }
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.tags.push(event.option.viewValue);
+    this.tagInput.nativeElement.value = "";
+    this.tagCtrl.setValue(null);
   }
 
   setUpCards() {
@@ -401,7 +466,7 @@ export class SwipeEventsComponent implements OnInit {
     <div class="mat-chip-list-wrapper">
       ${that.swipeEvents[i + environment.reloadEvery / 2].taggedEvents.map(
               tag => `<mat-chip _ngcontent-c7="" class="mat-chip mat-primary mat-standard-chip" role="option" tabindex="-1" aria-disabled="false" aria-selected="false">
-        ${tag.tag.tagName}</mat-chip>`)}
+        ${tag.tag.tagName}</mat-chip>`).join('')}
     </div>
     </mat-chip-list>
     <div class="info">

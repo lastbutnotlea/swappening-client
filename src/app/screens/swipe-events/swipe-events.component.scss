@@ -1,5 +1,36 @@
 @import "../../../styles.scss";
 
+.filter-container {
+  position: absolute;
+  top: 1rem;
+  z-index: 8;
+  width: 88vw;
+
+  .tag-input {
+    margin: 0 1.5rem 0 1.3rem !important;
+  }
+}
+
+.filter-button {
+  position: absolute !important;
+  right: 1rem;
+  top: 1rem;
+  width: 4rem !important;
+  height: 4rem !important;
+  font-size: 0;
+  background-color: $mean !important;
+  color: $text !important;
+  z-index: 9;
+}
+
+.dark-overlay {
+  background-color: $dark-overlay;
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  z-index: 7;
+}
+
 :host ::ng-deep .outmost-container {
   height: 94vh;
   display: flex;

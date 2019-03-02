@@ -50,7 +50,7 @@ export class ApiService {
     return test;
   }
 
-  public loggedIn(): Observable<boolean> {
+  public getLoggedIn(): Observable<boolean> {
     return this.loggedIn;
   }
 

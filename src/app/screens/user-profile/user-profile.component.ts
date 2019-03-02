@@ -3,6 +3,10 @@ import {User} from '../../shared/user-model';
 import {DataService} from '../../services/data.service';
 import {Observable} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
+import {environment} from "../../../environments/environment";
+import {ApiService} from "../../services/api.service";
+import {ConfirmationDialogComponent} from "../../components/confirmation-dialog/confirmation-dialog.component";
+import {MatDialog} from "@angular/material";
 
 @Component({
   selector: 'app-user-profile',
@@ -10,7 +14,6 @@ import {ActivatedRoute, Router} from '@angular/router';
   styleUrls: ['./user-profile.component.scss']
 })
 export class UserProfileComponent implements OnInit {
-
 
   private userId: number;
   private isMe: boolean;
@@ -20,10 +23,13 @@ export class UserProfileComponent implements OnInit {
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private apiService: ApiService,
+              private confirmationDialog: MatDialog) {
   }
 
   ngOnInit() {
+    this.apiUrl = environment.apiUrl;
     const current_id: string = this.route.snapshot.paramMap.get('id');
     if (current_id == 'me') {
       this.isMe = true;
@@ -37,7 +43,22 @@ export class UserProfileComponent implements OnInit {
     else{
       this.user$ = this.dataService.user(this.userId);
     }
-    
   }
 
+  logout() {
+    const dialogReference = this.confirmationDialog.open(ConfirmationDialogComponent, {
+      width: '50vw',
+      data: {
+        title: 'Are you sure you want to log out?'
+      },
+      autoFocus: false
+    });
+
+    dialogReference.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.apiService.logout();
+        this.router.navigate(["/login"]);
+      }
+    });
+  }
 }

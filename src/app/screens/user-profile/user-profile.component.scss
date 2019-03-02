@@ -1,56 +1,48 @@
-.detail-card {
-  margin: 1.3rem;
-  padding: 0;
-  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 9px 0px 0 rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.12) !important;
-  border-radius: 10px;
-  height: 89vh;
-}
-
 .detail-card-shorter {
   margin: 1.3rem;
   padding: 0;
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 9px 0px 0 rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.12) !important;
   border-radius: 10px;
   height: 84vh;
+  overflow: auto;
 }
-  
-.card-subtitle{
+
+.details-container {
+  height: 90vh !important;
+}
+
+.card-subtitle {
   font-size: 2rem;
   padding: 1rem 0 0 0;
 }
 
-.detail-container{
-  height: 96vh;
-}
-
-.back-button-invisible {
+.logout-button {
   height: 2vh;
   font-size: 1.6rem;
-  margin-left: 1.5rem;
+  margin-right: 1.5rem;
   padding-top: 0.1rem;
-  opacity: 0;
+  display: flex;
+  justify-content: flex-end;
 }
 
-.detail-image {
-  width: 80%;
+.profile-picture-container {
+  display: flex;
+  justify-content: center;
   margin: 0 10% 0 10%;
-  border-radius: 100%;
+
+  .profile-picture {
+    width: 70vw;
+    height: 70vw;
+    border-radius: 100%;
+    object-fit: cover;
+  }
 }
 
 mat-card-title {
-  margin: 0 !important;
   height: 10vh;
 }
 
-.scrollable-content {
-  overflow: auto;
-  height: 79vh;
-  padding-bottom: 2rem !important;
-}
-
-.tags{
-  font-size: 2rem;
-  color: darkcyan;
-  margin: 5vw;
+.padding-bottom {
+  padding-bottom: 2rem;
 }
 

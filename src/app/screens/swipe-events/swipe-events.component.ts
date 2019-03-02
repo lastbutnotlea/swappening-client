@@ -45,6 +45,10 @@ export class SwipeEventsComponent implements OnInit {
     const initialNumberOfEvents = environment.reloadEvery * 1.5;
     const container = document.getElementById("stackedcards-container");
     for (let i = 0; i < initialNumberOfEvents; i++) {
+      if (this.swipeEvents[i].pictures_events.length === 0) {
+        this.eventCounter++;
+        continue;
+      }
       container.innerHTML = container.innerHTML.concat(
         `<div _ngcontent-c1="" class="card-item stackedcards-top stackedcards--animatable
             stackedcards-origin-top stackedcards-active">
@@ -54,6 +58,13 @@ export class SwipeEventsComponent implements OnInit {
             <div class="swipe-image-container">
             <img alt="image" src="${this.apiUrl}/files/${this.swipeEvents[i].pictures_events[0].pictureStorageName}">
             </div>
+            <mat-chip-list _ngcontent-c7="" class="mat-chip-list" tabindex="0" aria-required="false" aria-disabled="false" aria-invalid="false" aria-multiselectable="false" role="listbox" aria-orientation="horizontal" id="mat-chip-list-0">
+            <div class="mat-chip-list-wrapper">
+            ${this.swipeEvents[i].taggedEvents.map(
+          tag => `<mat-chip _ngcontent-c7="" class="mat-chip mat-primary mat-standard-chip" role="option" tabindex="-1" aria-disabled="false" aria-selected="false">
+              ${tag.tag.tagName}</mat-chip>`).join('')}
+            </div>
+            </mat-chip-list>
             <div class="info">
               <div>
                 <img class="icon" src="./assets/icons-black/time.png">
@@ -67,6 +78,7 @@ export class SwipeEventsComponent implements OnInit {
          </div>`
       );
     }
+
   }
 
   stackedCards(): void {
@@ -364,42 +376,55 @@ export class SwipeEventsComponent implements OnInit {
     }
 
     function afterSwipe() {
+      // TODO check this, it could go wrong
       stackedCardsObj.removeChild(currentElementObj);
       that.eventCounter++;
       if (that.eventCounter === environment.reloadEvery) {
         that.dataService.fetchNewSwipeEvents();
         const container = document.getElementById("stackedcards-container");
         for (let i = 0; i < environment.reloadEvery; i++) {
+          if (that.swipeEvents[i].pictures_events.length === 0) {
+            that.eventCounter++;
+            continue;
+          }
           container.innerHTML = container.innerHTML.concat(
             // TODO deal with code duplicat
             `<div _ngcontent-c1="" class="card-item stackedcards-top stackedcards--animatable
-            stackedcards-origin-top stackedcards-active">
-            <h1 class="event-card-headline">
-             ${that.swipeEvents[i + environment.reloadEvery / 2].headline}
-            </h1>
-            <div class="swipe-image-container">
-            <img style="width: 100%" alt="image" src="${that.apiUrl}/files/${that.swipeEvents[i + environment.reloadEvery / 2].pictures_events[0].pictureStorageName}">
-            </div>
-            <div class="info">
-             <div>
-                <img class="icon" src="./assets/icons-black/time.png">
-                ${that.dateDisplayService.parseDate(that.swipeEvents[i + environment.reloadEvery / 2].startTime)}
-              </div>
-              <div>
-                <img class="icon" src="./assets/icons-black/pin.png">
-                ${that.swipeEvents[i + environment.reloadEvery / 2].place}
-              </div>
-             </div>
-         </div>`
+    stackedcards-origin-top stackedcards-active">
+    <h1 class="event-card-headline">
+    ${that.swipeEvents[i + environment.reloadEvery / 2].headline}
+    </h1>
+    <div class="swipe-image-container">
+    <img style="width: 100%" alt="image" src="${that.apiUrl}/files/${that.swipeEvents[i + environment.reloadEvery / 2].pictures_events[0].pictureStorageName}">
+    </div>  
+    <mat-chip-list _ngcontent-c7="" class="mat-chip-list" tabindex="0" aria-required="false" aria-disabled="false" aria-invalid="false" aria-multiselectable="false" role="listbox" aria-orientation="horizontal" id="mat-chip-list-0">
+    <div class="mat-chip-list-wrapper">
+      ${that.swipeEvents[i + environment.reloadEvery / 2].taggedEvents.map(
+              tag => `<mat-chip _ngcontent-c7="" class="mat-chip mat-primary mat-standard-chip" role="option" tabindex="-1" aria-disabled="false" aria-selected="false">
+        ${tag.tag.tagName}</mat-chip>`)}
+    </div>
+    </mat-chip-list>
+    <div class="info">
+    <div>
+    <img class="icon" src="./assets/icons-black/time.png">
+    ${that.dateDisplayService.parseDate(that.swipeEvents[i + environment.reloadEvery / 2].startTime)}
+    </div>
+    <div>
+    <img class="icon" src="./assets/icons-black/pin.png">
+    ${that.swipeEvents[i + environment.reloadEvery / 2].place}
+    </div>
+    </div>
+    </div>`
           );
         }
+
         that.eventCounter = 0;
       }
 
       init();
     }
 
-    // Remove transitions from all elements to be moved in each swipe movement to improve perfomance of stacked cards.
+// Remove transitions from all elements to be moved in each swipe movement to improve perfomance of stacked cards.
     function removeNoTransition() {
       if (listElNodesObj[currentPosition]) {
 
@@ -415,7 +440,7 @@ export class SwipeEventsComponent implements OnInit {
 
     }
 
-    // Move the overlay left to initial position.
+// Move the overlay left to initial position.
     function resetOverlayLeft() {
 
       if (!(currentPosition >= maxElements)) {
@@ -458,7 +483,7 @@ export class SwipeEventsComponent implements OnInit {
       }
     }
 
-    // Move the overlay right to initial position.
+// Move the overlay right to initial position.
     function resetOverlayRight() {
 
       if (!(currentPosition >= maxElements)) {
@@ -501,7 +526,7 @@ export class SwipeEventsComponent implements OnInit {
       }
     }
 
-    // Move the overlays to initial position.
+// Move the overlays to initial position.
     function resetOverlays() {
 
       if (!(currentPosition >= maxElements)) {
@@ -557,7 +582,7 @@ export class SwipeEventsComponent implements OnInit {
             }*/
     }
 
-    // Set the new z-index for specific card.
+// Set the new z-index for specific card.
     function setZindex(zIndex) {
       if (listElNodesObj[currentPosition]) {
         listElNodesObj[currentPosition].style.zIndex = zIndex;
@@ -570,7 +595,7 @@ export class SwipeEventsComponent implements OnInit {
     and put the method just above the variable 'currentPosition = currentPosition + 1'.
     On the actions onSwipeLeft, onSwipeRight and onSwipeTop you need to remove the currentPosition
     variable (currentPosition = currentPosition + 1) and the function setActiveHidden
-  */
+    */
 
     function removeElement() {
       currentElementObj.remove();
@@ -579,21 +604,23 @@ export class SwipeEventsComponent implements OnInit {
       }
     }
 
-    // Add translate X and Y to active card for each frame.
+// Add translate X and Y to active card for each frame.
     function transformUi(moveX, moveY, opacity, elementObj) {
       requestAnimationFrame(function () {
         const element = elementObj;
 
         //  Function to generate rotate value
         function RotateRegulator(value) {
-          if (value / 10 > 15) {
+          // TODO 15 entspricht rotation nach rechts; -15 entspricht rotation nach links; wenn man immer -15 zurückgibt hat man keine probleme mehr
+          if (value > 150) {
             return 15;
-          } else if (value / 10 < -15) {
+          } else if (value < -150) {
             return -15;
           }
           return value / 10;
         }
 
+        // TODO: es liegt an der rotation; wenn man rotateElement auf 0 lässt, keine Probleme mehr
         let rotateElement = 0;
         if (rotate) {
           rotateElement = RotateRegulator(moveX);
@@ -602,6 +629,8 @@ export class SwipeEventsComponent implements OnInit {
         if (stackedOptions === "Top") {
           elTrans = elementsMargin * (items - 1);
           if (element) {
+            // TODO jan meint das hier ist besonders teuer; vielleicht kommt man irgendwie drum herum die styles so
+            // zu setzen? oder man setzt die rotation nur wenn man wirklich rotieren muss? geht das getrennt vom rest?
             element.style.webkitTransform = "translateX(" + moveX + "px) translateY("
               + (moveY + elTrans) + "px) translateZ(0) rotate(" + rotateElement + "deg)";
             element.style.transform = "translateX(" + moveX + "px) translateY("
@@ -622,7 +651,7 @@ export class SwipeEventsComponent implements OnInit {
       });
     }
 
-    //  Action to update all elements on the DOM for each stacked card.
+//  Action to update all elements on the DOM for each stacked card.
     function updateUi() {
       requestAnimationFrame(function () {
         elTrans = 0;
@@ -682,7 +711,7 @@ export class SwipeEventsComponent implements OnInit {
 
     }
 
-    // Touch events block
+// Touch events block
     const element = obj;
     let startTime;
     let startX;
@@ -838,7 +867,7 @@ export class SwipeEventsComponent implements OnInit {
     element.addEventListener("touchend", gestureEnd, false);
     element.addEventListener("click", route, false);
 
-    // Add listeners to call global action for swipe cards
+// Add listeners to call global action for swipe cards
     const buttonLeft = document.querySelector(".left-action");
     const buttonTop = document.querySelector(".top-action");
     const buttonRight = document.querySelector(".right-action");

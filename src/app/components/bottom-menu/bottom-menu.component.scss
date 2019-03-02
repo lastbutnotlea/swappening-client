@@ -1,12 +1,10 @@
 @import "../../../styles.scss";
 
 .menu {
-  position: absolute;
   bottom: 0;
   height: 6vh;
   width: 100%;
-  background-color: $mean;
-  border-top: solid $primary1 2px;
+  background-color: rgba(255, 255, 255, 0.34);
 }
 
 button {

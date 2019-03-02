@@ -1,6 +1,6 @@
 <div class="details-container">
 
-  <mat-card class="detail-card">
+  <mat-card class="detail-card" *ngIf="(event$ | async)">
 
     <mat-card-title>
       <h1 class="event-card-headline">{{(event$ | async).headline}}</h1>
@@ -9,9 +9,13 @@
     <mat-card-subtitle class="scrollable-content">
       <div class="image-container">
         <img
+          *ngIf="(event$ | async).pictures_events[clickCounter%(event$ | async).pictures_events.length]"
           src="{{this.apiUrl}}/files/{{(event$ | async).pictures_events[clickCounter%(event$ | async).pictures_events.length].pictureStorageName}}"
           (click)="cycleThroughPictures()" class="detail-image">
       </div>
+      <mat-chip-list>
+        <mat-chip *ngFor="let tag of (event$ | async).taggedEvents">{{tag.tag.tagName}}</mat-chip>
+      </mat-chip-list>
       <div class="description-info">
         <div>
           <img class="description-icon" src="./assets/icons-black/time.png">
@@ -24,13 +28,6 @@
       </div>
       <p class="description">{{(event$ | async).description}}</p>
     </mat-card-subtitle>
-
-    <!-- TODO: add tags -->
-    <!--<p class="tags" *ngIf="(myItem$ | async).tags">
-      <b *ngFor="let tag of (myItem$ | async).tags">
-      {{tag}}
-      </b>
-    </p>-->
 
   </mat-card>
 </div>

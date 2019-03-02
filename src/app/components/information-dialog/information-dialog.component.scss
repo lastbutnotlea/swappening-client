@@ -1,0 +1,10 @@
+@import "../../../styles.scss";
+
+.mat-dialog-actions {
+  margin-bottom: 0;
+}
+
+button {
+  background-color: $primary2;
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .2), 0 6px 10px 0 rgba(0, 0, 0, .04), 0 1px 18px 0 rgba(0, 0, 0, .12) !important;
+}

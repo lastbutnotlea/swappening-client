@@ -34,11 +34,29 @@ export class ApiService {
     }
   }
 
-  // TODO: register
+  public register(user: User, confirmedPassword: string, selectedFile: File): Promise<any> {
+    const requestUrl = environment.apiUrl + "/register";
+    const uploadData = new FormData();
+    if (selectedFile) uploadData.append("data", selectedFile, selectedFile.name);
+    uploadData.append("description", user.description);
+    if (user.distance) uploadData.append("distance", user.distance.toString());
+    uploadData.append("location", user.location);
+    uploadData.append("nickname", user.nickname);
+    uploadData.append("email", user.email);
+    uploadData.append("password", user.password);
+    uploadData.append("confirmPassword", confirmedPassword);
+    const test = this.http.post<any>(requestUrl,
+      uploadData, {
+        headers: {Authorization: "Bearer " + this.userToken}
+      }).toPromise();
+    return test;
+  }
 
-  // TODO: logout
+  public logout() {
+    this.userToken = null;
+    this.userId = null;
+  }
 
-  // TODO: getMyDetails
   public getMyDetails(): Observable<User> {
     const requestUrl = environment.apiUrl + "/user/me";
     return this.http.get<User>(requestUrl, {
@@ -46,7 +64,6 @@ export class ApiService {
     });
   }
 
-  // TODO: getUserDetails(userId: number)
   public getUserDetails(userId: number): Observable<User> {
     if (environment.useMockData) {
       return of(FAKE_USER);
@@ -58,7 +75,21 @@ export class ApiService {
     }
   }
 
-  // TODO: updateUserDetails
+  // TODO use data that backend returns?
+  public updateUserDetails(updatedUser: User, selectedFile: File): Observable<any> {
+    const requestUrl = environment.apiUrl + "/user/" + updatedUser.id;
+    const uploadData = new FormData();
+    if (selectedFile) uploadData.append("data", selectedFile, selectedFile.name);
+    uploadData.append("description", updatedUser.description);
+    if (updatedUser.distance) uploadData.append("distance", updatedUser.distance.toString());
+    uploadData.append("location", updatedUser.location);
+    uploadData.append("nickname", updatedUser.nickname);
+    uploadData.append("password", updatedUser.password);
+    return this.http.put(requestUrl,
+      uploadData, {
+        headers: {Authorization: "Bearer " + this.userToken}
+      });
+  }
 
   // TODO: deleteAccount
 
@@ -128,7 +159,6 @@ export class ApiService {
     });
   }
 
-  // TODO getLikedEvent
   public getLikedEvents(userId: string): Observable<Event[]> {
     if (environment.useMockData) {
       return of(FAKE_EVENTS);
@@ -144,7 +174,6 @@ export class ApiService {
 
   // TODO dislikeEvent (?)
 
-  // TODO: deleteEvent(eventId: string)
 
   public getFirstSwipeEvents(userId: string): Observable<Event[]> {
     if (environment.useMockData) {
@@ -197,7 +226,6 @@ export class ApiService {
     return this.userToken;
   }
 
-  // TODO getInterestedUsers(eventId: number)
   public getInterestedUsers(eventId: number): Observable<User[]> {
     const requestUrl = environment.apiUrl + "/user/forEvent/" + eventId;
     return this.http.get<User[]>(requestUrl, {
@@ -205,6 +233,12 @@ export class ApiService {
     });
   }
 
+  public getAllTags(): Observable<any[]> {
+    const requestUrl = environment.apiUrl + "/tag";
+    return this.http.get<any[]>(requestUrl, {
+      headers: {Authorization: "Bearer " + this.userToken}
+    });
+  }
 
   // TODO getChatUsers(userId: number)
 }

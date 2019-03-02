@@ -1,24 +1,19 @@
-<div class="edit-details-container">
+<div class="login-container">
 
-  <mat-card class="detail-card">
+  <div class="logo-container">
+    <img class="logo" src="./assets/logo2.png">
+  </div>
 
+  <div class="login-fields">
     <p class="input-info some-padding">email</p>
-    <textarea class="edit-description" matInput [(ngModel)]="email"></textarea>
+    <input class="edit-single-line" matInput [(ngModel)]="email">
 
     <p class="input-info some-padding">password</p>
-    <textarea class="edit-description" matInput [(ngModel)]="password"></textarea>
-
-    <!-- TODO: add tags -->
-    <!--<p class="tags" *ngIf="(myItem$ | async).tags">
-      <b *ngFor="let tag of (myItem$ | async).tags">
-      {{tag}}
-      </b>
-    </p>-->
-
-  </mat-card>
+    <input type="password" class="edit-single-line" matInput [(ngModel)]="password">
+  </div>
 </div>
 
-<button mat-fab color="warn" class="on-top-button-right" (click)="login()">Login</button>
+<button mat-fab color="warn" class="sign-in-button" (click)="login()">Login</button>
+<button mat-fab color="warn" class="sign-up-button higher" routerLink="/newuserprofile">Sign Up</button>
 <button mat-fab color="warn" class="on-top-button-left" (click)="loginUser1()">User 1</button>
 <button mat-fab color="warn" class="on-top-button-middle" (click)="loginUser2()">User 2</button>
-

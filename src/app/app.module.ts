@@ -22,8 +22,9 @@ import {LikedEventDetailsComponent} from "./screens/liked-event-details/liked-ev
 import {UserProfileComponent} from "./screens/user-profile/user-profile.component";
 import {OWL_DATE_TIME_FORMATS, OwlDateTimeModule, OwlNativeDateTimeModule} from "ng-pick-datetime";
 import {OwlMomentDateTimeModule} from "ng-pick-datetime-moment";
+import { ChatComponent } from "./screens/chat/chat.component";
 import {LoginComponent} from "./screens/login/login.component";
-import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from "./components/confirmation-dialog/confirmation-dialog.component";
 
 export const MY_MOMENT_FORMATS = {
   parseInput: "DD.MM.YY HH:mm",
@@ -81,6 +82,10 @@ const appRoutes: Routes = [
     path: "userprofile/:id",
     component: UserProfileComponent
   },
+  {
+    path: "chat/:chatId/:partnerUserId/:isEventOwner",
+    component: ChatComponent
+  },
 ];
 
 @NgModule({
@@ -99,7 +104,8 @@ const appRoutes: Routes = [
     LikedEventDetailsComponent,
     UserProfileComponent,
     LoginComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    ChatComponent,
   ],
   imports: [
     BrowserModule,

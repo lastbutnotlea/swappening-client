@@ -2,8 +2,9 @@ import {Injectable, OnInit} from "@angular/core";
 import {ApiService} from "./api.service";
 import {BehaviorSubject, Observable} from "rxjs";
 import {Event} from "../shared/event-model";
-import {User} from "../shared/user-model";
 import {map} from "rxjs/operators";
+import {ChatService} from "./chat.service";
+import {User} from "../shared/user-model";
 
 
 @Injectable({
@@ -21,46 +22,55 @@ export class DataService implements OnInit {
 
   // Users
   private _me: BehaviorSubject<User> = new BehaviorSubject<User>(null);
+  private _idToUsers: BehaviorSubject<Map<number, User>> = new BehaviorSubject<Map<number, User>>(new Map);
   // private _interestedUsers: BehaviorSubject<User[]> = new BehaviorSubject([]);
   private _interestedUsers: BehaviorSubject<Map<number, User[]>> = new BehaviorSubject<Map<number, User[]>>(new Map);
   private _currentUser: BehaviorSubject<User> = new BehaviorSubject<User>(null);
 
 
-  constructor(private apiService: ApiService) {
+  constructor(private apiService: ApiService, private chatService: ChatService) {
     // TODO don't forget to delete this
-    this.apiService.login('test123@beispiel.de', 'password123').then(() =>
-    {
+    // this.apiService.login('test123@beispiel.de', 'password123').then(() =>
+    // {
 
-      this.apiService.getHostedEvents("1213").subscribe(res => {
-        this._hostedEvents.next(res);
-        this._hostedEventsLoaded.next(true);
-        const myMap = new Map();
-        const hostedEvents: Event[] = this._hostedEvents.value;
-        hostedEvents.forEach(hostedEvent => {
-          this.apiService.getInterestedUsers(hostedEvent.id).subscribe(userRes => {
-            myMap.set(hostedEvent.id, userRes);
-            this._interestedUsers.next(myMap);
-          });
+    this.apiService.getHostedEvents("1213").subscribe(res => {
+      this._hostedEvents.next(res);
+      this._hostedEventsLoaded.next(true);
+      const myMap = new Map();
+      const hostedEvents: Event[] = this._hostedEvents.value;
+      hostedEvents.forEach(hostedEvent => {
+        this.apiService.getInterestedUsers(hostedEvent.id).subscribe(userRes => {
+          myMap.set(hostedEvent.id, userRes);
+          this._interestedUsers.next(myMap);
         });
-        /*          for (let hostedEvent in hostedEvents) {
-                this.apiService.getInterestedUsers(hostedEvent.id).subscribe(userRes => {
-                  myMap.set(hostedEvent.id, userRes);
-                  this._interestedUsers.next(myMap);
-                });
-              }*/
       });
-      this.apiService.getLikedEvents("1213").subscribe(res => {
-        this._likedEvents.next(res);
-        this._likedEventsLoaded.next(true);
-      });
-      this.apiService.getFirstSwipeEvents("1213").subscribe(res => {
-        this._swipeEvents.next(res);
-        this._swipeEventsLoaded.next(true);
-      });
-      this.apiService.getMyDetails().subscribe(res => {
-        this._me.next(res);
-      });
+      /*          for (let hostedEvent in hostedEvents) {
+              this.apiService.getInterestedUsers(hostedEvent.id).subscribe(userRes => {
+                myMap.set(hostedEvent.id, userRes);
+                this._interestedUsers.next(myMap);
+              });
+            }*/
     });
+    this.apiService.getLikedEvents("1213").subscribe(res => {
+      this._likedEvents.next(res);
+      this._likedEventsLoaded.next(true);
+    });
+    this.apiService.getFirstSwipeEvents("1213").subscribe(res => {
+      this._swipeEvents.next(res);
+      this._swipeEventsLoaded.next(true);
+    });
+    this.apiService.getMyDetails().subscribe(res => {
+      this._me.next(res);
+    });
+    // ToDo: delete this when _idToUser is filled automatically (probably in from chat.service)
+    this.apiService.getUserDetails(1).subscribe(res => {
+      this._idToUsers.next(this._idToUsers.value.set(1, res));
+    });
+    this.apiService.getUserDetails(5).subscribe(res => {
+      this._idToUsers.next(this._idToUsers.value.set(5, res));
+    });
+    this.chatService.initChatAfterLogin();
+    // });
   }
 
   ngOnInit() {
@@ -126,7 +136,9 @@ export class DataService implements OnInit {
     return findUser;
   }*/
   public user(userId: number): Observable<User> {
-    this.apiService.getUserDetails(userId).subscribe(res => {this._currentUser.next(res); });
+    this.apiService.getUserDetails(userId).subscribe(res => {
+      this._currentUser.next(res);
+    });
     return new Observable<User>(fn => this._currentUser.subscribe(fn));
   }
 

@@ -1,12 +1,14 @@
-import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Event, FAKE_EVENTS} from '../shared/event-model';
-import {environment} from '../../environments/environment';
-import {Observable, of} from 'rxjs';
-import {FAKE_USER, User} from '../shared/user-model';
+import {HttpClient} from "@angular/common/http";
+import {Injectable} from "@angular/core";
+import {Event, FAKE_EVENTS} from "../shared/event-model";
+import {environment} from "../../environments/environment";
+import {Observable, of} from "rxjs";
+import {FAKE_USER, User} from "../shared/user-model";
+import {Message} from "../shared/messages-model";
+import {Chat} from "../shared/chat-model";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class ApiService {
 
@@ -19,7 +21,7 @@ export class ApiService {
   public login(email, password): Promise<void> {
     if (environment.useMockData) {
     } else {
-      const requestUrl = environment.apiUrl + '/login';
+      const requestUrl = environment.apiUrl + "/login";
       return this.http.post<string>(requestUrl, {
         email,
         password
@@ -38,9 +40,9 @@ export class ApiService {
 
   // TODO: getMyDetails
   public getMyDetails(): Observable<User> {
-    const requestUrl = environment.apiUrl + '/user/me';
+    const requestUrl = environment.apiUrl + "/user/me";
     return this.http.get<User>(requestUrl, {
-      headers: {Authorization: 'Bearer ' + this.userToken}
+      headers: {Authorization: "Bearer " + this.userToken}
     });
   }
 
@@ -49,9 +51,9 @@ export class ApiService {
     if (environment.useMockData) {
       return of(FAKE_USER);
     } else {
-      const requestUrl = environment.apiUrl + '/usr/' + userId;
+      const requestUrl = environment.apiUrl + "/user/" + userId;
       return this.http.get<User>(requestUrl, {
-        headers: {Authorization: 'Bearer ' + this.userToken}
+        headers: {Authorization: "Bearer " + this.userToken}
       });
     }
   }
@@ -64,66 +66,66 @@ export class ApiService {
     if (environment.useMockData) {
       return of(FAKE_EVENTS);
     } else {
-      const requestUrl = environment.apiUrl + '/event/ofUser/' + this.userId;
+      const requestUrl = environment.apiUrl + "/event/ofUser/" + this.userId;
       return this.http.get<Event[]>(requestUrl, {
-        headers: {Authorization: 'Bearer ' + this.userToken}
-      })
+        headers: {Authorization: "Bearer " + this.userToken}
+      });
     }
   }
 
   public createNewHostedEvent(newEvent: Event): Observable<Event> {
-    const requestUrl = environment.apiUrl + '/event';
+    const requestUrl = environment.apiUrl + "/event";
     return this.http.post<Event>(requestUrl, {
       ...newEvent
     }, {
-      headers: {Authorization: 'Bearer ' + this.userToken}
-    })
+      headers: {Authorization: "Bearer " + this.userToken}
+    });
   }
 
   public deleteHostedEvent(eventId: number): Observable<any> {
-    const requestUrl = environment.apiUrl + '/event/' + eventId;
+    const requestUrl = environment.apiUrl + "/event/" + eventId;
     return this.http.delete(requestUrl, {
-      headers: {Authorization: 'Bearer ' + this.userToken}
+      headers: {Authorization: "Bearer " + this.userToken}
     });
   }
 
   public uploadPicture(selectedFile: File, eventId: number): Observable<any[]> {
     const uploadData = new FormData();
-    uploadData.append('data', selectedFile, selectedFile.name);
-    uploadData.append('eventId', eventId.toString());
-    const requestUrl = environment.apiUrl + '/event/image';
+    uploadData.append("data", selectedFile, selectedFile.name);
+    uploadData.append("eventId", eventId.toString());
+    const requestUrl = environment.apiUrl + "/event/image";
     return this.http.post<any[]>(requestUrl,
       uploadData,
       {
-        headers: {Authorization: 'Bearer ' + this.userToken}
+        headers: {Authorization: "Bearer " + this.userToken}
       }
     );
   }
 
   public deletePicture(pictureStorageName: string): Observable<any> {
-    const requestUrl = environment.apiUrl + '/event/image/' + pictureStorageName;
+    const requestUrl = environment.apiUrl + "/event/image/" + pictureStorageName;
     return this.http.delete(requestUrl, {
-        headers: {Authorization: 'Bearer ' + this.userToken}
+        headers: {Authorization: "Bearer " + this.userToken}
       }
     );
   }
 
   public makeFirstPicture(pictureOrdering, eventId: number): Observable<any> {
-    const requestUrl = environment.apiUrl + '/event/image/updateOrder/' + eventId;
+    const requestUrl = environment.apiUrl + "/event/image/updateOrder/" + eventId;
     return this.http.put(requestUrl,
       pictureOrdering,
       {
-        headers: {Authorization: 'Bearer ' + this.userToken}
+        headers: {Authorization: "Bearer " + this.userToken}
       });
   }
 
   public updateHostedEvent(updatedEvent: Event): Observable<Event> {
-    const requestUrl = environment.apiUrl + '/event/' + updatedEvent.id;
+    const requestUrl = environment.apiUrl + "/event/" + updatedEvent.id;
     return this.http.put<Event>(requestUrl, {
       ...updatedEvent
     }, {
-      headers: {Authorization: 'Bearer ' + this.userToken}
-    })
+      headers: {Authorization: "Bearer " + this.userToken}
+    });
   }
 
   // TODO getLikedEvent
@@ -131,10 +133,10 @@ export class ApiService {
     if (environment.useMockData) {
       return of(FAKE_EVENTS);
     } else {
-      const requestUrl = environment.apiUrl + '/event/forUser/liked'; // + this.userId;
+      const requestUrl = environment.apiUrl + "/event/forUser/liked"; // + this.userId;
       return this.http.get<Event[]>(requestUrl, {
-        headers: {Authorization: 'Bearer ' + this.userToken}
-      })
+        headers: {Authorization: "Bearer " + this.userToken}
+      });
     }
   }
 
@@ -148,9 +150,9 @@ export class ApiService {
     if (environment.useMockData) {
       return of(FAKE_EVENTS);
     } else {
-      const requestUrl = environment.apiUrl + '/event/forUser/' + this.userId + '/' + environment.reloadEvery * 1.5;
+      const requestUrl = environment.apiUrl + "/event/forUser/" + this.userId + "/" + environment.reloadEvery * 1.5;
       return this.http.get<Event[]>(requestUrl, {
-        headers: {Authorization: 'Bearer ' + this.userToken}
+        headers: {Authorization: "Bearer " + this.userToken}
       });
     }
   }
@@ -159,19 +161,48 @@ export class ApiService {
     if (environment.useMockData) {
       return of(FAKE_EVENTS.slice(0, 10));
     } else {
-      const requestUrl = environment.apiUrl + '/event/forUser/' + this.userId + '/' + environment.reloadEvery;
+      const requestUrl = environment.apiUrl + "/event/forUser/" + this.userId + "/" + environment.reloadEvery;
       return this.http.get<Event[]>(requestUrl, {
-        headers: {Authorization: 'Bearer ' + this.userToken}
-      })
+        headers: {Authorization: "Bearer " + this.userToken}
+      });
     }
+  }
+
+  public getAllChats(): Observable<Chat[]> {
+    const requestUrl = environment.apiUrl + "/chat/";
+    return this.http.get<Chat[]>(requestUrl, {
+      headers: {Authorization: "Bearer " + this.userToken}
+    });
+  }
+
+  public sendMessage(chatId: number, isMessageOfOwner: boolean, message: string) {
+    const requestUrl = environment.apiUrl + "/chat/messages";
+    this.http.post(requestUrl, {
+      chatId: chatId,
+      isMessageOfOwner: isMessageOfOwner,
+      message: message
+    }, {
+      headers: {Authorization: "Bearer " + this.userToken}
+    });
+  }
+
+  public getMessageOfChat(chatId: number): Observable<Message[]> {
+    const requestUrl = environment.apiUrl + "/chat/messages/" + chatId;
+    return this.http.get<Message[]>(requestUrl, {
+      headers: {Authorization: "Bearer " + this.userToken}
+    });
+  }
+
+  public getToken() {
+    return this.userToken;
   }
 
   // TODO getInterestedUsers(eventId: number)
   public getInterestedUsers(eventId: number): Observable<User[]> {
-    const requestUrl = environment.apiUrl + '/user/forEvent/' + eventId;
-      return this.http.get<User[]>(requestUrl, {
-        headers: {Authorization: 'Bearer ' + this.userToken}
-      })
+    const requestUrl = environment.apiUrl + "/user/forEvent/" + eventId;
+    return this.http.get<User[]>(requestUrl, {
+      headers: {Authorization: "Bearer " + this.userToken}
+    });
   }
 
 

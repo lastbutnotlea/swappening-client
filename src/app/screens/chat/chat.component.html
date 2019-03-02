@@ -1,0 +1,12 @@
+<div routerLink="/matches" class="back-button">< back</div>
+<input type="text" id="message" placeholder="Chat here..." (keyup.enter)="sendMessage($event.target.value)" [(ngModel)]="messageToSend" />
+
+<div class="scrollable">
+  <div class="chat-container" *ngFor="let message of (chat$ | async).messages">
+    <a href="#" *ngIf="message.isMessageOfOwner">{{ownerName$ | async}}</a>
+    <a href="#" *ngIf="!message.isMessageOfOwner">{{notOwnerName$ | async}}</a>
+
+    <p>{{message.message}}</p>
+  </div>
+</div>
+

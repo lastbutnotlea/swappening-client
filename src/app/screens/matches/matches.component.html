@@ -3,11 +3,12 @@
     Matches
   </h1>
   <div class="scrollable">
-    <mat-card class="chat-card" *ngFor="let user of (interestedUsers$ | async)" routerLink="/userprofile/{{user.id}}"> 
+    <!--<mat-card class="chat-card" *ngFor="let user of (interestedUsers$ | async)" routerLink="/userprofile/{{user.id}}">-->
+    <mat-card routerLink="/chat/1/{{chat.userId}}/{{chat.isUser}}" class="chat-card" *ngFor="let chat of chats">
       <img class="icon" src="../../../assets/portrait.jpg">
       <mat-card-header>
-        <mat-card-title>{{user.nickname}}</mat-card-title>
-        <mat-card-subtitle>would like to come to your event {{eventId}}</mat-card-subtitle>
+        <!--<mat-card-title>{{user.nickname}}</mat-card-title>-->
+        <mat-card-subtitle>would like to come to your event {{eventId}} as user {{chat.userId}}</mat-card-subtitle>
       </mat-card-header>
     </mat-card>
   </div>

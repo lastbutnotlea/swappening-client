@@ -18,7 +18,6 @@ export class SwipeEventsComponent implements OnInit {
 
   private swipeEvents$: Observable<Event[]>;
   private swipeEvents: Event[];
-  private eventCounter = 0;
   private apiUrl: string;
 
   private filterExpanded = false;
@@ -26,6 +25,7 @@ export class SwipeEventsComponent implements OnInit {
   private tagCtrl = new FormControl();
   private filteredTags: Observable<string[]>;
   private allTags: string[] = ["Pool", "Shit"];
+  private initialSetup = true;
 
   @ViewChild("tagInput") tagInput: ElementRef<HTMLInputElement>;
   @ViewChild("auto") matAutocomplete: MatAutocomplete;
@@ -59,6 +59,9 @@ export class SwipeEventsComponent implements OnInit {
 
   filter() {
     if (this.filterExpanded) {
+      this.initialSetup = true;
+      this.dataService.resetEventCounter();
+      this.dataService.fetchInitialSwipeEvents();
       this.filterExpanded = false;
     } else {
       this.filterExpanded = true;
@@ -107,11 +110,17 @@ export class SwipeEventsComponent implements OnInit {
   }
 
   setUpCards() {
-    const initialNumberOfEvents = environment.reloadEvery * 1.5;
+    let numberOfCards;
     const container = document.getElementById("stackedcards-container");
-    for (let i = 0; i < initialNumberOfEvents; i++) {
+    if (this.initialSetup) {
+      numberOfCards = environment.reloadEvery * 1.5 - this.dataService.eventCounter;
+      container.innerHTML = '';
+      this.initialSetup = false;
+    }
+    else numberOfCards = environment.reloadEvery;
+    for (let i = 0; i < numberOfCards; i++) {
       if (this.swipeEvents[i].pictures_events.length === 0) {
-        this.eventCounter++;
+        this.dataService.increaseEventCounter();
         continue;
       }
       container.innerHTML = container.innerHTML.concat(
@@ -144,6 +153,7 @@ export class SwipeEventsComponent implements OnInit {
       );
     }
 
+    //this.dataService.resetEventCounter();
   }
 
   stackedCards(): void {
@@ -184,7 +194,7 @@ export class SwipeEventsComponent implements OnInit {
 
     function init() {
       obj = document.getElementById("stacked-cards-block");
-      stackedCardsObj = obj.querySelector(".stackedcards-container");
+      stackedCardsObj = document.getElementById("stackedcards-container");
       listElNodesObj = stackedCardsObj.children;
 
       topObj = obj.querySelector(".stackedcards-overlay.top");
@@ -441,19 +451,20 @@ export class SwipeEventsComponent implements OnInit {
     }
 
     function afterSwipe() {
-      // TODO check this, it could go wrong
       stackedCardsObj.removeChild(currentElementObj);
-      that.eventCounter++;
-      if (that.eventCounter === environment.reloadEvery) {
+      that.dataService.swipeAnEvent();
+      that.dataService.increaseEventCounter();
+      if (that.dataService.eventCounter === environment.reloadEvery) {
         that.dataService.fetchNewSwipeEvents();
-        const container = document.getElementById("stackedcards-container");
+        that.dataService.resetEventCounter();
+      }
+        /*const container = document.getElementById("stackedcards-container");
         for (let i = 0; i < environment.reloadEvery; i++) {
           if (that.swipeEvents[i].pictures_events.length === 0) {
-            that.eventCounter++;
+            that.dataService.increaseEventCounter();
             continue;
           }
           container.innerHTML = container.innerHTML.concat(
-            // TODO deal with code duplicat
             `<div _ngcontent-c1="" class="card-item stackedcards-top stackedcards--animatable
     stackedcards-origin-top stackedcards-active">
     <h1 class="event-card-headline">
@@ -482,9 +493,8 @@ export class SwipeEventsComponent implements OnInit {
     </div>`
           );
         }
-
-        that.eventCounter = 0;
-      }
+        that.dataService.resetEventCounter();
+      }*/
 
       init();
     }
@@ -942,7 +952,7 @@ export class SwipeEventsComponent implements OnInit {
     buttonRight.addEventListener("click", onActionRight, false);
 
     function route() {
-      const currentId = that.swipeEvents[that.eventCounter].id;
+      const currentId = that.swipeEvents[0].id;
       that.router.navigate(["/swipeevents/" + currentId]);
     }
   }

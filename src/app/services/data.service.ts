@@ -31,47 +31,55 @@ export class DataService implements OnInit {
   private _interestedUsers: BehaviorSubject<Map<number, User[]>> = new BehaviorSubject<Map<number, User[]>>(new Map);
   private _currentUser: BehaviorSubject<User> = new BehaviorSubject<User>(null);
 
+  // aux
+  private _eventCounter = 0;
 
   constructor(private apiService: ApiService) {
-    if (environment.autoLogin) this.apiService.login('kevin@mail.de', 'kevinkevin');
-    this.apiService.getLoggedIn().subscribe(loggedIn => {
-      if (!loggedIn) return;
-      else {
-        this.apiService.getMyDetails().subscribe(res => {
-          this._me.next(res);
-          this._myId = this._me.value.id.toString();
-          this.apiService.getHostedEvents(this._myId).subscribe(res => {
-            this._hostedEvents.next(res);
-            this._hostedEventsLoaded.next(true);
-            const myMap = new Map();
-            const hostedEvents: Event[] = this._hostedEvents.value;
-            hostedEvents.forEach(hostedEvent => {
-              this.apiService.getInterestedUsers(hostedEvent.id).subscribe(userRes => {
-                myMap.set(hostedEvent.id, userRes);
-                this._interestedUsers.next(myMap);
-              });
-            });
-            /*          for (let hostedEvent in hostedEvents) {
-                    this.apiService.getInterestedUsers(hostedEvent.id).subscribe(userRes => {
-                      myMap.set(hostedEvent.id, userRes);
-                      this._interestedUsers.next(myMap);
-                    });
-                  }*/
+    if (environment.autoLogin) this.apiService.login('test123@beispiel.de', 'password123').then(
+      () => this.loadInitialData()
+    );
+    else {
+      this.apiService.loggedIn.subscribe(loggedIn => {
+        if (!loggedIn) return;
+        else this.loadInitialData();
+      });
+    }
+  }
+
+  loadInitialData() {
+    this.apiService.getMyDetails().subscribe(res => {
+      this._me.next(res);
+      this._myId = this._me.value.id.toString();
+      this.apiService.getHostedEvents(this._myId).subscribe(res => {
+        this._hostedEvents.next(res);
+        this._hostedEventsLoaded.next(true);
+        const myMap = new Map();
+        const hostedEvents: Event[] = this._hostedEvents.value;
+        hostedEvents.forEach(hostedEvent => {
+          this.apiService.getInterestedUsers(hostedEvent.id).subscribe(userRes => {
+            myMap.set(hostedEvent.id, userRes);
+            this._interestedUsers.next(myMap);
           });
-          this.apiService.getLikedEvents(this._myId).subscribe(res => {
-            this._likedEvents.next(res);
-            this._likedEventsLoaded.next(true);
-          });
-          this.apiService.getFirstSwipeEvents(this._myId).subscribe(res => {
-            this._swipeEvents.next(res);
-            this._swipeEventsLoaded.next(true);
-          });
-          this.apiService.getAllTags().subscribe(res => {
-            this._allTags.next(res.map(tag => tag.tagName));
-            this._allTagsLoaded.next(true);
-          })
         });
-      }
+        /*          for (let hostedEvent in hostedEvents) {
+                this.apiService.getInterestedUsers(hostedEvent.id).subscribe(userRes => {
+                  myMap.set(hostedEvent.id, userRes);
+                  this._interestedUsers.next(myMap);
+                });
+              }*/
+      });
+      this.apiService.getLikedEvents(this._myId).subscribe(res => {
+        this._likedEvents.next(res);
+        this._likedEventsLoaded.next(true);
+      });
+      this.apiService.getFirstSwipeEvents(this._myId).subscribe(res => {
+        this._swipeEvents.next(res);
+        this._swipeEventsLoaded.next(true);
+      });
+      this.apiService.getAllTags().subscribe(res => {
+        this._allTags.next(res.map(tag => tag.tagName));
+        this._allTagsLoaded.next(true);
+      })
     });
   }
 
@@ -132,6 +140,7 @@ export class DataService implements OnInit {
     return new Observable<Event[]>(fn =>
       this._likedEvents.subscribe(fn)).pipe(map((likedEvents: Event[]) => likedEvents.find(event => event.id === id)));
   }
+
   swipeEvent(id: number): Observable<Event> {
     return new Observable<Event[]>(fn =>
       this._swipeEvents.subscribe(fn)).pipe(map((swipeEvents: Event[]) => swipeEvents.find(event => event.id === id)));
@@ -227,6 +236,35 @@ export class DataService implements OnInit {
   }
 
   public fetchNewSwipeEvents() {
-    this.apiService.getSwipeEvents(this._myId).subscribe(res => this._swipeEvents.next(this._swipeEvents.value.slice(10, 15).concat(res)));
+    this._swipeEventsLoaded.next(false);
+    this.apiService.getSwipeEvents(this._myId).subscribe(res => {
+      this._swipeEvents.next(this._swipeEvents.value.concat(res));
+      this._swipeEventsLoaded.next(true);
+    });
+  }
+
+  public swipeAnEvent() {
+    this._swipeEvents.next(this._swipeEvents.value.slice(1));
+    // TODO: don't forget to do the swipe event backend call
+  }
+
+  public fetchInitialSwipeEvents() {
+    this._swipeEventsLoaded.next(false);
+    this.apiService.getFirstSwipeEvents(this._myId).subscribe(res => {
+      this._swipeEvents.next(res);
+      this._swipeEventsLoaded.next(true);
+    });
+  }
+
+  get eventCounter(): number {
+    return this._eventCounter;
+  }
+
+  increaseEventCounter() {
+    this._eventCounter++;
+  }
+
+  resetEventCounter() {
+    this._eventCounter = 0;
   }
 }

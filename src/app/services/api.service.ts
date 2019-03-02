@@ -11,7 +11,7 @@ import {FAKE_USER, User} from "../shared/user-model";
 export class ApiService {
 
   userToken: string;
-  loggedIn: Observable<boolean>;
+  public loggedIn: Observable<boolean> = of(false);
 
   constructor(private http: HttpClient) {
   }

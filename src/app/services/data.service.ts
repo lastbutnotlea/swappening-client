@@ -123,6 +123,10 @@ export class DataService implements OnInit {
     return new Observable<User>(fn => this._me.subscribe(fn));
   }
 
+  get myId(): string {
+    return this._myId;
+  }
+
   hostedEvent(id: number): Observable<Event> {
     return new Observable<Event[]>(fn =>
       this._hostedEvents.subscribe(fn)).pipe(map((hostedEvents: Event[]) => hostedEvents.find(event => event.id === id)));

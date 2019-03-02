@@ -80,3 +80,7 @@
 <button *ngIf="isEdit" mat-fab class="on-top-button-left" (click)="deleteEvent()">
   <img class="delete-icon" src="./assets/icons-black/garbage-2.png">
 </button>
+
+<button *ngIf="!isEdit" mat-fab class="on-top-button-left" routerLink="/hostedevents">
+  <img class="delete-icon" src="./assets/icons-black/garbage-2.png">
+</button>

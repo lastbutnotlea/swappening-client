@@ -250,4 +250,24 @@ export class EditEventDetailsComponent implements OnInit {
     this.clickCounter++;
     this.checked = (this.clickCounter % this.numberOfPictures) == this.soonToBeFirst;
   }
+
+  changeIsPrivate() {
+    if(this.eventModel.isPrivate === false) {
+      this.eventModel.isPrivate = true;
+    }
+    else{
+      this.eventModel.isPrivate = false;
+    }
+  }
+
+  changeHasChat() {
+    if(this.eventModel.hasChat === false) {
+      this.eventModel.hasChat = true;
+    }
+    else{
+      this.eventModel.hasChat = false;
+    }
+  }
+
+
 }

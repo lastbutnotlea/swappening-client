@@ -213,5 +213,11 @@ export class ApiService {
     });
   }
 
+  public createChat(eventId: number, userId: number): Observable<any> {
+    const requestUrl = environment.apiUrl + "/chat/init/" + eventId + "/" + userId ;
+    return this.http.get(requestUrl, {
+      headers: {Authorization: "Bearer " + this.userToken}
+    });
+  }
   // TODO getChatUsers(userId: number)
 }

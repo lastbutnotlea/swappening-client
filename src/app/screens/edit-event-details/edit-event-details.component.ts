@@ -72,6 +72,7 @@ export class EditEventDetailsComponent implements OnInit {
       });
     } else {
       this.isEdit = false;
+      this.tags = [];
       this.numberOfPictures = 0;
       this.eventModel = {
         id: 0,

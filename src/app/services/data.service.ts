@@ -4,6 +4,7 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {Event} from "../shared/event-model";
 import {User} from "../shared/user-model";
 import {map} from "rxjs/operators";
+import {environment} from "../../environments/environment";
 
 
 @Injectable({
@@ -32,44 +33,45 @@ export class DataService implements OnInit {
 
 
   constructor(private apiService: ApiService) {
-    // TODO don't forget to delete this
-    this.apiService.login('kevin@mail.de', 'kevinkevin').then(() =>
-    {
-      this.apiService.getMyDetails().subscribe(res => {
-        this._me.next(res);
-        this._myId = this._me.value.id.toString();
-        this.apiService.getHostedEvents(this._myId).subscribe(res => {
-          this._hostedEvents.next(res);
-          this._hostedEventsLoaded.next(true);
-          const myMap = new Map();
-          const hostedEvents: Event[] = this._hostedEvents.value;
-          hostedEvents.forEach(hostedEvent => {
-            this.apiService.getInterestedUsers(hostedEvent.id).subscribe(userRes => {
-              myMap.set(hostedEvent.id, userRes);
-              this._interestedUsers.next(myMap);
+    if (environment.autoLogin) this.apiService.login('kevin@mail.de', 'kevinkevin');
+    this.apiService.loggedIn.subscribe(loggedIn => {
+      if (!loggedIn) return;
+      else {
+        this.apiService.getMyDetails().subscribe(res => {
+          this._me.next(res);
+          this._myId = this._me.value.id.toString();
+          this.apiService.getHostedEvents(this._myId).subscribe(res => {
+            this._hostedEvents.next(res);
+            this._hostedEventsLoaded.next(true);
+            const myMap = new Map();
+            const hostedEvents: Event[] = this._hostedEvents.value;
+            hostedEvents.forEach(hostedEvent => {
+              this.apiService.getInterestedUsers(hostedEvent.id).subscribe(userRes => {
+                myMap.set(hostedEvent.id, userRes);
+                this._interestedUsers.next(myMap);
+              });
             });
+            /*          for (let hostedEvent in hostedEvents) {
+                    this.apiService.getInterestedUsers(hostedEvent.id).subscribe(userRes => {
+                      myMap.set(hostedEvent.id, userRes);
+                      this._interestedUsers.next(myMap);
+                    });
+                  }*/
           });
-          /*          for (let hostedEvent in hostedEvents) {
-                  this.apiService.getInterestedUsers(hostedEvent.id).subscribe(userRes => {
-                    myMap.set(hostedEvent.id, userRes);
-                    this._interestedUsers.next(myMap);
-                  });
-                }*/
+          this.apiService.getLikedEvents(this._myId).subscribe(res => {
+            this._likedEvents.next(res);
+            this._likedEventsLoaded.next(true);
+          });
+          this.apiService.getFirstSwipeEvents(this._myId).subscribe(res => {
+            this._swipeEvents.next(res);
+            this._swipeEventsLoaded.next(true);
+          });
+          this.apiService.getAllTags().subscribe(res => {
+            this._allTags.next(res.map(tag => tag.tagName));
+            this._allTagsLoaded.next(true);
+          })
         });
-        this.apiService.getLikedEvents(this._myId).subscribe(res => {
-          this._likedEvents.next(res);
-          this._likedEventsLoaded.next(true);
-        });
-        this.apiService.getFirstSwipeEvents(this._myId).subscribe(res => {
-          this._swipeEvents.next(res);
-          this._swipeEventsLoaded.next(true);
-        });
-        this.apiService.getAllTags().subscribe(res => {
-          this._allTags.next(res.map(tag => tag.tagName));
-          this._allTagsLoaded.next(true);
-        })
-      });
-
+      }
     });
   }
 

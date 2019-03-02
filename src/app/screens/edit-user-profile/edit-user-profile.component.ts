@@ -69,6 +69,13 @@ export class EditUserProfileComponent implements OnInit {
 
   saveUser() {
     if (this.isEdit) {
+      if (this.userModel.password !== this.confirmedPassword) {
+        const dialogReference = this.informationDialog.open(InformationDialogComponent, {
+          width: "50vw",
+          data: {title: 'Passwords do not match'},
+          autoFocus: false
+        });
+      }
       this.dataService.updateUserDetails(this.userModel, this.selectedFile);
       this.router.navigate(['/userprofile/me']);
     } else {

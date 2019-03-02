@@ -62,7 +62,7 @@ export class SwipeEventsComponent implements OnInit {
             <div class="mat-chip-list-wrapper">
             ${this.swipeEvents[i].taggedEvents.map(
           tag => `<mat-chip _ngcontent-c7="" class="mat-chip mat-primary mat-standard-chip" role="option" tabindex="-1" aria-disabled="false" aria-selected="false">
-              ${tag.tag.tagName}</mat-chip>`)}
+              ${tag.tag.tagName}</mat-chip>`).join('')}
             </div>
             </mat-chip-list>
             <div class="info">

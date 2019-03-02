@@ -5,6 +5,7 @@
 
 export const environment = {
   production: false,
+  autoLogin: false,
   useMockData: false,
   reloadEvery: 10,
   apiUrl: 'http://vmkemper14.informatik.tu-muenchen.de:8080',

@@ -396,11 +396,13 @@ export class SwipeEventsComponent implements OnInit {
     </h1>
     <div class="swipe-image-container">
     <img style="width: 100%" alt="image" src="${that.apiUrl}/files/${that.swipeEvents[i + environment.reloadEvery / 2].pictures_events[0].pictureStorageName}">
-    </div>
-    <mat-chip-list>
-      ${that.swipeEvents[i].taggedEvents.map(
-              tag => `<mat-chip _ngcontent-c1="" class="mat-chip mat-primary mat-standard-chip" role="option" tabindex="-1" aria-disabled="false" aria-selected="false">
+    </div>  
+    <mat-chip-list _ngcontent-c7="" class="mat-chip-list" tabindex="0" aria-required="false" aria-disabled="false" aria-invalid="false" aria-multiselectable="false" role="listbox" aria-orientation="horizontal" id="mat-chip-list-0">
+    <div class="mat-chip-list-wrapper">
+      ${that.swipeEvents[i + environment.reloadEvery / 2].taggedEvents.map(
+              tag => `<mat-chip _ngcontent-c7="" class="mat-chip mat-primary mat-standard-chip" role="option" tabindex="-1" aria-disabled="false" aria-selected="false">
         ${tag.tag.tagName}</mat-chip>`)}
+    </div>
     </mat-chip-list>
     <div class="info">
     <div>

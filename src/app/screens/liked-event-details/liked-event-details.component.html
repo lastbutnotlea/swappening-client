@@ -1,5 +1,5 @@
 <div routerLink="/likedevents" class="back-button">< back</div>
 <app-event-details></app-event-details>
-<div>
+<div *ngIf="(event$ | async).hasChat">
   <button mat-fab color="warn" routerLink="/matches" class="on-top-button-right">Chat</button>
 </div>

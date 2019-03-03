@@ -8,7 +8,7 @@
       <img class="icon" src="../../../assets/portrait.jpg">
       <mat-card-header>
         <!--<mat-card-title>{{user.nickname}}</mat-card-title>-->
-        <mat-card-subtitle>Chat of my events (EventId = {{chat.eventId}})</mat-card-subtitle>
+        <mat-card-subtitle>User {{chat.userId}} wants to come to (EventId = {{chat.eventId}})</mat-card-subtitle>
       </mat-card-header>
     </mat-card>
     <mat-card routerLink="/chat/{{chatAndEvent.chat.id}}" class="chat-card" *ngFor="let chatAndEvent of (chatsOfLikedEvents$ | async)">

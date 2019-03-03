@@ -12,10 +12,10 @@
       </mat-card-header>
     </mat-card>
     <mat-card routerLink="/chat/{{chatAndEvent.chat.id}}" class="chat-card" *ngFor="let chatAndEvent of (chatsOfLikedEvents$ | async)">
-      <img class="icon" src="{{this.apiUrl}}/files/{{chatAndEvent.event.pictures_events[0].pictureStorageName}}">
+      <img class="event-icon" src="{{this.apiUrl}}/files/{{chatAndEvent.event.pictures_events[0].pictureStorageName}}">
       <mat-card-header>
         <!--<mat-card-title>{{user.nickname}}</mat-card-title>-->
-        <mat-card-subtitle>Chat with events i liked (EventId = {{chat.eventId}})</mat-card-subtitle>
+        <mat-card-subtitle>Chat with events i liked (EventId = {{chatAndEvent.event.id}})</mat-card-subtitle>
       </mat-card-header>
     </mat-card>
   </div>

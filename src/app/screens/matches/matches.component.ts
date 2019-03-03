@@ -14,7 +14,8 @@ import {ChatService} from "../../services/chat.service";
   styleUrls: ["./matches.component.scss"]
 })
 export class MatchesComponent implements OnInit {
-  private eventId: number = 15;
+  
+  //private eventId: number = 15;
 
   private interestedUsersMap$: Observable<Map<number, User[]>>;
   private interestedUsers$: Observable<User[]>; // = this.interestedUsersMap$.pipe(map(userMap => userMap[this.eventId]));

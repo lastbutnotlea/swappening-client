@@ -113,13 +113,17 @@ export class SwipeEventsComponent implements OnInit {
   setUpCards() {
     let numberOfCards;
     const container = document.getElementById("stackedcards-container");
+    let startIndex = 0;
     if (this.initialSetup) {
       numberOfCards = environment.reloadEvery * 1.5 - this.dataService.eventCounter;
       container.innerHTML = '';
       this.initialSetup = false;
     }
-    else numberOfCards = environment.reloadEvery;
-    for (let i = 0; i < numberOfCards; i++) {
+    else {
+      numberOfCards = environment.reloadEvery;
+      startIndex = environment.reloadEvery / 2;
+    }
+    for (let i = startIndex; i < startIndex + numberOfCards; i++) {
       if (i >= this.swipeEvents.length) {
         this.dataService.increaseEventCounter();
         continue;
@@ -404,7 +408,7 @@ export class SwipeEventsComponent implements OnInit {
         resetOverlayLeft();
       }
 
-      afterSwipe();
+      afterSwipe('left');
 
       // currentPosition = currentPosition + 1;
       updateUi();
@@ -424,7 +428,7 @@ export class SwipeEventsComponent implements OnInit {
         resetOverlayRight();
       }
 
-      afterSwipe();
+      afterSwipe('right');
 
       // currentPosition = currentPosition + 1;
       updateUi();
@@ -445,7 +449,7 @@ export class SwipeEventsComponent implements OnInit {
         resetOverlays();
       }
 
-      afterSwipe();
+      afterSwipe('top');
 
       // currentPosition = currentPosition + 1;
       updateUi();
@@ -455,9 +459,9 @@ export class SwipeEventsComponent implements OnInit {
       setActiveHidden();
     }
 
-    function afterSwipe() {
+    function afterSwipe(swipeDirection: string) {
       stackedCardsObj.removeChild(currentElementObj);
-      that.dataService.swipeAnEvent();
+      that.dataService.swipeAnEvent(swipeDirection);
       that.dataService.increaseEventCounter();
       if (that.dataService.eventCounter === environment.reloadEvery) {
         that.dataService.fetchNewSwipeEvents(that.tags);

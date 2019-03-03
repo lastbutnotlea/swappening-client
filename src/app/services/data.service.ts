@@ -256,9 +256,16 @@ export class DataService implements OnInit {
     });
   }
 
-  public swipeAnEvent() {
+  public swipeAnEvent(swipeDirection: string) {
+    switch (swipeDirection) {
+      case 'left':
+        this.apiService.swipeAnEvent(true, this._swipeEvents.value[0].id).subscribe(() => undefined);
+        break;
+      case 'right':
+        this.apiService.swipeAnEvent(false, this._swipeEvents.value[0].id).subscribe(() => undefined);
+        break;
+    }
     this._swipeEvents.next(this._swipeEvents.value.slice(1));
-    // TODO: don't forget to do the swipe event backend call
   }
 
   public fetchInitialSwipeEvents(tags: string[]) {

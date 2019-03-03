@@ -5,8 +5,9 @@
 
 export const environment = {
   production: false,
-  autoLogin: false,
+  autoLogin: true,
   useMockData: false,
+  // NEEDS TO BE AN EVEN NUMBER!!!
   reloadEvery: 10,
   apiUrl: 'http://vmkemper14.informatik.tu-muenchen.de:8080',
 };

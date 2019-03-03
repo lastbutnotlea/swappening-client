@@ -185,7 +185,7 @@ export class ApiService {
     } else {
       let tagsAsString = '';
       if (tags.length > 0) tagsAsString = tags.reduce((acc, curr) => acc + ',' + curr);
-      const requestUrl = environment.apiUrl + "/event/forUser/" + userId + "/" + environment.reloadEvery * 1.5 + "/" + tagsAsString;
+      const requestUrl = environment.apiUrl + "/event/forUser/" + userId + "/" + environment.reloadEvery * 1.5 + "/0/" + tagsAsString;
       return this.http.get<Event[]>(requestUrl, {
         headers: {Authorization: "Bearer " + this.userToken}
       });
@@ -198,7 +198,7 @@ export class ApiService {
     } else {
       let tagsAsString = '';
       if (tags.length > 0) tagsAsString = tags.reduce((acc, curr) => acc + ',' + curr);
-      const requestUrl = environment.apiUrl + "/event/forUser/" + userId + "/" + environment.reloadEvery + "/" + tagsAsString;
+      const requestUrl = environment.apiUrl + "/event/forUser/" + userId + "/" + environment.reloadEvery + "/" + environment.reloadEvery/2 + "/" + tagsAsString;
       return this.http.get<Event[]>(requestUrl, {
         headers: {Authorization: "Bearer " + this.userToken}
       });
@@ -255,9 +255,9 @@ export class ApiService {
     });
   }
 
-  public swipeEvent(isLeft: boolean, eventId: number): Observable<any[]> {
-    const requestUrl = environment.apiUrl + "event/swipe/" + (isLeft ? "left" : "right") + "/" + eventId;
-    return this.http.post<any>(requestUrl, {
+  public swipeAnEvent(isLeft: boolean, eventId: number): Observable<any[]> {
+    const requestUrl = environment.apiUrl + "/event/swipe/" + (isLeft ? "left" : "right") + "/" + eventId;
+    return this.http.post<any>(requestUrl, {},{
       headers: {Authorization: "Bearer " + this.userToken},
     });
   }

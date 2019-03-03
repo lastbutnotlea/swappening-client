@@ -72,11 +72,29 @@
 
     <p class="input-info some-padding">description</p>
     <textarea class="edit-multiple-lines" matInput [(ngModel)]="eventModel.description"></textarea>
+    
+    <mat-slide-toggle
+      (change)="changeIsPrivate()"
+      [checked]="(event$ | async).isPrivate"
+      class="toggle-flags"
+    >Private
+    </mat-slide-toggle>
+
+    <mat-slide-toggle
+      (change)="changeHasChat()"
+      [checked]="(event$ | async).hasChat"
+      class="toggle-flags"
+    >Chat
+    </mat-slide-toggle>
 
   </mat-card>
 </div>
 
 <button mat-fab class="on-top-button-right" (click)="saveEvent()">Save</button>
 <button *ngIf="isEdit" mat-fab class="on-top-button-left" (click)="deleteEvent()">
+  <img class="delete-icon" src="./assets/icons-black/garbage-2.png">
+</button>
+
+<button *ngIf="!isEdit" mat-fab class="on-top-button-left" routerLink="/hostedevents">
   <img class="delete-icon" src="./assets/icons-black/garbage-2.png">
 </button>

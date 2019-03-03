@@ -13,7 +13,7 @@ import {Chat} from "../shared/chat-model";
 export class ApiService {
 
   userToken: string;
-  userId = 1;
+  public loggedIn: Observable<boolean> = of(false);
 
   constructor(private http: HttpClient) {
   }
@@ -28,7 +28,7 @@ export class ApiService {
       }).toPromise().then(
         (res: any) => {
           this.userToken = res.token;
-          console.log(this.userToken);
+          this.loggedIn = of(true);
         }
       );
     }
@@ -52,9 +52,13 @@ export class ApiService {
     return test;
   }
 
+  public getLoggedIn(): Observable<boolean> {
+    return this.loggedIn;
+  }
+
   public logout() {
     this.userToken = null;
-    this.userId = null;
+    this.loggedIn = of(false);
   }
 
   public getMyDetails(): Observable<User> {
@@ -97,7 +101,7 @@ export class ApiService {
     if (environment.useMockData) {
       return of(FAKE_EVENTS);
     } else {
-      const requestUrl = environment.apiUrl + "/event/ofUser/" + this.userId;
+      const requestUrl = environment.apiUrl + "/event/ofUser/" + userId;
       return this.http.get<Event[]>(requestUrl, {
         headers: {Authorization: "Bearer " + this.userToken}
       });
@@ -179,7 +183,7 @@ export class ApiService {
     if (environment.useMockData) {
       return of(FAKE_EVENTS);
     } else {
-      const requestUrl = environment.apiUrl + "/event/forUser/" + this.userId + "/" + environment.reloadEvery * 1.5;
+      const requestUrl = environment.apiUrl + "/event/forUser/" + userId + "/" + environment.reloadEvery * 1.5;
       return this.http.get<Event[]>(requestUrl, {
         headers: {Authorization: "Bearer " + this.userToken}
       });
@@ -190,7 +194,7 @@ export class ApiService {
     if (environment.useMockData) {
       return of(FAKE_EVENTS.slice(0, 10));
     } else {
-      const requestUrl = environment.apiUrl + "/event/forUser/" + this.userId + "/" + environment.reloadEvery;
+      const requestUrl = environment.apiUrl + "/event/forUser/" + userId + "/" + environment.reloadEvery;
       return this.http.get<Event[]>(requestUrl, {
         headers: {Authorization: "Bearer " + this.userToken}
       });
@@ -236,6 +240,13 @@ export class ApiService {
   public getAllTags(): Observable<any[]> {
     const requestUrl = environment.apiUrl + "/tag";
     return this.http.get<any[]>(requestUrl, {
+      headers: {Authorization: "Bearer " + this.userToken}
+    });
+  }
+
+  public createChat(eventId: number, userId: number): Observable<any> {
+    const requestUrl = environment.apiUrl + "/chat/init/" + eventId + "/" + userId ;
+    return this.http.get(requestUrl, {
       headers: {Authorization: "Bearer " + this.userToken}
     });
   }

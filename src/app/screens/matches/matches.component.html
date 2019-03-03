@@ -4,15 +4,15 @@
   </h1>
   <div class="scrollable">
     <!--<mat-card class="chat-card" *ngFor="let user of (interestedUsers$ | async)" routerLink="/userprofile/{{user.id}}">-->
-    <mat-card routerLink="/chat/{{chat.id}}" class="chat-card" *ngFor="let chat of (chatsOfMyEvents$ | async)">
+    <mat-card routerLink="/userprofile/{{chat.userId}}" class="chat-card" *ngFor="let chat of (chatsOfMyEvents$ | async)">
       <img class="icon" src="../../../assets/portrait.jpg">
       <mat-card-header>
         <!--<mat-card-title>{{user.nickname}}</mat-card-title>-->
         <mat-card-subtitle>Chat of my events (EventId = {{chat.eventId}})</mat-card-subtitle>
       </mat-card-header>
     </mat-card>
-    <mat-card routerLink="/chat/{{chat.id}}" class="chat-card" *ngFor="let chat of (chatsOfLikedEvents$ | async)">
-      <img class="icon" src="../../../assets/portrait.jpg">
+    <mat-card routerLink="/chat/{{chatAndEvent.chat.id}}" class="chat-card" *ngFor="let chatAndEvent of (chatsOfLikedEvents$ | async)">
+      <img class="icon" src="{{this.apiUrl}}/files/{{chatAndEvent.event.pictures_events[0].pictureStorageName}}">
       <mat-card-header>
         <!--<mat-card-title>{{user.nickname}}</mat-card-title>-->
         <mat-card-subtitle>Chat with events i liked (EventId = {{chat.eventId}})</mat-card-subtitle>

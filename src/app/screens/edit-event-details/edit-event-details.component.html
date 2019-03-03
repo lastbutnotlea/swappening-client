@@ -72,21 +72,20 @@
 
     <p class="input-info some-padding">description</p>
     <textarea class="edit-multiple-lines" matInput [(ngModel)]="eventModel.description"></textarea>
-    
-    <mat-slide-toggle
-      (change)="changeIsPrivate()"
-      [checked]="(event$ | async).isPrivate"
-      class="toggle-flags"
-    >Private
-    </mat-slide-toggle>
 
-    <mat-slide-toggle
-      (change)="changeHasChat()"
-      [checked]="(event$ | async).hasChat"
-      class="toggle-flags"
-    >Chat
-    </mat-slide-toggle>
+    <div *ngIf="isEdit">
+      <p class="input-info some-padding">private event</p>
+      <mat-slide-toggle
+        (change)="changeIsPrivate()"
+        [checked]="(event$ | async).isPrivate"
+        class="toggle-flags"></mat-slide-toggle>
 
+      <p class="input-info some-padding">enable chat</p>
+      <mat-slide-toggle
+        (change)="changeHasChat()"
+        [checked]="(event$ | async).hasChat"
+        class="toggle-flags"></mat-slide-toggle>
+    </div>
   </mat-card>
 </div>
 

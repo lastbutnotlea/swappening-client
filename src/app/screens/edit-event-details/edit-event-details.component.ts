@@ -158,16 +158,28 @@ export class EditEventDetailsComponent implements OnInit {
   }
 
   deletePicture() {
-    if (this.isEdit) {
-      const pictureStorageName = this.eventModel.pictures_events[this.clickCounter % this.numberOfPictures].pictureStorageName;
-      this.dataService.deletePicture(pictureStorageName, this.eventId);
-    } else {
-      this.selectedFile.splice(this.clickCounter % this.numberOfPictures, 1);
-      this.previewImage.splice(this.clickCounter % this.numberOfPictures, 1);
-      this.numberOfPictures--;
-    }
-    this.clickCounter--;
-    this.checked = (this.clickCounter % this.numberOfPictures) == this.soonToBeFirst;
+    const dialogReference = this.confirmationDialog.open(ConfirmationDialogComponent, {
+      width: "50vw",
+      data: {
+        title: "Are you sure you want to delete this picture?"
+      },
+      autoFocus: false
+    });
+
+    dialogReference.afterClosed().subscribe(result => {
+      if (result === true) {
+        if (this.isEdit) {
+          const pictureStorageName = this.eventModel.pictures_events[this.clickCounter % this.numberOfPictures].pictureStorageName;
+          this.dataService.deletePicture(pictureStorageName, this.eventId);
+        } else {
+          this.selectedFile.splice(this.clickCounter % this.numberOfPictures, 1);
+          this.previewImage.splice(this.clickCounter % this.numberOfPictures, 1);
+          this.numberOfPictures--;
+        }
+        this.clickCounter--;
+        this.checked = (this.clickCounter % this.numberOfPictures) == this.soonToBeFirst;
+      }
+    });
   }
 
   makeFirst(index: number) {

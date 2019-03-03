@@ -38,7 +38,7 @@ export class DataService implements OnInit {
   private _eventCounter = 0;
 
   constructor(private apiService: ApiService, private chatService: ChatService) {
-    if (environment.autoLogin) this.apiService.login('test123@beispiel.de', 'password123').then(
+    if (environment.autoLogin) this.apiService.login("test123@beispiel.de", "password123").then(
       () => this.loadInitialData()
     );
     else {
@@ -258,14 +258,18 @@ export class DataService implements OnInit {
 
   public swipeAnEvent(swipeDirection: string) {
     switch (swipeDirection) {
-      case 'left':
+      case "left":
         this.apiService.swipeAnEvent(true, this._swipeEvents.value[0].id).subscribe(() => undefined);
         break;
-      case 'right':
+      case "right":
         this.apiService.swipeAnEvent(false, this._swipeEvents.value[0].id).subscribe(() => undefined);
         break;
     }
     this._swipeEvents.next(this._swipeEvents.value.slice(1));
+  }
+
+  public swipeUser(isLeft: boolean, userId: number, eventId: number) {
+    this.apiService.swipeUser(isLeft, userId, eventId).subscribe(() => undefined);
   }
 
   public fetchInitialSwipeEvents(tags: string[]) {

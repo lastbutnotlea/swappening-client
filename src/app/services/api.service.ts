@@ -179,22 +179,26 @@ export class ApiService {
   // TODO dislikeEvent (?)
 
 
-  public getFirstSwipeEvents(userId: string): Observable<Event[]> {
+  public getFirstSwipeEvents(userId: string, tags: string[]): Observable<Event[]> {
     if (environment.useMockData) {
       return of(FAKE_EVENTS);
     } else {
-      const requestUrl = environment.apiUrl + "/event/forUser/" + userId + "/" + environment.reloadEvery * 1.5;
+      let tagsAsString = '';
+      if (tags.length > 0) tagsAsString = tags.reduce((acc, curr) => acc + ',' + curr);
+      const requestUrl = environment.apiUrl + "/event/forUser/" + userId + "/" + environment.reloadEvery * 1.5 + "/" + tagsAsString;
       return this.http.get<Event[]>(requestUrl, {
         headers: {Authorization: "Bearer " + this.userToken}
       });
     }
   }
 
-  public getSwipeEvents(userId: string): Observable<Event[]> {
+  public getSwipeEvents(userId: string, tags: string[]): Observable<Event[]> {
     if (environment.useMockData) {
       return of(FAKE_EVENTS.slice(0, 10));
     } else {
-      const requestUrl = environment.apiUrl + "/event/forUser/" + userId + "/" + environment.reloadEvery;
+      let tagsAsString = '';
+      if (tags.length > 0) tagsAsString = tags.reduce((acc, curr) => acc + ',' + curr);
+      const requestUrl = environment.apiUrl + "/event/forUser/" + userId + "/" + environment.reloadEvery + "/" + tagsAsString;
       return this.http.get<Event[]>(requestUrl, {
         headers: {Authorization: "Bearer " + this.userToken}
       });

@@ -31,6 +31,19 @@
   z-index: 7;
 }
 
+.no-events-left {
+  position: absolute;
+  top: 30vh;
+  width: 75vw;
+  left: 10vw;
+  text-align: center;
+  font-size: 1.5rem;
+
+  img {
+    padding-bottom: 2rem;
+  }
+}
+
 :host ::ng-deep .outmost-container {
   height: 94vh;
   display: flex;

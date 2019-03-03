@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, Input} from "@angular/core";
 import {User} from "../../shared/user-model";
 import {DataService} from "../../services/data.service";
 import {Observable} from "rxjs";
@@ -18,6 +18,7 @@ export class UserProfileComponent implements OnInit {
   private userId: number;
   private isMe: boolean;
   private user$: Observable<User>;
+  private eventId: number;
 
   private apiUrl: string;
 
@@ -36,12 +37,15 @@ export class UserProfileComponent implements OnInit {
     } else {
       this.isMe = false;
       this.userId = parseInt(current_id, 10);
+      const current_eventId: string  = this.route.snapshot.paramMap.get("eventId");
+      this.eventId =  parseInt(current_eventId, 10);
     }
     if (this.isMe) {
       this.user$ = this.dataService.me;
     } else {
       this.user$ = this.dataService.user(this.userId);
     }
+    console.log(this.eventId)
   }
 
   logout() {
@@ -59,5 +63,11 @@ export class UserProfileComponent implements OnInit {
         this.router.navigate(["/login"]);
       }
     });
+  }
+
+  swipeUser(isLeft: boolean) {
+    this.dataService.swipeUser(isLeft, this.userId, this.eventId)
+    this.router.navigate(["/matches"])
+    //HERE WE SHOULD ALSO DELETE THE REQUEST
   }
 }

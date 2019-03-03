@@ -3,6 +3,8 @@ import {DataService} from "../../services/data.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {environment} from "../../../environments/environment";
 import {ApiService} from "../../services/api.service";
+import {InformationDialogComponent} from "../../components/information-dialog/information-dialog.component";
+import {MatDialog} from "@angular/material";
 
 @Component({
   selector: "app-login",
@@ -15,7 +17,8 @@ export class LoginComponent implements OnInit {
   private email;
   private password;
 
-  constructor(private apiService: ApiService, private router: Router) {
+  constructor(private apiService: ApiService, private router: Router,
+              private informationDialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -25,7 +28,12 @@ export class LoginComponent implements OnInit {
   login() {
     this.apiService.login(this.email, this.password)
       .then(() => this.router.navigate(["/swipeevents"]))
-      .catch(() => {
+      .catch((e) => {
+        this.informationDialog.open(InformationDialogComponent, {
+          width: "50vw",
+          data: {title: e.error[0].msg},
+          autoFocus: false
+        });
         console.log("Wrong Email or Password");
       });
   }

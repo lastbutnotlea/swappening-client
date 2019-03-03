@@ -51,6 +51,17 @@ export class ChatService implements OnInit {
     }
   }
 
+  public addNewChat(eventId: number, userId: number): Observable<any> {
+    return new Observable<Chat>( fn => this.apiService.createChat(eventId, userId).subscribe( chat => {
+      this._chats.next(this._chats.value.concat([chat]));
+      const otherUserId = +this._myId === chat.userId ? chat.ownerId : chat.userId;
+      this.apiService.getUserDetails(otherUserId).subscribe(res => {
+        this._idToUsers.next(this._idToUsers.value.set(otherUserId, res));
+      });
+      return chat;
+    }));
+  }
+
   private socketConnect() {
     this._chatSocket = io.connect("http://vmkemper14.informatik.tu-muenchen.de:8085");
     this._chatSocket.on("connect", () => {
@@ -90,12 +101,16 @@ export class ChatService implements OnInit {
 
   partnerUser(userId: number): Observable<any> {
     return new Observable<any>(fn =>
-      this._idToUsers.subscribe(fn)).pipe(map((map: Map<number, User>) => {
+      this._idToUsers.subscribe(fn)).pipe(map((map: Map<number, User>) => {
       if (!map) {
         return;
       } else {
         return map.get(userId);
       }
     }));
+  }
+
+  private updateAllChat() {
+
   }
 }

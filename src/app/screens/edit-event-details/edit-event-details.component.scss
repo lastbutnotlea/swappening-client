@@ -17,7 +17,15 @@
 }
 
 .toggle-flags {
-  margin: 0 2rem 3rem 5rem;
+  margin: 0 2rem 0 2rem;
+
+  /deep/ &.mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+    background-color: $lighter-primary1 !important;
+  }
+
+  /deep/ &.mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+    background-color: $primary1 !important;
+  }
 }
 
 .edit-date {

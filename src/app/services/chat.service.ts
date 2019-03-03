@@ -52,13 +52,26 @@ export class ChatService implements OnInit {
   }
 
   public addNewChat(eventId: number, userId: number): Observable<any> {
-    return new Observable<Chat>( fn => this.apiService.createChat(eventId, userId).subscribe( chat => {
-      this._chats.next(this._chats.value.concat([chat]));
-      const otherUserId = +this._myId === chat.userId ? chat.ownerId : chat.userId;
-      this.apiService.getUserDetails(otherUserId).subscribe(res => {
-        this._idToUsers.next(this._idToUsers.value.set(otherUserId, res));
-      });
-      return chat;
+    // return new Observable<Chat>( fn => this.apiService.createChat(eventId, userId).subscribe( chat => {
+    //   this._chats.next(this._chats.value.concat([chat]));
+    //   const otherUserId = +this._myId === chat.userId ? chat.ownerId : chat.userId;
+    //   this.apiService.getUserDetails(otherUserId).subscribe(res => {
+    //     this._idToUsers.next(this._idToUsers.value.set(otherUserId, res));
+    //   });
+    //   return chat;
+    // }));
+    return new Observable<Chat>(fn =>
+      this.apiService.createChat(eventId, userId).subscribe(fn)).pipe(map((chat: Chat) => {
+      if (!chat) {
+        return;
+      } else {
+        this._chats.next(this._chats.value.concat([chat]));
+        const otherUserId = +this._myId === chat.userId ? chat.ownerId : chat.userId;
+        this.apiService.getUserDetails(otherUserId).subscribe(res => {
+          this._idToUsers.next(this._idToUsers.value.set(otherUserId, res));
+        });
+        return chat;
+      }
     }));
   }
 

@@ -79,7 +79,7 @@ mat-card {
 
   .detail-card {
     margin: 1.3rem;
-    padding: 0 0 2rem 0 !important;
+    padding: 0 0 5rem 0 !important;
     box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 9px 0px 0 rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.12) !important;
     border-radius: 10px;
     height: 89vh;
@@ -172,7 +172,7 @@ mat-card {
 
 .edit-multiple-lines {
   padding: 0 0.7rem !important;
-  margin: 0 1.5rem 2rem 1.5rem !important;
+  margin: 0 1.5rem 0 1.5rem !important;
   width: calc(100% - 3rem) !important;
   border-radius: 4px;
   resize: none;
@@ -229,6 +229,7 @@ mat-card {
   font-size: 2rem;
   background-color: $primary1 !important;
   color: $text !important;
+  z-index: 9;
 }
 
 .on-top-button-middle {
@@ -241,6 +242,7 @@ mat-card {
   font-size: 2rem;
   background-color: #ffc031 !important;
   color: $text !important;
+  z-index: 9;
 }
 
 .on-top-button-right {
@@ -252,6 +254,7 @@ mat-card {
   font-size: 2rem;
   background-color: $primary1 !important;
   color: $text !important;
+  z-index: 9;
 }
 
 .on-top-button-right-higher {

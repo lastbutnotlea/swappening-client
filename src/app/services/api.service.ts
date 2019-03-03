@@ -250,4 +250,11 @@ export class ApiService {
       headers: {Authorization: "Bearer " + this.userToken}
     });
   }
+
+  public swipeEvent(isLeft: boolean, eventId: number): Observable<any[]> {
+    const requestUrl = environment.apiUrl + "event/swipe/" + (isLeft ? "left" : "right") + "/" + eventId;
+    return this.http.post<any>(requestUrl, {
+      headers: {Authorization: "Bearer " + this.userToken},
+    });
+  }
 }

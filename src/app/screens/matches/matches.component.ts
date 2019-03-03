@@ -12,21 +12,21 @@ import {ChatService} from "../../services/chat.service";
   styleUrls: ["./matches.component.scss"]
 })
 export class MatchesComponent implements OnInit {
-  // chats = [{userId: 5, isUser: true}, {userId: 1, isUser: false}];
-
   private eventId: number = 15;
 
   private interestedUsersMap$: Observable<Map<number, User[]>>;
   private interestedUsers$: Observable<User[]>; // = this.interestedUsersMap$.pipe(map(userMap => userMap[this.eventId]));
-  private chats$: Observable<Chat[]>;
-
+  private chatsOfMyEvents$: Observable<Chat[]>;
+  private chatsOfLikedEvents$: Observable<Chat[]>;
 
   constructor(private dataService: DataService,
               private chatService: ChatService) {
   }
 
   ngOnInit() {
-    this.chats$ = this.chatService.chats;
+    this.chatsOfMyEvents$ = this.chatService.chatsOfMyEvents;
+    this.chatsOfLikedEvents$ = this.chatService.chatsOfLikedEvents;
+
     this.interestedUsersMap$ = this.dataService.interestedUsers;
     this.interestedUsersMap$.subscribe(whatever => console.log(whatever));
     this.interestedUsers$ = this.interestedUsersMap$.pipe(map(userMap => {

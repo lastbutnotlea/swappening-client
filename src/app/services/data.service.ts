@@ -6,6 +6,7 @@ import {map} from "rxjs/operators";
 import {ChatService} from "./chat.service";
 import {User} from "../shared/user-model";
 import {environment} from "../../environments/environment";
+import {Chat} from "../shared/chat-model";
 
 
 @Injectable({
@@ -260,6 +261,10 @@ export class DataService implements OnInit {
       this._swipeEvents.next(res);
       this._swipeEventsLoaded.next(true);
     });
+  }
+
+  public getLikedEventsForChats(): Observable<Event[]> {
+    return this.chatService.filterLikedEventsByChatsOfLikedEvents(this._likedEvents);
   }
 
   get eventCounter(): number {

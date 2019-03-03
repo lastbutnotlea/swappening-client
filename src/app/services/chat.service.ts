@@ -16,7 +16,8 @@ import {DataService} from "./data.service";
 export class ChatService implements OnInit {
   private _myId: string;
   private _chatSocket;
-  private _chats: BehaviorSubject<Chat[]> = new BehaviorSubject([]);
+  private _chatsOfMyEvents: BehaviorSubject<Chat[]> = new BehaviorSubject([]);
+  private _chatsOfLikedEvents: BehaviorSubject<Chat[]> = new BehaviorSubject([]);
   private _idToUsers: BehaviorSubject<Map<number, User>> = new BehaviorSubject<Map<number, User>>(new Map);
 
   constructor(private apiService: ApiService) {
@@ -27,13 +28,20 @@ export class ChatService implements OnInit {
 
   public initChatAfterLogin(myId: string) {
     this._myId = myId;
-    this.apiService.getAllChats().subscribe(res => {
-        this._chats.next(res); // This probably will not work
-        this._chats.value.forEach((chat) => {
+    this.apiService.getAllChats().subscribe(chats => {
+        chats.forEach((chat) => {
+          const isMyEvent: boolean = +this._myId === chat.userId;
+          if (isMyEvent) {
+            this._chatsOfMyEvents.next(this._chatsOfMyEvents.value.concat([chat]));
+          } else {
+            this._chatsOfLikedEvents.next(this._chatsOfLikedEvents.value.concat([chat]));
+          }
+
           this.apiService.getMessageOfChat(chat.id).subscribe(messageRes => {
             chat.messages = messageRes;
           });
-          const otherUserId = +this._myId === chat.userId ? chat.ownerId : chat.userId;
+
+          const otherUserId = isMyEvent ? chat.ownerId : chat.userId;
           this.apiService.getUserDetails(otherUserId).subscribe(res => {
             this._idToUsers.next(this._idToUsers.value.set(otherUserId, res));
           });
@@ -44,7 +52,7 @@ export class ChatService implements OnInit {
   }
 
   public addMessageToChat(chatId: number, isMessageOfOwner: boolean, message: string, date: Date) {
-    const foundChat = this._chats.value.find(chat => chat.id === chatId);
+    const foundChat = this.findRightChat(chatId);
     if (foundChat) {
       foundChat.messages.push({isMessageOfOwner, message: message, createdAt: date});
       console.log("added following message ->" + message + "<- to own chat");
@@ -52,25 +60,28 @@ export class ChatService implements OnInit {
   }
 
   public addNewChat(eventId: number, userId: number): Observable<any> {
-    // return new Observable<Chat>( fn => this.apiService.createChat(eventId, userId).subscribe( chat => {
-    //   this._chats.next(this._chats.value.concat([chat]));
-    //   const otherUserId = +this._myId === chat.userId ? chat.ownerId : chat.userId;
-    //   this.apiService.getUserDetails(otherUserId).subscribe(res => {
-    //     this._idToUsers.next(this._idToUsers.value.set(otherUserId, res));
-    //   });
-    //   return chat;
-    // }));
     return new Observable<Chat>(fn =>
       this.apiService.createChat(eventId, userId).subscribe(fn)).pipe(map((chat: Chat) => {
       if (!chat) {
         return;
       } else {
-        this._chats.next(this._chats.value.concat([chat]));
-        const otherUserId = +this._myId === chat.userId ? chat.ownerId : chat.userId;
-        this.apiService.getUserDetails(otherUserId).subscribe(res => {
-          this._idToUsers.next(this._idToUsers.value.set(otherUserId, res));
-        });
-        return chat;
+        const existingChat = this.findRightChat(chat.id);
+        if (existingChat) {
+          return existingChat;
+        } else {
+          const isMyEvent: boolean = +this._myId === chat.userId;
+          if (isMyEvent) {
+            this._chatsOfMyEvents.next(this._chatsOfMyEvents.value.concat([chat]));
+          } else {
+            this._chatsOfLikedEvents.next(this._chatsOfLikedEvents.value.concat([chat]));
+          }
+
+          const otherUserId = isMyEvent ? chat.ownerId : chat.userId;
+          this.apiService.getUserDetails(otherUserId).subscribe(res => {
+            this._idToUsers.next(this._idToUsers.value.set(otherUserId, res));
+          });
+          return chat;
+        }
       }
     }));
   }
@@ -81,7 +92,7 @@ export class ChatService implements OnInit {
       console.log("connected");
       this._chatSocket.emit("userAuth", this.apiService.getToken());
       this._chatSocket.on("message", (chatId: number, isMessageOfOwner: boolean, message: string) => {
-        const foundChat = this._chats.value.find(chat => chat.id === chatId);
+        const foundChat = this.findRightChat(chatId);
         if (foundChat) {
           foundChat.messages.push({isMessageOfOwner, message: message, createdAt: new Date()});
           console.log("added following message to chat");
@@ -97,13 +108,17 @@ export class ChatService implements OnInit {
     return this._chatSocket;
   }
 
-  get chats(): Observable<Chat[]> {
-    return new Observable<Chat[]>(fn => this._chats.subscribe(fn));
+  get chatsOfMyEvents(): Observable<Chat[]> {
+    return new Observable<Chat[]>(fn => this._chatsOfMyEvents.subscribe(fn));
+  }
+
+  get chatsOfLikedEvents(): Observable<Chat[]> {
+    return new Observable<Chat[]>(fn => this._chatsOfLikedEvents.subscribe(fn));
   }
 
   chat(chatId: number): Observable<Chat> {
     return new Observable<Chat[]>(fn =>
-      this._chats.subscribe(fn)).pipe(map((chats: Chat[]) => {
+      this._chatsOfMyEvents.concat(this._chatsOfLikedEvents).subscribe(fn)).pipe(map((chats: Chat[]) => {
       if (!chats) {
         return;
       } else {
@@ -123,7 +138,23 @@ export class ChatService implements OnInit {
     }));
   }
 
-  private updateAllChat() {
+  public filterLikedEventsByChatsOfLikedEvents(likedEvents: BehaviorSubject<Event[]>): Observable<Event[]> {
+    return new Observable<Event[]>(fn =>
+      likedEvents.subscribe(fn)).pipe(map((likedEventsInPipe: Event[]) =>
+      likedEventsInPipe.filter( event => this._chatsOfLikedEvents.value.find( chat => chat.eventId === event.id))
+    ));
+  }
 
+  private findRightChat(chatId: number): (Chat | undefined) {
+    const foundChat = this._chatsOfMyEvents.value.find(chat => chat.id === chatId);
+    if (foundChat) {
+      return foundChat;
+    } else {
+      return this._chatsOfLikedEvents.value.find(chat => chat.id === chatId);
+    }
+  }
+
+  private updateAllChat() {
+    // ToDo: update all chats
   }
 }

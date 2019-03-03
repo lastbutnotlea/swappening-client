@@ -7,7 +7,6 @@ import {ApiService} from "./api.service";
 import {map} from "rxjs/operators";
 import {Event} from "../shared/event-model";
 import {User} from "../shared/user-model";
-import {DataService} from "./data.service";
 import {of} from "rxjs/internal/observable/of";
 
 
@@ -119,8 +118,10 @@ export class ChatService implements OnInit {
   }
 
   chat(chatId: number): Observable<Chat> {
+    const mergedChats = new BehaviorSubject(this._chatsOfMyEvents.value);
+    mergedChats.next(mergedChats.value.concat(this._chatsOfLikedEvents.value));
     return new Observable<Chat[]>(fn =>
-      this._chatsOfMyEvents.concat(this._chatsOfLikedEvents).subscribe(fn)).pipe(map((chats: Chat[]) => {
+      mergedChats.subscribe(fn)).pipe(map((chats: Chat[]) => {
       if (!chats) {
         return;
       } else {
@@ -160,7 +161,27 @@ export class ChatService implements OnInit {
     }
   }
 
-  private updateAllChat() {
-    // ToDo: update all chats
+  private updateAllChats() {
+    // this.apiService.getAllChats().subscribe(chats => {
+    //   chats.forEach((chat) => {
+    //     const foundChat = (this._chatsOfLikedEvents.concat(this.chatsOfMyEvents)).find( existingChat => existingChat.id === chat.id)
+    //
+    //     const isMyEvent: boolean = +this._myId === chat.userId;
+    //     if (isMyEvent) {
+    //       this._chatsOfMyEvents.next(this._chatsOfMyEvents.value.concat([chat]));
+    //     } else {
+    //       this._chatsOfLikedEvents.next(this._chatsOfLikedEvents.value.concat([chat]));
+    //     }
+    //
+    //     this.apiService.getMessageOfChat(chat.id).subscribe(messageRes => {
+    //       chat.messages = messageRes;
+    //     });
+    //
+    //     const otherUserId = isMyEvent ? chat.ownerId : chat.userId;
+    //     this.apiService.getUserDetails(otherUserId).subscribe(res => {
+    //       this._idToUsers.next(this._idToUsers.value.set(otherUserId, res));
+    //     });
+    //   });
+    // });
   }
 }

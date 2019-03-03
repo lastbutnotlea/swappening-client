@@ -30,7 +30,7 @@ export class ChatService implements OnInit {
     this._myId = myId;
     this.apiService.getAllChats().subscribe(chats => {
         chats.forEach((chat) => {
-          const isMyEvent: boolean = +this._myId === chat.userId;
+          const isMyEvent: boolean = +this._myId === chat.ownerId;
           if (isMyEvent) {
             this._chatsOfMyEvents.next(this._chatsOfMyEvents.value.concat([chat]));
           } else {
@@ -41,7 +41,7 @@ export class ChatService implements OnInit {
             chat.messages = messageRes;
           });
 
-          const otherUserId = isMyEvent ? chat.ownerId : chat.userId;
+          const otherUserId = isMyEvent ? chat.userId : chat.ownerId;
           this.apiService.getUserDetails(otherUserId).subscribe(res => {
             this._idToUsers.next(this._idToUsers.value.set(otherUserId, res));
           });

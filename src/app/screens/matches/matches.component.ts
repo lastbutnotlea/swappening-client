@@ -30,7 +30,7 @@ export class MatchesComponent implements OnInit {
 
   ngOnInit() {
     this.chatsOfMyEvents$ = this.chatService.chatsOfMyEvents;
-    this.chatsOfLikedEvents$ = this.dataService.getLikedEventsChatsOfLikedEvents()
+    this.chatsOfLikedEvents$ = this.dataService.getLikedEventsChatsOfLikedEvents();
 
     /*this.interestedUsersMap$ = this.dataService.interestedUsers;
     this.interestedUsersMap$.subscribe(whatever => console.log(whatever));

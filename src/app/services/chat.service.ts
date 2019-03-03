@@ -8,6 +8,7 @@ import {map} from "rxjs/operators";
 import {Event} from "../shared/event-model";
 import {User} from "../shared/user-model";
 import {DataService} from "./data.service";
+import {of} from "rxjs/internal/observable/of";
 
 
 @Injectable({
@@ -61,7 +62,8 @@ export class ChatService implements OnInit {
 
   public addNewChat(eventId: number, userId: number): Observable<any> {
     return new Observable<Chat>(fn =>
-      this.apiService.createChat(eventId, userId).subscribe(fn)).pipe(map((chat: Chat) => {
+      this.apiService.createChat(eventId, userId).subscribe(fn)).pipe(map((chats: Chat) => {
+      const chat = chats[0];
       if (!chat) {
         return;
       } else {
@@ -138,11 +140,15 @@ export class ChatService implements OnInit {
     }));
   }
 
-  public filterLikedEventsByChatsOfLikedEvents(likedEvents: BehaviorSubject<Event[]>): Observable<Event[]> {
-    return new Observable<Event[]>(fn =>
-      likedEvents.subscribe(fn)).pipe(map((likedEventsInPipe: Event[]) =>
-      likedEventsInPipe.filter( event => this._chatsOfLikedEvents.value.find( chat => chat.eventId === event.id))
-    ));
+  public getLikedEventsChatsOfLikedEvents(likedEvents: BehaviorSubject<Event[]>): Observable<Object[]> {
+    const chatConnectedToEvent = [];
+    this._chatsOfLikedEvents.value.forEach(chat => {
+      const foundEvent = likedEvents.value.find( event => event.id === chat.eventId);
+      if (foundEvent) {
+        chatConnectedToEvent.push({chat: chat, event: foundEvent});
+      }
+    });
+    return of(chatConnectedToEvent);
   }
 
   private findRightChat(chatId: number): (Chat | undefined) {

@@ -13,8 +13,15 @@
           src="{{this.apiUrl}}/files/{{(event$ | async).pictures_events[clickCounter%(event$ | async).pictures_events.length].pictureStorageName}}"
           (click)="cycleThroughPictures()" class="detail-image">
       </div>
-      <mat-chip-list>
-        <mat-chip *ngFor="let tag of (event$ | async).taggedEvents">{{tag.tag.tagName}}</mat-chip>
+      <mat-chip-list *ngIf="(event$ | async) && (event$ | async).taggedEvents && (event$ | async).taggedEvents.length > 0">
+        <mat-chip *ngFor="let tag of (event$ | async).taggedEvents">
+          <ng-container *ngIf="tag.tag">
+            {{tag.tag.tagName}}
+          </ng-container>
+          <ng-container *ngIf="!tag.tag">
+            {{tag}}
+          </ng-container>
+        </mat-chip>
       </mat-chip-list>
       <div class="description-info">
         <div>

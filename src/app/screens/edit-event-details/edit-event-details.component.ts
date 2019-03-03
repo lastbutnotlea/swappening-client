@@ -63,7 +63,14 @@ export class EditEventDetailsComponent implements OnInit {
       this.event$.subscribe(newEvent => {
         this.eventModel = newEvent;
         this.numberOfPictures = this.eventModel.pictures_events.length;
-        this.tags = this.eventModel.taggedEvents.map(tag => tag.tag.tagName);
+        if (this.eventModel.taggedEvents.length > 0) {
+          if (this.eventModel.taggedEvents[0].tag) {
+            this.tags = this.eventModel.taggedEvents.map(tag => tag.tag.tagName);
+          } else {
+            this.tags = this.eventModel.taggedEvents
+          }
+        }
+        else this.tags = [];
         this.eventModel.taggedEvents = this.tags;
       });
     } else {
@@ -252,19 +259,19 @@ export class EditEventDetailsComponent implements OnInit {
   }
 
   changeIsPrivate() {
-    if(this.eventModel.isPrivate === false) {
+    if (this.eventModel.isPrivate === false) {
       this.eventModel.isPrivate = true;
     }
-    else{
+    else {
       this.eventModel.isPrivate = false;
     }
   }
 
   changeHasChat() {
-    if(this.eventModel.hasChat === false) {
+    if (this.eventModel.hasChat === false) {
       this.eventModel.hasChat = true;
     }
-    else{
+    else {
       this.eventModel.hasChat = false;
     }
   }

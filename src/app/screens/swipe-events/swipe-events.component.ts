@@ -39,6 +39,7 @@ export class SwipeEventsComponent implements OnInit {
     dataService.allTags.subscribe(allTags => {
       this.allTags = allTags;
     });
+    dataService.currentlySelectedTags.subscribe(currTags => this.tags = currTags);
   }
 
   ngOnInit(): void {
@@ -61,7 +62,7 @@ export class SwipeEventsComponent implements OnInit {
     if (this.filterExpanded) {
       this.initialSetup = true;
       this.dataService.resetEventCounter();
-      this.dataService.fetchInitialSwipeEvents();
+      this.dataService.fetchInitialSwipeEvents(this.tags);
       this.filterExpanded = false;
     } else {
       this.filterExpanded = true;
@@ -119,6 +120,10 @@ export class SwipeEventsComponent implements OnInit {
     }
     else numberOfCards = environment.reloadEvery;
     for (let i = 0; i < numberOfCards; i++) {
+      if (i >= this.swipeEvents.length) {
+        this.dataService.increaseEventCounter();
+        continue;
+      }
       if (this.swipeEvents[i].pictures_events.length === 0) {
         this.dataService.increaseEventCounter();
         continue;
@@ -455,7 +460,7 @@ export class SwipeEventsComponent implements OnInit {
       that.dataService.swipeAnEvent();
       that.dataService.increaseEventCounter();
       if (that.dataService.eventCounter === environment.reloadEvery) {
-        that.dataService.fetchNewSwipeEvents();
+        that.dataService.fetchNewSwipeEvents(that.tags);
         that.dataService.resetEventCounter();
       }
         /*const container = document.getElementById("stackedcards-container");

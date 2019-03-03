@@ -101,7 +101,7 @@ const appRoutes: Routes = [
     component: EditUserProfileComponent
   },
   {
-    path: "chat/:chatId/:partnerUserId/:isEventOwner",
+    path: "chat/:chatId",
     component: ChatComponent
   },
 ];

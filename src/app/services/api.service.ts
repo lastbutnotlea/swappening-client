@@ -239,6 +239,4 @@ export class ApiService {
       headers: {Authorization: "Bearer " + this.userToken}
     });
   }
-
-  // TODO getChatUsers(userId: number)
 }

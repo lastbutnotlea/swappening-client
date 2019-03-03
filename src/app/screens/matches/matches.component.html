@@ -4,7 +4,7 @@
   </h1>
   <div class="scrollable">
     <!--<mat-card class="chat-card" *ngFor="let user of (interestedUsers$ | async)" routerLink="/userprofile/{{user.id}}">-->
-    <mat-card routerLink="/chat/1/{{chat.userId}}/{{chat.isUser}}" class="chat-card" *ngFor="let chat of chats">
+    <mat-card routerLink="/chat/{{chat.id}}" class="chat-card" *ngFor="let chat of (chats$ | async)">
       <img class="icon" src="../../../assets/portrait.jpg">
       <mat-card-header>
         <!--<mat-card-title>{{user.nickname}}</mat-card-title>-->

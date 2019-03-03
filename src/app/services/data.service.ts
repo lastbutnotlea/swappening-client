@@ -27,7 +27,6 @@ export class DataService implements OnInit {
   // Users
   private _me: BehaviorSubject<User> = new BehaviorSubject<User>(null);
   private _myId: string;
-  private _idToUsers: BehaviorSubject<Map<number, User>> = new BehaviorSubject<Map<number, User>>(new Map);
   // private _interestedUsers: BehaviorSubject<User[]> = new BehaviorSubject([]);
   private _interestedUsers: BehaviorSubject<Map<number, User[]>> = new BehaviorSubject<Map<number, User[]>>(new Map);
   private _currentUser: BehaviorSubject<User> = new BehaviorSubject<User>(null);
@@ -70,17 +69,10 @@ export class DataService implements OnInit {
           this._allTags.next(res.map(tag => tag.tagName));
           this._allTagsLoaded.next(true);
         });
+        this.chatService.initChatAfterLogin(this._myId);
       });
 
     // });
-    // ToDo: delete this when _idToUser is filled automatically (probably in from chat.service)
-    this.apiService.getUserDetails(1).subscribe(res => {
-      this._idToUsers.next(this._idToUsers.value.set(1, res));
-    });
-    this.apiService.getUserDetails(5).subscribe(res => {
-      this._idToUsers.next(this._idToUsers.value.set(5, res));
-    });
-    this.chatService.initChatAfterLogin();
     // });
   }
 
@@ -130,6 +122,10 @@ export class DataService implements OnInit {
 
   get me(): Observable<User> {
     return new Observable<User>(fn => this._me.subscribe(fn));
+  }
+
+  get myId(): string {
+    return this._myId;
   }
 
   hostedEvent(id: number): Observable<Event> {

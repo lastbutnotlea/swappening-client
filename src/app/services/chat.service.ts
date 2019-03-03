@@ -6,14 +6,18 @@ import {BehaviorSubject, Observable} from "rxjs/Rx";
 import {ApiService} from "./api.service";
 import {map} from "rxjs/operators";
 import {Event} from "../shared/event-model";
+import {User} from "../shared/user-model";
+import {DataService} from "./data.service";
 
 
 @Injectable({
   providedIn: "root"
 })
 export class ChatService implements OnInit {
+  private _myId: string;
   private _chatSocket;
   private _chats: BehaviorSubject<Chat[]> = new BehaviorSubject([]);
+  private _idToUsers: BehaviorSubject<Map<number, User>> = new BehaviorSubject<Map<number, User>>(new Map);
 
   constructor(private apiService: ApiService) {
   }
@@ -21,12 +25,17 @@ export class ChatService implements OnInit {
   ngOnInit() {
   }
 
-  public initChatAfterLogin() {
+  public initChatAfterLogin(myId: string) {
+    this._myId = myId;
     this.apiService.getAllChats().subscribe(res => {
         this._chats.next(res); // This probably will not work
         this._chats.value.forEach((chat) => {
           this.apiService.getMessageOfChat(chat.id).subscribe(messageRes => {
             chat.messages = messageRes;
+          });
+          const otherUserId = +this._myId === chat.userId ? chat.ownerId : chat.userId;
+          this.apiService.getUserDetails(otherUserId).subscribe(res => {
+            this._idToUsers.next(this._idToUsers.value.set(otherUserId, res));
           });
         });
       }
@@ -43,7 +52,7 @@ export class ChatService implements OnInit {
   }
 
   private socketConnect() {
-    this._chatSocket = io.connect("http://localhost:8085");
+    this._chatSocket = io.connect("http://vmkemper14.informatik.tu-muenchen.de:8085");
     this._chatSocket.on("connect", () => {
       console.log("connected");
       this._chatSocket.emit("userAuth", this.apiService.getToken());
@@ -52,6 +61,8 @@ export class ChatService implements OnInit {
         if (foundChat) {
           foundChat.messages.push({isMessageOfOwner, message: message, createdAt: new Date()});
           console.log("added following message to chat");
+        } else {
+
         }
         console.log(message);
       });
@@ -69,11 +80,22 @@ export class ChatService implements OnInit {
   chat(chatId: number): Observable<Chat> {
     return new Observable<Chat[]>(fn =>
       this._chats.subscribe(fn)).pipe(map((chats: Chat[]) => {
-        if (!chats) {
-          return;
-        } else {
-          return chats.find(chat => chat.id === +chatId);
-        }
+      if (!chats) {
+        return;
+      } else {
+        return chats.find(chat => chat.id === +chatId);
+      }
+    }));
+  }
+
+  partnerUser(userId: number): Observable<any> {
+    return new Observable<any>(fn =>
+      this._idToUsers.subscribe(fn)).pipe(map((map: Map<number, User>) => {
+      if (!map) {
+        return;
+      } else {
+        return map.get(userId);
+      }
     }));
   }
 }

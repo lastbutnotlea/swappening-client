@@ -45,11 +45,10 @@ export class ApiService {
     uploadData.append("email", user.email);
     uploadData.append("password", user.password);
     uploadData.append("confirmPassword", confirmedPassword);
-    const test = this.http.post<any>(requestUrl,
+    return this.http.post<any>(requestUrl,
       uploadData, {
         headers: {Authorization: "Bearer " + this.userToken}
       }).toPromise();
-    return test;
   }
 
   public getLoggedIn(): Observable<boolean> {
@@ -94,8 +93,6 @@ export class ApiService {
         headers: {Authorization: "Bearer " + this.userToken}
       });
   }
-
-  // TODO: deleteAccount
 
   public getHostedEvents(userId: string): Observable<Event[]> {
     if (environment.useMockData) {
@@ -173,11 +170,6 @@ export class ApiService {
       });
     }
   }
-
-  // TODO likeEvent (?)
-
-  // TODO dislikeEvent (?)
-
 
   public getFirstSwipeEvents(userId: string, tags: string[]): Observable<Event[]> {
     if (environment.useMockData) {

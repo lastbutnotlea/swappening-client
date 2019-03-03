@@ -38,7 +38,7 @@ export class DataService implements OnInit {
   private _eventCounter = 0;
 
   constructor(private apiService: ApiService, private chatService: ChatService) {
-    if (environment.autoLogin) this.apiService.login('test1234@beispiel.de', 'password123').then(
+    if (environment.autoLogin) this.apiService.login('test123@beispiel.de', 'password123').then(
       () => this.loadInitialData()
     );
     else {

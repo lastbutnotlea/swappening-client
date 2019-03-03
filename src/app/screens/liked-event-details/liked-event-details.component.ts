@@ -4,7 +4,8 @@ import {Event} from '../../shared/event-model';
 import {User} from '../../shared/user-model';
 import {ApiService} from "../../services/api.service";
 import {DataService} from '../../services/data.service';
-import {ActivatedRoute} from '@angular/router';
+import {ChatService} from '../../services/chat.service';
+import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from "../../../environments/environment";
 
 @Component({
@@ -22,6 +23,8 @@ export class LikedEventDetailsComponent implements OnInit {
 
   constructor(private dataService: DataService,
               private apiService: ApiService,
+              private chatService: ChatService,
+              private router: Router,
               private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -31,10 +34,10 @@ export class LikedEventDetailsComponent implements OnInit {
   }
 
   startChat() {
-    this.apiService.createChat(this.eventId, +this.dataService.myId).subscribe(res => {
+    this.chatService.addNewChat(this.eventId, +this.dataService.myId).subscribe(res => {
       this.chatId = res[0].id;
+      this.router.navigate(["/chat/" + this.chatId])
     } );
-    
   }
 
 }

@@ -24,8 +24,11 @@ img {
   display: flex;
   margin: 1.3rem;
   padding: 0;
+  max-height: 40vw;
+  overflow: hidden;
 }
 
 mat-card-header {
   padding-top: 1rem;
+  max-width: calc(100vw - 40vw - 3rem);
 }

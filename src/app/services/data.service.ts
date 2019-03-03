@@ -24,6 +24,7 @@ export class DataService implements OnInit {
 
   // Tags
   private _allTags: BehaviorSubject<String[]> = new BehaviorSubject([]);
+  private _currentlySelectedTags: BehaviorSubject<String[]> = new BehaviorSubject([]);
   private _allTagsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   // Users
@@ -37,7 +38,7 @@ export class DataService implements OnInit {
   private _eventCounter = 0;
 
   constructor(private apiService: ApiService, private chatService: ChatService) {
-    if (environment.autoLogin) this.apiService.login('test123@beispiel.de', 'password123').then(
+    if (environment.autoLogin) this.apiService.login('test1234@beispiel.de', 'password123').then(
       () => this.loadInitialData()
     );
     else {
@@ -74,7 +75,7 @@ export class DataService implements OnInit {
         this._likedEvents.next(res);
         this._likedEventsLoaded.next(true);
       });
-      this.apiService.getFirstSwipeEvents(this._myId).subscribe(res => {
+      this.apiService.getFirstSwipeEvents(this._myId, []).subscribe(res => {
         this._swipeEvents.next(res);
         this._swipeEventsLoaded.next(true);
       });
@@ -115,6 +116,10 @@ export class DataService implements OnInit {
 
   get allTags(): Observable<string[]> {
     return new Observable<string[]>(fn => this._allTags.subscribe(fn));
+  }
+
+  get currentlySelectedTags(): Observable<string[]> {
+    return new Observable<string[]>(fn => this._currentlySelectedTags.subscribe(fn));
   }
 
   get allTagsLoaded(): Observable<boolean> {
@@ -242,9 +247,10 @@ export class DataService implements OnInit {
     });
   }
 
-  public fetchNewSwipeEvents() {
+  public fetchNewSwipeEvents(tags: string[]) {
     this._swipeEventsLoaded.next(false);
-    this.apiService.getSwipeEvents(this._myId).subscribe(res => {
+    this._currentlySelectedTags.next(tags);
+    this.apiService.getSwipeEvents(this._myId, tags).subscribe(res => {
       this._swipeEvents.next(this._swipeEvents.value.concat(res));
       this._swipeEventsLoaded.next(true);
     });
@@ -255,9 +261,10 @@ export class DataService implements OnInit {
     // TODO: don't forget to do the swipe event backend call
   }
 
-  public fetchInitialSwipeEvents() {
+  public fetchInitialSwipeEvents(tags: string[]) {
     this._swipeEventsLoaded.next(false);
-    this.apiService.getFirstSwipeEvents(this._myId).subscribe(res => {
+    this._currentlySelectedTags.next(tags);
+    this.apiService.getFirstSwipeEvents(this._myId, tags).subscribe(res => {
       this._swipeEvents.next(res);
       this._swipeEventsLoaded.next(true);
     });

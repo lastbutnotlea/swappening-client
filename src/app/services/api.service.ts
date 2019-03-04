@@ -171,6 +171,13 @@ export class ApiService {
     }
   }
 
+  public getAcceptedEvents(userId: string): Observable<Event[]> {
+    const requestUrl = environment.apiUrl + "/event/forUser/accepted"; // + this.userId;
+    return this.http.get<Event[]>(requestUrl, {
+      headers: {Authorization: "Bearer " + this.userToken}
+    });
+  }
+
   public getFirstSwipeEvents(userId: string, tags: string[]): Observable<Event[]> {
     if (environment.useMockData) {
       return of(FAKE_EVENTS);

@@ -45,7 +45,6 @@ export class UserProfileComponent implements OnInit {
     } else {
       this.user$ = this.dataService.user(this.userId);
     }
-    console.log(this.eventId)
   }
 
   logout() {

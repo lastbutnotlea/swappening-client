@@ -1,12 +1,34 @@
-<div routerLink="/matches" class="back-button">< back</div>
-<input type="text" id="message" placeholder="Chat here..." (keyup.enter)="sendMessage($event.target.value)" [(ngModel)]="messageToSend" autofocus/>
+<div routerLink="/matches" class="back-button extra-space">< back</div>
 
-<div class="scrollable">
-  <div class="chat-container" *ngFor="let message of (chat$ | async).messages">
-    <a href="#" *ngIf="message.isMessageOfOwner && chat$.ownerId == (me$ | async).id || !(message.isMessageOfOwner) && chat$.ownerId != (me$ | async).id">{{(me$ | async).nickname}}: {{message.createdAt}}</a>
-    <a href="#" *ngIf="message.isMessageOfOwner && chat$.ownerId != (me$ | async).id || !(message.isMessageOfOwner) && chat$.ownerId == (me$ | async).id">{{(partnerUser$ | async).nickname}}: {{message.createdAt}}</a>
+<h1 class="headline">
+  <img class="chat-partner-picture" src="{{this.apiUrl}}/files/{{(partnerUser$ | async).pictureStorageName}}">
+  {{(partnerUser$ | async).nickname}}
+</h1>
 
-    <p>{{message.message}}</p>
+<div id="chatcontainer" class="chat-container" #chatcontainer>
+  <div class="row" *ngFor="let message of (chat$ | async).messages">
+    <div class="col-3 chatAvatar"
+         *ngIf="message.isMessageOfOwner && chat$.ownerId != (me$ | async).id || !(message.isMessageOfOwner) && chat$.ownerId == (me$ | async).id">
+      <img class="chat-partner-picture" src="{{this.apiUrl}}/files/{{(partnerUser$ | async).pictureStorageName}}">
+    </div>
+    <div class="col-9"
+         [ngClass]="chatDirection1(message.isMessageOfOwner && chat$.ownerId == (me$ | async).id || !(message.isMessageOfOwner) && chat$.ownerId != (me$ | async).id)">
+      <div
+        [ngClass]="chatDirection2(message.isMessageOfOwner && chat$.ownerId == (me$ | async).id || !(message.isMessageOfOwner) && chat$.ownerId != (me$ | async).id)">
+        {{message.message}}
+      </div>
+    </div>
+    <div class="col-3 chatAvatar"
+         *ngIf="message.isMessageOfOwner && chat$.ownerId == (me$ | async).id || !(message.isMessageOfOwner) && chat$.ownerId != (me$ | async).id">
+      <img class="chat-partner-picture" src="{{this.apiUrl}}/files/{{(me$ | async).pictureStorageName}}">
+    </div>
   </div>
 </div>
 
+<div class="send-message">
+  <textarea type="text" id="message" autosize class="edit-multiple-lines chat-input" placeholder="Chat here..."
+            [(ngModel)]="messageToSend" autofocus></textarea>
+  <button mat-fab class="send-message-button" (click)="sendMessage($event.target.value)">
+    <img src="./assets/icons-black/paper-plane-1.png">
+  </button>
+</div>

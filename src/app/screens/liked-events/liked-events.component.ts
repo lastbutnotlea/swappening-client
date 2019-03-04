@@ -11,12 +11,14 @@ import {DataService} from "../../services/data.service";
 export class LikedEventsComponent implements OnInit {
 
   likedEvents$: Observable<Event[]>
+  acceptedEvents$: Observable<Event[]>
 
   constructor(private dataService: DataService) {
   }
 
   ngOnInit() {
     this.likedEvents$ = this.dataService.likedEvents;
+    this.acceptedEvents$ = this.dataService.acceptedEvents;
   }
 
 }

@@ -16,7 +16,8 @@
 }
 
 .login-container {
-  height: 100vh;
+  height: calc(100vh - constant(safe-area-inset-top));
+  height: calc(100vh - env(safe-area-inset-top));
   padding-top: 34vh;
 }
 

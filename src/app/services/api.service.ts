@@ -171,6 +171,13 @@ export class ApiService {
     }
   }
 
+  public getAcceptedEvents(userId: string): Observable<Event[]> {
+    const requestUrl = environment.apiUrl + "/event/forUser/accepted"; // + this.userId;
+    return this.http.get<Event[]>(requestUrl, {
+      headers: {Authorization: "Bearer " + this.userToken}
+    });
+  }
+
   public getFirstSwipeEvents(userId: string, tags: string[]): Observable<Event[]> {
     if (environment.useMockData) {
       return of(FAKE_EVENTS);
@@ -255,8 +262,8 @@ export class ApiService {
   }
 
   public swipeUser(isLeft: boolean, userId: number, eventId: number): Observable<any[]> {
-    const requestUrl = environment.apiUrl + "event/swipe/" + (isLeft ? "left" : "right") + "/" + userId + "/" + eventId;
-    return this.http.post<any>(requestUrl, {
+    const requestUrl = environment.apiUrl + "/event/swipeUser/" + (isLeft ? "left" : "right") + "/" + userId + "/" + eventId;
+    return this.http.post<any>(requestUrl, {}, {
       headers: {Authorization: "Bearer " + this.userToken},
     });
   }

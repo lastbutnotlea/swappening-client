@@ -8,7 +8,7 @@
       <img class="icon" src="{{this.apiUrl}}/files/{{chatAndPartnerUser.partnerUser.pictureStorageName}}">
       <mat-card-header>
         <!--<mat-card-title>{{user.nickname}}</mat-card-title>-->
-        <mat-card-subtitle>User: {{chatAndPartnerUser.chat.userId}} Chat of my events (EventId = {{chatAndPartnerUser.chat.eventId}})</mat-card-subtitle>
+        <mat-card-subtitle>User: {{chatAndPartnerUser.partnerUser.nickname}} want to chat with you about {{chatAndPartnerUser.event.headline}})</mat-card-subtitle>
       </mat-card-header>
       <button (click)="goToChat(chatAndPartnerUser.chat.id)"routerLink="/chat/{{chatAndPartnerUser.chat.id}}">Chat</button>
     </mat-card>

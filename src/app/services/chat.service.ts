@@ -152,13 +152,14 @@ export class ChatService implements OnInit {
     return of(chatConnectedToEvent);
   }
 
-  // object = {chat: someChat, partnerUser: thePartnerChatUser}
-  public getChatOfMyEventsWithPartnerUser(): Observable<Object[]> {
+  // object = {chat: someChat, event: theEventConnectToTheChat partnerUser: thePartnerChatUser}
+  public getChatOfMyEventsWithPartnerUserAndEvent(hostedEvents: BehaviorSubject<Event[]>): Observable<Object[]> {
     const chatConnectedToUser = [];
     this._chatsOfMyEvents.value.forEach(chat => {
       const partnerUser = this._idToUsers.value.get(chat.userId);
-      if (partnerUser) {
-        chatConnectedToUser.push({chat: chat, partnerUser: partnerUser});
+      const event = hostedEvents.value.find(hostedEvent => hostedEvent.id === chat.eventId);
+      if (event && partnerUser) {
+        chatConnectedToUser.push({chat: chat, event: event, partnerUser: partnerUser});
       }
     });
     return of(chatConnectedToUser);

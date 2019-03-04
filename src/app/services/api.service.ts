@@ -2,7 +2,7 @@ import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Event, FAKE_EVENTS} from "../shared/event-model";
 import {environment} from "../../environments/environment";
-import {Observable, of} from "rxjs";
+import {BehaviorSubject, Observable, of} from "rxjs";
 import {FAKE_USER, User} from "../shared/user-model";
 import {Message} from "../shared/messages-model";
 import {Chat} from "../shared/chat-model";
@@ -13,7 +13,7 @@ import {Chat} from "../shared/chat-model";
 export class ApiService {
 
   userToken: string;
-  public loggedIn: Observable<boolean> = of(false);
+  public loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private http: HttpClient) {
   }
@@ -28,7 +28,7 @@ export class ApiService {
       }).toPromise().then(
         (res: any) => {
           this.userToken = res.token;
-          this.loggedIn = of(true);
+          this.loggedIn.next(true);
         }
       );
     }
@@ -57,7 +57,7 @@ export class ApiService {
 
   public logout() {
     this.userToken = null;
-    this.loggedIn = of(false);
+    this.loggedIn.next(false);
   }
 
   public getMyDetails(): Observable<User> {

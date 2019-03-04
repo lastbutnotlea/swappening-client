@@ -13,6 +13,11 @@
   height: calc(90vh - env(safe-area-inset-top)) !important;
 }
 
+.details-container-bigger {
+  height: calc(100vh - constant(safe-area-inset-top)) !important;
+  height: calc(100vh - env(safe-area-inset-top)) !important;
+}
+
 .card-subtitle {
   font-size: 2rem;
   padding: 1rem 0 0 0;

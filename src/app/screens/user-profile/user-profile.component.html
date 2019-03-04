@@ -4,9 +4,9 @@
   <div (click)="logout()">logout</div>
 </div>
 
-<div class="details-container">
+<div [ngClass]="isMe ? 'details-container' : 'details-container-bigger details-container' ">
 
-  <mat-card class="detail-card">
+  <mat-card [ngClass]="isMe ? 'detail-card-shorter' : 'detail-card'">
 
     <mat-card-title>
       <h1 class="event-card-headline">{{(user$ | async).nickname}}</h1>

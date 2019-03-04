@@ -49,6 +49,8 @@ body {
   font-family: 'Titillium Web', sans-serif !important;
   background: linear-gradient(to bottom left, $primary1, $primary2 90%);
   overflow: hidden;
+  padding-top: constant(safe-area-inset-top);
+  padding-top: env(safe-area-inset-top);
 }
 
 .headline {

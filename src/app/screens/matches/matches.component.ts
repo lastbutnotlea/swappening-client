@@ -14,12 +14,10 @@ import {ChatService} from "../../services/chat.service";
   styleUrls: ["./matches.component.scss"]
 })
 export class MatchesComponent implements OnInit {
-  private eventId: number = 15;
-
   private interestedUsersMap$: Observable<Map<number, User[]>>;
   private interestedUsers$: Observable<User[]>; // = this.interestedUsersMap$.pipe(map(userMap => userMap[this.eventId]));
-  private chatsOfMyEvents$: Observable<Chat[]>;
-  private chatsOfLikedEvents$: Observable<Object[]>;
+  private chatsOfMyEvents$: Observable<Object[]>; // object = {chat, partnerUser}
+  private chatsOfLikedEvents$: Observable<Object[]>; // object = {chat, event}
 
   apiUrl: string;
 
@@ -29,8 +27,8 @@ export class MatchesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.chatsOfMyEvents$ = this.chatService.chatsOfMyEvents;
-    this.chatsOfLikedEvents$ = this.dataService.getLikedEventsChatsOfLikedEvents()
+    this.chatsOfMyEvents$ = this.chatService.getChatOfMyEventsWithPartnerUser();
+    this.chatsOfLikedEvents$ = this.dataService.getLikedEventsChatsOfLikedEvents();
 
     /*this.interestedUsersMap$ = this.dataService.interestedUsers;
     this.interestedUsersMap$.subscribe(whatever => console.log(whatever));

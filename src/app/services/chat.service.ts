@@ -30,7 +30,7 @@ export class ChatService implements OnInit {
     this._myId = myId;
     this.apiService.getAllChats().subscribe(chats => {
         chats.forEach((chat) => {
-          const isMyEvent: boolean = +this._myId === chat.userId;
+          const isMyEvent: boolean = +this._myId === chat.ownerId;
           if (isMyEvent) {
             this._chatsOfMyEvents.next(this._chatsOfMyEvents.value.concat([chat]));
           } else {
@@ -41,7 +41,7 @@ export class ChatService implements OnInit {
             chat.messages = messageRes;
           });
 
-          const otherUserId = isMyEvent ? chat.ownerId : chat.userId;
+          const otherUserId = isMyEvent ? chat.userId : chat.ownerId;
           this.apiService.getUserDetails(otherUserId).subscribe(res => {
             this._idToUsers.next(this._idToUsers.value.set(otherUserId, res));
           });
@@ -144,12 +144,24 @@ export class ChatService implements OnInit {
   public getLikedEventsChatsOfLikedEvents(likedEvents: BehaviorSubject<Event[]>): Observable<Object[]> {
     const chatConnectedToEvent = [];
     this._chatsOfLikedEvents.value.forEach(chat => {
-      const foundEvent = likedEvents.value.find( event => event.id === chat.eventId);
+      const foundEvent = likedEvents.value.find(event => event.id === chat.eventId);
       if (foundEvent) {
         chatConnectedToEvent.push({chat: chat, event: foundEvent});
       }
     });
     return of(chatConnectedToEvent);
+  }
+
+  // object = {chat: someChat, partnerUser: thePartnerChatUser}
+  public getChatOfMyEventsWithPartnerUser(): Observable<Object[]> {
+    const chatConnectedToUser = [];
+    this._chatsOfMyEvents.value.forEach(chat => {
+      const partnerUser = this._idToUsers.value.get(chat.userId);
+      if (partnerUser) {
+        chatConnectedToUser.push({chat: chat, partnerUser: partnerUser});
+      }
+    });
+    return of(chatConnectedToUser);
   }
 
   private findRightChat(chatId: number): (Chat | undefined) {

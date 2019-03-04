@@ -89,7 +89,7 @@ const appRoutes: Routes = [
     component: MatchesComponent
   },
   {
-    path: "userprofile/:id",
+    path: "userprofile/:id/:eventId",
     component: UserProfileComponent
   },
   {

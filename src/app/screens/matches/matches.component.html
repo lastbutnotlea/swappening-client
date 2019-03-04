@@ -4,11 +4,11 @@
   </h1>
   <div class="scrollable">
     <!--<mat-card class="chat-card" *ngFor="let user of (interestedUsers$ | async)" routerLink="/userprofile/{{user.id}}">-->
-    <mat-card routerLink="/userprofile/{{chat.userId}}" class="chat-card" *ngFor="let chat of (chatsOfMyEvents$ | async)">
-      <img class="icon" src="../../../assets/portrait.jpg">
+    <mat-card routerLink="/userprofile/{{chatAndPartnerUser.chat.userId}}/{{chatAndPartnerUser.chat.eventId}}" class="chat-card" *ngFor="let chatAndPartnerUser of (chatsOfMyEvents$ | async)">
+      <img class="icon" src="{{this.apiUrl}}/files/{{chatAndPartnerUser.partnerUser.pictureStorageName}}">
       <mat-card-header>
         <!--<mat-card-title>{{user.nickname}}</mat-card-title>-->
-        <mat-card-subtitle>User {{chat.userId}} wants to come to (EventId = {{chat.eventId}})</mat-card-subtitle>
+        <mat-card-subtitle>User: {{chatAndPartnerUser.chat.userId}} Chat of my events (EventId = {{chatAndPartnerUser.chat.eventId}})</mat-card-subtitle>
       </mat-card-header>
     </mat-card>
     <mat-card routerLink="/chat/{{chatAndEvent.chat.id}}" class="chat-card" *ngFor="let chatAndEvent of (chatsOfLikedEvents$ | async)">

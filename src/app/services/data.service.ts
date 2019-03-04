@@ -56,8 +56,8 @@ export class DataService implements OnInit {
     this.apiService.getMyDetails().subscribe(res => {
       this._me.next(res);
       this._myId = this._me.value.id.toString();
-      this.apiService.getHostedEvents(this._myId).subscribe(res => {
-        this._hostedEvents.next(res);
+      this.apiService.getHostedEvents(this._myId).subscribe(myHostedEvents => {
+        this._hostedEvents.next(myHostedEvents);
         this._hostedEventsLoaded.next(true);
         const myMap = new Map();
         const hostedEvents: Event[] = this._hostedEvents.value;
@@ -74,20 +74,20 @@ export class DataService implements OnInit {
                 });
               }*/
       });
-      this.apiService.getLikedEvents(this._myId).subscribe(res => {
-        this._likedEvents.next(res);
+      this.apiService.getLikedEvents(this._myId).subscribe(likedEvents => {
+        this._likedEvents.next(likedEvents);
         this._likedEventsLoaded.next(true);
       });
-      this.apiService.getAcceptedEvents(this._myId).subscribe(res => {
-        this._acceptedEvents.next(res);
+      this.apiService.getAcceptedEvents(this._myId).subscribe(acceptedEvents => {
+        this._acceptedEvents.next(acceptedEvents);
         this._acceptedEventsLoaded.next(true);
       });
-      this.apiService.getFirstSwipeEvents(this._myId, []).subscribe(res => {
-        this._swipeEvents.next(res);
+      this.apiService.getFirstSwipeEvents(this._myId, []).subscribe(firstSwipeEvents => {
+        this._swipeEvents.next(firstSwipeEvents);
         this._swipeEventsLoaded.next(true);
       });
-      this.apiService.getAllTags().subscribe(res => {
-        this._allTags.next(res.map(tag => tag.tagName));
+      this.apiService.getAllTags().subscribe(tags => {
+        this._allTags.next(tags.map(tag => tag.tagName));
         this._allTagsLoaded.next(true);
       });
       this.chatService.initChatAfterLogin(this._myId);
@@ -300,8 +300,8 @@ export class DataService implements OnInit {
   }
 
   // Object = {chat: someChat, event: relatedEvent}
-  public getLikedEventsChatsOfLikedEvents(): Observable<Object[]> {
-    return this.chatService.getLikedEventsChatsOfLikedEvents(this._likedEvents);
+  public getChatsOfLikedEventsWithEvent(): Observable<Object[]> {
+    return this.chatService.getChatsOfLikedEventsWithEvent(this._likedEvents);
   }
 
   // object = {chat: someChat, event: theEventConnectToTheChat partnerUser: thePartnerChatUser}

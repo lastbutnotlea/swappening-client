@@ -278,6 +278,9 @@ export class DataService implements OnInit {
         break;
       case "right":
         this.apiService.swipeAnEvent(false, this._swipeEvents.value[0].id).subscribe(() => undefined);
+        if(this._swipeEvents.value[0].isPrivate) {
+          this.chatService.addNewChat(this._swipeEvents.value[0].id, +this._myId).subscribe(() => undefined)
+        }        
         break;
     }
     this._swipeEvents.next(this._swipeEvents.value.slice(1));

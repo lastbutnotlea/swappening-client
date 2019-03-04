@@ -13,6 +13,28 @@
   border-radius: 0%;
 }
 
+.preview-image-container {
+  max-height: 40vw;
+  width: 40vw;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  background-color: white;
+}
+
+img {
+  width: 100% !important;
+}
+
+.chat-card {
+  display: flex;
+  margin: 1.3rem;
+  padding: 0;
+  max-height: 25vw;
+  overflow: hidden;
+}
+
 .scrollable {
   overflow-y: scroll;
   padding: 0 !important;

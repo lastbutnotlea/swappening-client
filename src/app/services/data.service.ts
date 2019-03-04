@@ -296,9 +296,14 @@ export class DataService implements OnInit {
     });
   }
 
-  // Object <- {chat: someChat, event: relatedEvent}
+  // Object = {chat: someChat, event: relatedEvent}
   public getLikedEventsChatsOfLikedEvents(): Observable<Object[]> {
     return this.chatService.getLikedEventsChatsOfLikedEvents(this._likedEvents);
+  }
+
+  // object = {chat: someChat, event: theEventConnectToTheChat partnerUser: thePartnerChatUser}
+  public getChatOfMyEventsWithPartnerUserAndEvent(): Observable<Object[]> {
+    return this.chatService.getChatOfMyEventsWithPartnerUserAndEvent(this._hostedEvents);
   }
 
   get eventCounter(): number {

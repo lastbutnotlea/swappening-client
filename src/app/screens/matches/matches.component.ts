@@ -17,7 +17,7 @@ import {Router} from "@angular/router";
 export class MatchesComponent implements OnInit {
   private interestedUsersMap$: Observable<Map<number, User[]>>;
   private interestedUsers$: Observable<User[]>; // = this.interestedUsersMap$.pipe(map(userMap => userMap[this.eventId]));
-  private chatsOfMyEvents$: Observable<Object[]>; // object = {chat, partnerUser}
+  private chatsOfMyEvents$: Observable<Object[]>; // object = {chat, event, partnerUser}
   private chatsOfLikedEvents$: Observable<Object[]>; // object = {chat, event}
 
   apiUrl: string;
@@ -29,7 +29,7 @@ export class MatchesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.chatsOfMyEvents$ = this.chatService.getChatOfMyEventsWithPartnerUser();
+    this.chatsOfMyEvents$ = this.dataService.getChatOfMyEventsWithPartnerUserAndEvent();
     this.chatsOfLikedEvents$ = this.dataService.getLikedEventsChatsOfLikedEvents();
 
     /*this.interestedUsersMap$ = this.dataService.interestedUsers;

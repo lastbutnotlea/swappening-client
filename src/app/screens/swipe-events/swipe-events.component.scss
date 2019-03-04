@@ -14,7 +14,8 @@
 .filter-button {
   position: absolute !important;
   right: 1rem;
-  top: 1rem;
+  top: calc(1rem + constant(safe-area-inset-top));
+  top: calc(1rem + env(safe-area-inset-top));
   width: 4rem !important;
   height: 4rem !important;
   font-size: 0;

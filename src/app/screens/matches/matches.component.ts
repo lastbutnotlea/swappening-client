@@ -29,8 +29,15 @@ export class MatchesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.chatsOfMyEvents$ = this.dataService.getChatOfMyEventsWithPartnerUserAndEvent();
-    this.chatsOfLikedEvents$ = this.dataService.getChatsOfLikedEventsWithEvent();
+    this.chatService.refreshChats();
+    this.chatService.doneFetchingChatData.subscribe(done => {
+      if (done) {
+        this.chatsOfMyEvents$ = this.dataService.getChatOfMyEventsWithPartnerUserAndEvent();
+        this.chatsOfMyEvents$.subscribe(res => console.log(res));
+        this.chatsOfLikedEvents$ = this.dataService.getChatsOfLikedEventsWithEvent();
+        this.chatsOfLikedEvents$.subscribe(res => console.log(res));
+      }
+    })
 
     /*this.interestedUsersMap$ = this.dataService.interestedUsers;
     this.interestedUsersMap$.subscribe(whatever => console.log(whatever));
@@ -41,7 +48,7 @@ export class MatchesComponent implements OnInit {
   }
 
   goToChat(chatId: number) {
-      this.router.navigate(["/chat/" + chatId]);
+    this.router.navigate(["/chat/" + chatId]);
   }
 
 }

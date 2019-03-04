@@ -41,7 +41,7 @@ export class DataService implements OnInit {
   private _eventCounter = 0;
 
   constructor(private apiService: ApiService, private chatService: ChatService) {
-    if (environment.autoLogin) this.apiService.login("test123@beispiel.de", "password123").then(
+    if (environment.autoLogin) this.apiService.login("test1234@beispiel.de", "password123").then(
       () => this.loadInitialData()
     );
     else {
@@ -119,6 +119,15 @@ export class DataService implements OnInit {
 
   get acceptedEventsLoaded(): Observable<boolean> {
     return new Observable<boolean>(fn => this._acceptedEventsLoaded.subscribe(fn));
+  }
+
+  refreshAcceptedEvents() {
+    if (this._myId && this._myId !== '') {
+      this.apiService.getAcceptedEvents(this._myId).subscribe(acceptedEvents => {
+        this._acceptedEvents.next(acceptedEvents);
+        this._acceptedEventsLoaded.next(true);
+      });
+    }
   }
 
   get swipeEvents(): Observable<Event[]> {
@@ -278,9 +287,9 @@ export class DataService implements OnInit {
         break;
       case "right":
         this.apiService.swipeAnEvent(false, this._swipeEvents.value[0].id).subscribe(() => undefined);
-        if(this._swipeEvents.value[0].isPrivate) {
+        if (this._swipeEvents.value[0].isPrivate) {
           this.chatService.addNewChat(this._swipeEvents.value[0].id, +this._myId).subscribe(() => undefined)
-        }        
+        }
         break;
     }
     this._swipeEvents.next(this._swipeEvents.value.slice(1));

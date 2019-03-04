@@ -4,7 +4,9 @@
   </h1>
   <div class="scrollable">
     <!--<mat-card class="chat-card" *ngFor="let user of (interestedUsers$ | async)" routerLink="/userprofile/{{user.id}}">-->
-    <mat-card class="chat-card" routerLink="/userprofile/{{chatAndPartnerUser.chat.userId}}/{{chatAndPartnerUser.chat.eventId}}" class="chat-card" *ngFor="let chatAndPartnerUser of (chatsOfMyEvents$ | async)">
+    <mat-card class="chat-card" routerLink="/userprofile/{{chatAndPartnerUser.chat.userId}}/{{chatAndPartnerUser.chat.eventId}}"
+              class="chat-card"
+              *ngFor="let chatAndPartnerUser of (chatsOfMyEvents$ | async)">
       <div class="preview-image-container">
         <img class="icon" src="{{this.apiUrl}}/files/{{chatAndPartnerUser.partnerUser.pictureStorageName}}">
       </div>
@@ -14,7 +16,8 @@
       </mat-card-header>
       <button class="chat-button" (click)="goToChat(chatAndPartnerUser.chat.id)">Chat</button>
     </mat-card>
-    <mat-card class="chat-card" routerLink="/likedevents/fromChat/{{chatAndEvent.event.id}}" class="chat-card" *ngFor="let chatAndEvent of (chatsOfLikedEvents$ | async)">
+    <mat-card class="chat-card" routerLink="/likedevents/fromChat/{{chatAndEvent.event.id}}" class="chat-card"
+              *ngFor="let chatAndEvent of (chatsOfLikedEvents$ | async)">
       <div class="preview-image-container">
         <img class="event-icon" src="{{this.apiUrl}}/files/{{chatAndEvent.event.pictures_events[0].pictureStorageName}}">
       </div>

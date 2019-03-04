@@ -10,13 +10,14 @@ import {DataService} from "../../services/data.service";
 })
 export class LikedEventsComponent implements OnInit {
 
-  likedEvents$: Observable<Event[]>
-  acceptedEvents$: Observable<Event[]>
+  likedEvents$: Observable<Event[]>;
+  acceptedEvents$: Observable<Event[]>;
 
   constructor(private dataService: DataService) {
   }
 
   ngOnInit() {
+    this.dataService.refreshAcceptedEvents();
     this.likedEvents$ = this.dataService.likedEvents;
     this.acceptedEvents$ = this.dataService.acceptedEvents;
   }

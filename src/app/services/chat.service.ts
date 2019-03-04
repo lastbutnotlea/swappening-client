@@ -19,6 +19,7 @@ export class ChatService implements OnInit {
   private _chatsOfMyEvents: BehaviorSubject<Chat[]> = new BehaviorSubject([]);
   private _chatsOfLikedEvents: BehaviorSubject<Chat[]> = new BehaviorSubject([]);
   private _idToUsers: BehaviorSubject<Map<number, User>> = new BehaviorSubject<Map<number, User>>(new Map);
+  private _doneFetchingChatData: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private apiService: ApiService) {
   }
@@ -28,7 +29,15 @@ export class ChatService implements OnInit {
 
   public initChatAfterLogin(myId: string) {
     this._myId = myId;
+    this.fetchChatData();
+    this.socketConnect();
+  }
+
+  fetchChatData() {
+    this._doneFetchingChatData.next(false);
     this.apiService.getAllChats().subscribe(chats => {
+      this._chatsOfMyEvents.next([]);
+      this._chatsOfLikedEvents.next([]);
         chats.forEach((chat) => {
           const isMyEvent: boolean = +this._myId === chat.ownerId;
           if (isMyEvent) {
@@ -46,9 +55,10 @@ export class ChatService implements OnInit {
             this._idToUsers.next(this._idToUsers.value.set(otherUserId, res));
           });
         });
+
+        this._doneFetchingChatData.next(true);
       }
     );
-    this.socketConnect();
   }
 
   public addMessageToChat(chatId: number, isMessageOfOwner: boolean, message: string, date: Date) {
@@ -149,6 +159,16 @@ export class ChatService implements OnInit {
       }
     }
     return -1;
+  }
+
+  get doneFetchingChatData(): Observable<boolean> {
+    return new Observable<boolean>(fn => this._doneFetchingChatData.subscribe(fn));
+  }
+
+  refreshChats() {
+    if (this._myId && this._myId !== '') {
+      this.fetchChatData();
+    }
   }
 
   partnerUser(userId: number): Observable<any> {

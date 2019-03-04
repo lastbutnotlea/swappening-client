@@ -73,7 +73,7 @@ const appRoutes: Routes = [
     component: LikedEventsComponent
   },
   {
-    path: "likedevents/:id",
+    path: "likedevents/:fromChat/:id",
     component: LikedEventDetailsComponent
   },
   {

@@ -7,6 +7,7 @@ import {environment} from "../../../environments/environment";
 import {DataService} from "../../services/data.service";
 import {Chat} from "../../shared/chat-model";
 import {ChatService} from "../../services/chat.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: "app-matches",
@@ -22,7 +23,8 @@ export class MatchesComponent implements OnInit {
   apiUrl: string;
 
   constructor(private dataService: DataService,
-              private chatService: ChatService) {
+              private chatService: ChatService,
+              private router: Router) {
     this.apiUrl = environment.apiUrl;
   }
 
@@ -36,6 +38,10 @@ export class MatchesComponent implements OnInit {
       return userMap.get(this.eventId);
     }));
     this.interestedUsers$.subscribe(data => console.log(data));*/
+  }
+
+  goToChat(chatId: number) {
+      this.router.navigate(["/chat/" + chatId]);
   }
 
 }

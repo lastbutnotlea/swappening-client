@@ -36,7 +36,7 @@ export class LikedEventDetailsComponent implements OnInit {
   startChat() {
     this.chatService.addNewChat(this.eventId, +this.dataService.myId).subscribe(res => {
       this.chatId = res.id;
-      this.router.navigate(["/chat/" + this.chatId])
+      this.router.navigate(["/chat/" + this.chatId]);
     } );
   }
 

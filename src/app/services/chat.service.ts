@@ -141,7 +141,7 @@ export class ChatService implements OnInit {
     }));
   }
 
-  public getLikedEventsChatsOfLikedEvents(likedEvents: BehaviorSubject<Event[]>): Observable<Object[]> {
+  public getChatsOfLikedEventsWithEvent(likedEvents: BehaviorSubject<Event[]>): Observable<Object[]> {
     const chatConnectedToEvent = [];
     this._chatsOfLikedEvents.value.forEach(chat => {
       const foundEvent = likedEvents.value.find(event => event.id === chat.eventId);

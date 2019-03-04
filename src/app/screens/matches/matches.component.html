@@ -12,7 +12,7 @@
         <!--<mat-card-title>{{user.nickname}}</mat-card-title>-->
         <mat-card-subtitle><b>{{chatAndPartnerUser.partnerUser.nickname}}</b> wants to chat about your event <b>{{chatAndPartnerUser.event.headline}}</b></mat-card-subtitle>
       </mat-card-header>
-      <button (click)="goToChat(chatAndPartnerUser.chat.id)">Chat</button>
+      <button class="chat-button" (click)="goToChat(chatAndPartnerUser.chat.id)">Chat</button>
     </mat-card>
     <mat-card class="chat-card" routerLink="/likedevents/fromChat/{{chatAndEvent.event.id}}" class="chat-card" *ngFor="let chatAndEvent of (chatsOfLikedEvents$ | async)">
       <div class="preview-image-container">
@@ -22,7 +22,7 @@
         <!--<mat-card-title>{{user.nickname}}</mat-card-title>-->
         <mat-card-subtitle> Ask questions to the host of <b>{{chatAndEvent.event.headline}}</b></mat-card-subtitle>
       </mat-card-header>
-      <button (click)="goToChat(chatAndEvent.chat.id)">Chat</button>
+      <button class="chat-button" (click)="goToChat(chatAndEvent.chat.id)">Chat</button>
     </mat-card>
   </div>
   <app-bottom-menu></app-bottom-menu>

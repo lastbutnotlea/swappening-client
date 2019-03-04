@@ -6,7 +6,7 @@
 
 <div class="details-container">
 
-  <mat-card [ngClass]="isMe ? 'detail-card-shorter' : 'detail-card'">
+  <mat-card class="detail-card">
 
     <mat-card-title>
       <h1 class="event-card-headline">{{(user$ | async).nickname}}</h1>

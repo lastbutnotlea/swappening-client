@@ -67,9 +67,9 @@ export class UserProfileComponent implements OnInit {
   }
 
   swipeUser(isLeft: boolean) {
-    this.dataService.swipeUser(isLeft, this.userId, this.eventId)
-    this.router.navigate(["/matches"])
+    this.dataService.swipeUser(isLeft, this.userId, this.eventId);
     const chatId = this.chatService.getOwnedChatIdByEventIdAndPartnerUserId(this.eventId, this.userId);
-    this.apiService.deleteChat(chatId);
+    this.apiService.deleteChat(chatId).subscribe( res => undefined);
+    this.router.navigate(["/matches"]);
   }
 }

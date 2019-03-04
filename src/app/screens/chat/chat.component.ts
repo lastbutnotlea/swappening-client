@@ -24,7 +24,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   isEventOwner: boolean;
   messageToSend;
   chatSocket;
-  apiUrl: string = '';
+  apiUrl: string = "";
   scrollToBottom = false;
 
   constructor(private apiService: ApiService,

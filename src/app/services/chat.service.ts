@@ -57,8 +57,7 @@ export class ChatService implements OnInit {
       const newChatsOfLikedEvents = this._chatsOfLikedEvents.value;
       newChatsOfLikedEvents[foundChatIndex].messages.push({isMessageOfOwner, message: message, createdAt: date});
       this._chatsOfLikedEvents.next(newChatsOfLikedEvents);
-    }
-    else {
+    } else {
       foundChatIndex = this._chatsOfMyEvents.value.findIndex(chat => chat.id === chatId);
       if (foundChatIndex > -1) {
         const newChatsOfMyEvents = this._chatsOfMyEvents.value;
@@ -127,7 +126,7 @@ export class ChatService implements OnInit {
   }
 
   chat(chatId: number): Observable<any> {
-    let foundChat = this._chatsOfMyEvents.value.find(chat => chat.id === +chatId);
+    const foundChat = this._chatsOfMyEvents.value.find(chat => chat.id === +chatId);
     if (foundChat) {
       return new Observable<any>(fn => this._chatsOfMyEvents.subscribe(fn)).pipe(
         map(chats => chats.find(chat => chat.id === +chatId)));
@@ -135,6 +134,21 @@ export class ChatService implements OnInit {
       return new Observable<any>(fn => this._chatsOfLikedEvents.subscribe(fn)).pipe(
         map(chats => chats.find(chat => chat.id === +chatId)));
     }
+  }
+
+  public getOwnedChatIdByEventIdAndPartnerUserId(eventId: number, partnerUserId: number): number {
+    const foundChatInMyEvents = this._chatsOfMyEvents.value.find(chat =>
+      chat.eventId === eventId && chat.userId === partnerUserId && chat.ownerId === +this._myId);
+    if (foundChatInMyEvents) {
+      return foundChatInMyEvents.id;
+    } else {
+      const foundChatInLikedEvents = this._chatsOfLikedEvents.value.find(chat =>
+        chat.eventId === eventId && chat.userId === partnerUserId && chat.ownerId === +this._myId);
+      if (foundChatInLikedEvents) {
+        return foundChatInLikedEvents.id;
+      }
+    }
+    return -1;
   }
 
   partnerUser(userId: number): Observable<any> {

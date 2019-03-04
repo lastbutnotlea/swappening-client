@@ -254,6 +254,13 @@ export class ApiService {
     });
   }
 
+  public deleteChat(chatId: number): Observable<any> {
+    const requestUrl = environment.apiUrl + "/chat/" + chatId ;
+    return this.http.delete(requestUrl, {
+      headers: {Authorization: "Bearer " + this.userToken}
+    });
+  }
+
   public swipeAnEvent(isLeft: boolean, eventId: number): Observable<any[]> {
     const requestUrl = environment.apiUrl + "/event/swipe/" + (isLeft ? "left" : "right") + "/" + eventId;
     return this.http.post<any>(requestUrl, {},{

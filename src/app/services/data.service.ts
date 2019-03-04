@@ -18,9 +18,12 @@ export class DataService implements OnInit {
   private _hostedEvents: BehaviorSubject<Event[]> = new BehaviorSubject([]);
   private _likedEvents: BehaviorSubject<Event[]> = new BehaviorSubject([]);
   private _swipeEvents: BehaviorSubject<Event[]> = new BehaviorSubject([]);
+  private _acceptedEvents: BehaviorSubject<Event[]> = new BehaviorSubject([]);
   private _hostedEventsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _likedEventsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _swipeEventsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private _acceptedEventsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
 
   // Tags
   private _allTags: BehaviorSubject<String[]> = new BehaviorSubject([]);
@@ -75,6 +78,10 @@ export class DataService implements OnInit {
         this._likedEvents.next(res);
         this._likedEventsLoaded.next(true);
       });
+      this.apiService.getAcceptedEvents(this._myId).subscribe(res => {
+        this._acceptedEvents.next(res);
+        this._acceptedEventsLoaded.next(true);
+      });
       this.apiService.getFirstSwipeEvents(this._myId, []).subscribe(res => {
         this._swipeEvents.next(res);
         this._swipeEventsLoaded.next(true);
@@ -104,6 +111,14 @@ export class DataService implements OnInit {
 
   get likedEventsLoaded(): Observable<boolean> {
     return new Observable<boolean>(fn => this._likedEventsLoaded.subscribe(fn));
+  }
+
+  get acceptedEvents(): Observable<Event[]> {
+    return new Observable<Event[]>(fn => this._acceptedEvents.subscribe(fn));
+  }
+
+  get acceptedEventsLoaded(): Observable<boolean> {
+    return new Observable<boolean>(fn => this._acceptedEventsLoaded.subscribe(fn));
   }
 
   get swipeEvents(): Observable<Event[]> {

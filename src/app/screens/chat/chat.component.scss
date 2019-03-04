@@ -24,7 +24,7 @@ input#message {
 
 .chat-container {
   overflow-y: scroll;
-  // padding: 1.5rem 0 !important;
+  padding: 1.5rem 0 !important;
   height: calc(74vh - constant(safe-area-inset-top));
   height: calc(74vh - env(safe-area-inset-top));
 }
@@ -223,8 +223,8 @@ textarea:focus {
 }
 
 .col-3 {
-  -ms-flex: 0 0 20%;
-  flex: 0 0 20%;
+  -ms-flex: 0 0 19%;
+  flex: 0 0 19%;
   max-width: 20%
 }
 

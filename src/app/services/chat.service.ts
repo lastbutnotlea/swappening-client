@@ -52,10 +52,19 @@ export class ChatService implements OnInit {
   }
 
   public addMessageToChat(chatId: number, isMessageOfOwner: boolean, message: string, date: Date) {
-    const foundChat = this.findRightChat(chatId);
-    if (foundChat) {
-      foundChat.messages.push({isMessageOfOwner, message: message, createdAt: date});
-      console.log("added following message ->" + message + "<- to own chat");
+    let foundChatIndex = this._chatsOfLikedEvents.value.findIndex(chat => chat.id === chatId);
+    if (foundChatIndex > -1) {
+      const newChatsOfLikedEvents = this._chatsOfLikedEvents.value;
+      newChatsOfLikedEvents[foundChatIndex].messages.push({isMessageOfOwner, message: message, createdAt: date});
+      this._chatsOfLikedEvents.next(newChatsOfLikedEvents);
+    }
+    else {
+      foundChatIndex = this._chatsOfMyEvents.value.findIndex(chat => chat.id === chatId);
+      if (foundChatIndex > -1) {
+        const newChatsOfMyEvents = this._chatsOfMyEvents.value;
+        newChatsOfMyEvents[foundChatIndex].messages.push({isMessageOfOwner, message: message, createdAt: date});
+        this._chatsOfMyEvents.next(newChatsOfMyEvents);
+      }
     }
   }
 
@@ -117,17 +126,15 @@ export class ChatService implements OnInit {
     return new Observable<Chat[]>(fn => this._chatsOfLikedEvents.subscribe(fn));
   }
 
-  chat(chatId: number): Observable<Chat> {
-    const mergedChats = new BehaviorSubject(this._chatsOfMyEvents.value);
-    mergedChats.next(mergedChats.value.concat(this._chatsOfLikedEvents.value));
-    return new Observable<Chat[]>(fn =>
-      mergedChats.subscribe(fn)).pipe(map((chats: Chat[]) => {
-      if (!chats) {
-        return;
-      } else {
-        return chats.find(chat => chat.id === +chatId);
-      }
-    }));
+  chat(chatId: number): Observable<any> {
+    let foundChat = this._chatsOfMyEvents.value.find(chat => chat.id === +chatId);
+    if (foundChat) {
+      return new Observable<any>(fn => this._chatsOfMyEvents.subscribe(fn)).pipe(
+        map(chats => chats.find(chat => chat.id === +chatId)));
+    } else {
+      return new Observable<any>(fn => this._chatsOfLikedEvents.subscribe(fn)).pipe(
+        map(chats => chats.find(chat => chat.id === +chatId)));
+    }
   }
 
   partnerUser(userId: number): Observable<any> {

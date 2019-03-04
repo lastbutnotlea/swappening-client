@@ -76,7 +76,8 @@ mat-card {
 //######### DETAIL SCREENS ##############################################
 
 .details-container {
-  height: 96vh;
+  height: calc(96vh - constant(safe-area-inset-top));
+  height: calc(96vh - env(safe-area-inset-top));
   padding-bottom: 2rem !important;
 
   .detail-card {
@@ -84,7 +85,8 @@ mat-card {
     padding: 0 0 5rem 0 !important;
     box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 9px 0px 0 rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.12) !important;
     border-radius: 10px;
-    height: 89vh;
+    height: calc(89vh - constant(safe-area-inset-top));
+    height: calc(89vh - env(safe-area-inset-top));
     overflow: auto;
   }
 

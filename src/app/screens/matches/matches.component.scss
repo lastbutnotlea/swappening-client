@@ -16,7 +16,8 @@
 .scrollable {
   overflow-y: scroll;
   padding: 0 !important;
-  height: 84vh;
+  height: calc(84vh - constant(safe-area-inset-top));
+  height: calc(84vh - env(safe-area-inset-top));
 }
 
 .chat-card {

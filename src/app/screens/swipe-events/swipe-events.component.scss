@@ -45,7 +45,8 @@
 }
 
 :host ::ng-deep .outmost-container {
-  height: 94vh;
+  height: calc(94vh - constant(safe-area-inset-top));
+  height: calc(94vh - env(safe-area-inset-top));
   display: flex;
   align-content: center;
   flex-direction: column;
@@ -79,7 +80,8 @@
 :host ::ng-deep .stackedcards {
   position: relative;
   width: 93vw;
-  height: 76vh;
+  height: calc(76vh - constant(safe-area-inset-top));
+  height: calc(76vh - env(safe-area-inset-top));
 }
 
 :host ::ng-deep .stackedcards * {

@@ -4,21 +4,25 @@
   </h1>
   <div class="scrollable">
     <!--<mat-card class="chat-card" *ngFor="let user of (interestedUsers$ | async)" routerLink="/userprofile/{{user.id}}">-->
-    <mat-card routerLink="/userprofile/{{chatAndPartnerUser.chat.userId}}/{{chatAndPartnerUser.chat.eventId}}"
-              class="chat-card"
-              *ngFor="let chatAndPartnerUser of (chatsOfMyEvents$ | async)">
-      <img class="icon" src="{{this.apiUrl}}/files/{{chatAndPartnerUser.partnerUser.pictureStorageName}}">
+    <mat-card class="chat-card" routerLink="/userprofile/{{chatAndPartnerUser.chat.userId}}/{{chatAndPartnerUser.chat.eventId}}" class="chat-card" *ngFor="let chatAndPartnerUser of (chatsOfMyEvents$ | async)">
+      <div class="preview-image-container">
+        <img class="icon" src="{{this.apiUrl}}/files/{{chatAndPartnerUser.partnerUser.pictureStorageName}}">
+      </div>
       <mat-card-header>
         <!--<mat-card-title>{{user.nickname}}</mat-card-title>-->
-        <mat-card-subtitle>User: {{chatAndPartnerUser.chat.userId}} Chat of my events (EventId = {{chatAndPartnerUser.chat.eventId}})</mat-card-subtitle>
+        <mat-card-subtitle><b>{{chatAndPartnerUser.partnerUser.nickname}}</b> wants to chat about your event <b>{{chatAndPartnerUser.event.headline}}</b></mat-card-subtitle>
       </mat-card-header>
+      <button class="chat-button" (click)="goToChat(chatAndPartnerUser.chat.id)">Chat</button>
     </mat-card>
-    <mat-card routerLink="/chat/{{chatAndEvent.chat.id}}" class="chat-card" *ngFor="let chatAndEvent of (chatsOfLikedEvents$ | async)">
-      <img class="event-icon" src="{{this.apiUrl}}/files/{{chatAndEvent.event.pictures_events[0].pictureStorageName}}">
+    <mat-card class="chat-card" routerLink="/likedevents/fromChat/{{chatAndEvent.event.id}}" class="chat-card" *ngFor="let chatAndEvent of (chatsOfLikedEvents$ | async)">
+      <div class="preview-image-container">
+        <img class="event-icon" src="{{this.apiUrl}}/files/{{chatAndEvent.event.pictures_events[0].pictureStorageName}}">
+      </div>
       <mat-card-header>
         <!--<mat-card-title>{{user.nickname}}</mat-card-title>-->
-        <mat-card-subtitle>Chat with events i liked (EventId = {{chatAndEvent.event.id}})</mat-card-subtitle>
+        <mat-card-subtitle> Ask questions to the host of <b>{{chatAndEvent.event.headline}}</b></mat-card-subtitle>
       </mat-card-header>
+      <button class="chat-button" (click)="goToChat(chatAndEvent.chat.id)">Chat</button>
     </mat-card>
   </div>
   <app-bottom-menu></app-bottom-menu>

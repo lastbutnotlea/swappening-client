@@ -1,4 +1,5 @@
-<div routerLink="/likedevents" class="back-button">< back</div>
+<div *ngIf="!fromChat"routerLink="/likedevents" class="back-button">< back</div>
+<div *ngIf="fromChat" routerLink="/matches" class="back-button">< back</div>
 <app-event-details></app-event-details>
 <div *ngIf="(event$ | async).hasChat">
   <button mat-fab color="warn" (click)="startChat()" class="on-top-button-right">Chat</button>

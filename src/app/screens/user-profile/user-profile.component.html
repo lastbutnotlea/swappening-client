@@ -4,7 +4,7 @@
   <div (click)="logout()">logout</div>
 </div>
 
-<div class="details-container">
+<div [ngClass]="isMe ? 'details-container' : 'details-container-bigger details-container' ">
 
   <mat-card [ngClass]="isMe ? 'detail-card-shorter' : 'detail-card'">
 

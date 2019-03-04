@@ -7,6 +7,7 @@ import {environment} from "../../../environments/environment";
 import {DataService} from "../../services/data.service";
 import {Chat} from "../../shared/chat-model";
 import {ChatService} from "../../services/chat.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: "app-matches",
@@ -16,18 +17,19 @@ import {ChatService} from "../../services/chat.service";
 export class MatchesComponent implements OnInit {
   private interestedUsersMap$: Observable<Map<number, User[]>>;
   private interestedUsers$: Observable<User[]>; // = this.interestedUsersMap$.pipe(map(userMap => userMap[this.eventId]));
-  private chatsOfMyEvents$: Observable<Object[]>; // object = {chat, partnerUser}
+  private chatsOfMyEvents$: Observable<Object[]>; // object = {chat, event, partnerUser}
   private chatsOfLikedEvents$: Observable<Object[]>; // object = {chat, event}
 
   apiUrl: string;
 
   constructor(private dataService: DataService,
-              private chatService: ChatService) {
+              private chatService: ChatService,
+              private router: Router) {
     this.apiUrl = environment.apiUrl;
   }
 
   ngOnInit() {
-    this.chatsOfMyEvents$ = this.chatService.getChatOfMyEventsWithPartnerUser();
+    this.chatsOfMyEvents$ = this.dataService.getChatOfMyEventsWithPartnerUserAndEvent();
     this.chatsOfLikedEvents$ = this.dataService.getLikedEventsChatsOfLikedEvents();
 
     /*this.interestedUsersMap$ = this.dataService.interestedUsers;
@@ -36,6 +38,10 @@ export class MatchesComponent implements OnInit {
       return userMap.get(this.eventId);
     }));
     this.interestedUsers$.subscribe(data => console.log(data));*/
+  }
+
+  goToChat(chatId: number) {
+      this.router.navigate(["/chat/" + chatId]);
   }
 
 }

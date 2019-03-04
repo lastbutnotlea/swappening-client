@@ -77,12 +77,12 @@ export class EditUserProfileComponent implements OnInit {
         });
       }
       this.dataService.updateUserDetails(this.userModel, this.selectedFile);
-      this.router.navigate(['/userprofile/me']);
+      this.router.navigate(['/userprofile/me/0']);
     } else {
       this.apiService.register(this.userModel, this.confirmedPassword, this.selectedFile).then(
         () => {
           console.log("you registered successfully");
-          this.router.navigate(['/userprofile/me']);
+          this.router.navigate(['/userprofile/me/0']);
         }
       ).catch(err => {
         console.log(err);

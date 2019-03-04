@@ -18,6 +18,7 @@ export class LikedEventDetailsComponent implements OnInit {
   private eventId: number;
   private event$: Observable<Event>;
   private chatId: number;
+  private fromChat: boolean;
 
   private apiUrl: string;
 
@@ -31,12 +32,18 @@ export class LikedEventDetailsComponent implements OnInit {
     this.apiUrl = environment.apiUrl;
     this.eventId = parseInt(this.route.snapshot.paramMap.get('id'), 10);
     this.event$ = this.dataService.likedEvent(this.eventId);
+    if(this.route.snapshot.paramMap.get('fromChat') == "fromChat") {
+      this.fromChat = true;
+    }
+    else {
+      this.fromChat = false;
+    }
   }
 
   startChat() {
     this.chatService.addNewChat(this.eventId, +this.dataService.myId).subscribe(res => {
       this.chatId = res.id;
-      this.router.navigate(["/chat/" + this.chatId])
+      this.router.navigate(["/chat/" + this.chatId]);
     } );
   }
 

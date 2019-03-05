@@ -1,7 +1,7 @@
-import {Component, OnInit, Input} from "@angular/core";
+import {Component, OnInit, Input, OnDestroy} from "@angular/core";
 import {User} from "../../shared/user-model";
 import {DataService} from "../../services/data.service";
-import {Observable} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {environment} from "../../../environments/environment";
 import {ApiService} from "../../services/api.service";
@@ -13,14 +13,15 @@ import {MatDialog} from "@angular/material";
   templateUrl: "./user-profile.component.html",
   styleUrls: ["./user-profile.component.scss"]
 })
-export class UserProfileComponent implements OnInit {
+export class UserProfileComponent implements OnInit, OnDestroy {
 
   private userId: number;
   private isMe: boolean;
   private user$: Observable<User>;
   private eventId: number;
-
   private apiUrl: string;
+
+  private logoutDialogSubscription: Subscription;
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
@@ -47,6 +48,10 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    if (this.logoutDialogSubscription) this.logoutDialogSubscription.unsubscribe();
+  }
+
   logout() {
     const dialogReference = this.confirmationDialog.open(ConfirmationDialogComponent, {
       width: "50vw",
@@ -56,7 +61,7 @@ export class UserProfileComponent implements OnInit {
       autoFocus: false
     });
 
-    dialogReference.afterClosed().subscribe(result => {
+    this.logoutDialogSubscription = dialogReference.afterClosed().subscribe(result => {
       if (result === true) {
         this.apiService.logout();
         this.router.navigate(["/login"]);

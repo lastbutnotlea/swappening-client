@@ -1,8 +1,8 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {DataService} from "../../services/data.service";
 import {User} from "../../shared/user-model";
-import {Observable} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {environment} from "../../../environments/environment";
 import {ApiService} from "../../services/api.service";
 import {InformationDialogComponent} from "../../components/information-dialog/information-dialog.component";
@@ -13,7 +13,7 @@ import {MatDialog} from "@angular/material";
   templateUrl: "./edit-user-profile.component.html",
   styleUrls: ["./edit-user-profile.component.scss"]
 })
-export class EditUserProfileComponent implements OnInit {
+export class EditUserProfileComponent implements OnInit, OnDestroy {
 
   private isEdit;
   private user$: Observable<User>;
@@ -23,6 +23,8 @@ export class EditUserProfileComponent implements OnInit {
   private selectedFile: File = null;
   private previewImage: any;
   private newPicture = false;
+
+  private userSubscription: Subscription;
 
   constructor(private route: ActivatedRoute,
               private dataService: DataService,
@@ -37,7 +39,7 @@ export class EditUserProfileComponent implements OnInit {
     if (mode === "edituserprofile") {
       this.isEdit = true;
       this.user$ = this.dataService.me;
-      this.user$.subscribe(user => {
+      this.userSubscription = this.user$.subscribe(user => {
         this.userModel = user;
       });
     } else if (mode === "newuserprofile") {
@@ -54,6 +56,10 @@ export class EditUserProfileComponent implements OnInit {
       };
       this.confirmedPassword = null;
     }
+  }
+
+  ngOnDestroy() {
+    if (this.userSubscription) this.userSubscription.unsubscribe();
   }
 
   onFileChanged(event) {

@@ -1,5 +1,5 @@
-import {Component, ElementRef, OnInit, ViewChild, ViewEncapsulation} from "@angular/core";
-import {Observable} from "rxjs";
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from "@angular/core";
+import {Observable, Subscription} from "rxjs";
 import {Event} from "../../shared/event-model";
 import {DataService} from "../../services/data.service";
 import {environment} from "../../../environments/environment";
@@ -14,7 +14,7 @@ import {map, startWith} from "rxjs/operators";
   templateUrl: "./swipe-events.component.html",
   styleUrls: ["./swipe-events.component.scss"],
 })
-export class SwipeEventsComponent implements OnInit {
+export class SwipeEventsComponent implements OnInit, OnDestroy {
 
   private swipeEvents$: Observable<Event[]>;
   private swipeEvents: Event[];
@@ -30,25 +30,30 @@ export class SwipeEventsComponent implements OnInit {
   @ViewChild("tagInput") tagInput: ElementRef<HTMLInputElement>;
   @ViewChild("auto") matAutocomplete: MatAutocomplete;
 
+  private allTagsSubscription: Subscription;
+  private currentlySelectedTagsSubscription: Subscription;
+  private swipeEventsSubscription: Subscription;
+  private swipeEventsLoadedSubscription: Subscription;
+
   constructor(public dataService: DataService,
               private dateDisplayService: DateDisplayService,
               private router: Router) {
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
       map((tag: string | null) => tag ? this._filterTags(tag) : this.allTags.slice()));
-    dataService.allTags.subscribe(allTags => {
+    this.allTagsSubscription = dataService.allTags.subscribe(allTags => {
       this.allTags = allTags;
     });
-    dataService.currentlySelectedTags.subscribe(currTags => this.tags = currTags);
+    this.currentlySelectedTagsSubscription = dataService.currentlySelectedTags.subscribe(currTags => this.tags = currTags);
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.apiUrl = environment.apiUrl;
     this.swipeEvents$ = this.dataService.swipeEvents;
-    this.swipeEvents$.subscribe(newEvents => {
+    this.swipeEventsSubscription = this.swipeEvents$.subscribe(newEvents => {
       this.swipeEvents = newEvents;
     });
-    this.dataService.swipeEventsLoaded.subscribe(ready => {
+    this.swipeEventsLoadedSubscription = this.dataService.swipeEventsLoaded.subscribe(ready => {
       if (!ready) {
         return;
       } else {
@@ -56,6 +61,13 @@ export class SwipeEventsComponent implements OnInit {
         this.stackedCards();
       }
     });
+  }
+
+  ngOnDestroy() {
+    if (this.allTagsSubscription) this.allTagsSubscription.unsubscribe();
+    if (this.currentlySelectedTagsSubscription) this.currentlySelectedTagsSubscription.unsubscribe();
+    if (this.swipeEventsSubscription) this.swipeEventsSubscription.unsubscribe();
+    if (this.swipeEventsLoadedSubscription) this.swipeEventsLoadedSubscription.unsubscribe();
   }
 
   filter() {
@@ -695,7 +707,6 @@ export class SwipeEventsComponent implements OnInit {
 
         //  Function to generate rotate value
         function RotateRegulator(value) {
-          // TODO 15 entspricht rotation nach rechts; -15 entspricht rotation nach links; wenn man immer -15 zurückgibt hat man keine probleme mehr
           if (value > 150) {
             return 15;
           } else if (value < -150) {
@@ -704,7 +715,6 @@ export class SwipeEventsComponent implements OnInit {
           return value / 10;
         }
 
-        // TODO: es liegt an der rotation; wenn man rotateElement auf 0 lässt, keine Probleme mehr
         let rotateElement = 0;
         if (rotate) {
           rotateElement = RotateRegulator(moveX);
@@ -713,7 +723,6 @@ export class SwipeEventsComponent implements OnInit {
         if (stackedOptions === "Top") {
           elTrans = elementsMargin * (items - 1);
           if (element) {
-            // TODO jan meint das hier ist besonders teuer; vielleicht kommt man irgendwie drum herum die styles so
             // zu setzen? oder man setzt die rotation nur wenn man wirklich rotieren muss? geht das getrennt vom rest?
             element.style.webkitTransform = "translateX(" + moveX + "px) translateY("
               + (moveY + elTrans) + "px) translateZ(0) rotate(" + rotateElement + "deg)";

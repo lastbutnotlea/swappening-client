@@ -38,7 +38,6 @@ export class DataService implements OnInit {
 
   private _chatSocket;
   private _myChats: BehaviorSubject<Chat[]> = new BehaviorSubject([]);
-  private _doneFetchingChatData: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   // ################# INITIALISATION ####################
 
@@ -98,7 +97,6 @@ export class DataService implements OnInit {
   }
 
   fetchChatData() {
-    this._doneFetchingChatData.next(false);
     let newMyChats = [];
     let newIdToUsers = this._idToUser.value;
     this.apiService.getAllChats().subscribe(chats => {
@@ -110,10 +108,7 @@ export class DataService implements OnInit {
               messages: res,
               isMeOwner: isMeOwner
             });
-            if (index === chats.length - 1) {
-              this._myChats.next(newMyChats);
-              this._doneFetchingChatData.next(true);
-            }
+            if (index === chats.length - 1) this._myChats.next(newMyChats);
           });
           const chatPartnerId = isMeOwner ? chat.userId : chat.ownerId;
           this.apiService.getUserDetails(chatPartnerId).subscribe(res => {
@@ -222,11 +217,6 @@ export class DataService implements OnInit {
   chat(chatId: number): Observable<any> {
     return new Observable<any>(fn => this._myChats.subscribe(fn)).pipe(
       map(chats => chats.find(chat => chat.id === +chatId)));
-  }
-
-  // TODO not sure about this
-  get doneFetchingChatData(): Observable<boolean> {
-    return new Observable<boolean>(fn => this._doneFetchingChatData.subscribe(fn));
   }
 
   // ################# MANIPULATE EVENTS ####################
@@ -396,7 +386,6 @@ export class DataService implements OnInit {
     });
   }
 
-  // TODO not sure about this
   refreshChats() {
     if (this._myId && this._myId !== "") {
       this.fetchChatData();
@@ -444,14 +433,4 @@ export class DataService implements OnInit {
       chat => chat.eventId === eventId && chat.userId === userId && chat.ownerId === +this._myId).id;
     if (chatId) this.apiService.deleteChat(chatId).subscribe(res => undefined);
   }
-
-  /*  // Object = {chat: someChat, event: relatedEvent}
-    public getChatsOfLikedEventsWithEvent(): Observable<Object[]> {
-      return this.chatService.getChatsOfLikedEventsWithEvent(this._likedEvents);
-    }
-
-    // object = {chat: someChat, event: theEventConnectToTheChat partnerUser: thePartnerChatUser}
-    public getChatOfMyEventsWithPartnerUserAndEvent(): Observable<Object[]> {
-      return this.chatService.getChatOfMyEventsWithPartnerUserAndEvent(this._hostedEvents);
-    }*/
 }

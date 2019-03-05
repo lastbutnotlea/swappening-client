@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, OnInit, ViewChild} from "@angular/core";
+import {AfterViewChecked, Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {ApiService} from "../../services/api.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Observable} from "rxjs/Rx";
@@ -6,13 +6,15 @@ import {Chat} from "../../shared/chat-model";
 import {DataService} from "../../services/data.service";
 import {User} from "../../shared/user-model";
 import {environment} from "../../../environments/environment";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: "app-chat",
   templateUrl: "./chat.component.html",
   styleUrls: ["./chat.component.scss"]
 })
-export class ChatComponent implements OnInit, AfterViewChecked {
+export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
+
   @ViewChild("chatcontainer") chatContainer;
 
   chat$: Observable<Chat>;
@@ -25,6 +27,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   isMeChatOwner;
   partnerUserId;
 
+  private chatSubscription: Subscription;
+
   constructor(private apiService: ApiService,
               private route: ActivatedRoute,
               private dataService: DataService) {
@@ -36,7 +40,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     this.apiUrl = environment.apiUrl;
     this.chat$ = this.dataService.chat(this.chatId);
     this.chatPartner$ = this.dataService.chatPartner(this.chatId);
-    this.chat$.subscribe((chat) => {
+    this.chatSubscription = this.chat$.subscribe((chat) => {
       if (!chat) return;
       else {
         this.isMeChatOwner = chat.isMeOwner;
@@ -44,6 +48,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         this.scrollToBottom = true;
       }
     });
+  }
+
+  ngOnDestroy() {
+    if (this.chatSubscription) this.chatSubscription.unsubscribe();
   }
 
   ngAfterViewChecked() {

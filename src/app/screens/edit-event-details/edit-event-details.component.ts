@@ -1,5 +1,5 @@
-import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
-import {Observable} from "rxjs";
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from "@angular/core";
+import {Observable, Subscription} from "rxjs";
 import {Event} from "../../shared/event-model";
 import {DataService} from "../../services/data.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -16,7 +16,7 @@ import {map, startWith} from "rxjs/operators";
   templateUrl: "./edit-event-details.component.html",
   styleUrls: ["./edit-event-details.component.scss"]
 })
-export class EditEventDetailsComponent implements OnInit {
+export class EditEventDetailsComponent implements OnInit, OnDestroy {
 
   private selectedFile: File[] = [];
   private previewImage: any[] = [];
@@ -37,8 +37,12 @@ export class EditEventDetailsComponent implements OnInit {
   @ViewChild("tagInput") tagInput: ElementRef<HTMLInputElement>;
   @ViewChild("auto") matAutocomplete: MatAutocomplete;
 
-
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+
+  private allTagsSubscription: Subscription;
+  private eventsSubscription: Subscription;
+  private deletePictureDialogSubscription: Subscription;
+  private deleteEventDialogSubscription: Subscription;
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
@@ -48,7 +52,7 @@ export class EditEventDetailsComponent implements OnInit {
     this.filteredTags = this.tagCtrl.valueChanges.pipe(
       startWith(null),
       map((tag: string | null) => tag ? this._filter(tag) : this.allTags.slice()));
-    dataService.allTags.subscribe(allTags => {
+    this.allTagsSubscription = dataService.allTags.subscribe(allTags => {
       this.allTags = allTags;
     });
   }
@@ -60,7 +64,7 @@ export class EditEventDetailsComponent implements OnInit {
       this.isEdit = true;
       this.eventId = parseInt(current_id, 10);
       this.event$ = this.dataService.hostedEvent(this.eventId);
-      this.event$.subscribe(newEvent => {
+      this.eventsSubscription = this.event$.subscribe(newEvent => {
         this.eventModel = newEvent;
         this.numberOfPictures = this.eventModel.pictures_events.length;
         if (this.eventModel.taggedEvents.length > 0) {
@@ -92,6 +96,13 @@ export class EditEventDetailsComponent implements OnInit {
         pictures_events: [],
       };
     }
+  }
+
+  ngOnDestroy() {
+    if (this.allTagsSubscription) this.allTagsSubscription.unsubscribe();
+    if (this.eventsSubscription) this.eventsSubscription.unsubscribe();
+    if (this.deletePictureDialogSubscription) this.deletePictureDialogSubscription.unsubscribe();
+    if (this.deleteEventDialogSubscription) this.deleteEventDialogSubscription.unsubscribe();
   }
 
   add(event: MatChipInputEvent): void {
@@ -166,7 +177,7 @@ export class EditEventDetailsComponent implements OnInit {
       autoFocus: false
     });
 
-    dialogReference.afterClosed().subscribe(result => {
+    this.deletePictureDialogSubscription = dialogReference.afterClosed().subscribe(result => {
       if (result === true) {
         if (this.isEdit) {
           const pictureStorageName = this.eventModel.pictures_events[this.clickCounter % this.numberOfPictures].pictureStorageName;
@@ -227,7 +238,7 @@ export class EditEventDetailsComponent implements OnInit {
         this.dataService.createNewHostedEvent(this.eventModel).then(res => {
           this.eventId = res;
           this.event$ = this.dataService.hostedEvent(this.eventId);
-          this.event$.subscribe(event => this.eventModel = event);
+          this.eventsSubscription = this.event$.subscribe(event => this.eventModel = event);
           if (this.selectedFile.length > 0) {
             this.selectedFile.forEach((file, index) => {
               if (index !== this.selectedFile.length - 1) {
@@ -256,7 +267,7 @@ export class EditEventDetailsComponent implements OnInit {
         autoFocus: false
       });
 
-      dialogReference.afterClosed().subscribe(result => {
+      this.deleteEventDialogSubscription = dialogReference.afterClosed().subscribe(result => {
         if (result === true) {
           this.router.navigate(["/hostedevents"]);
           this.dataService.deleteHostedEvent(this.eventId);
@@ -270,23 +281,7 @@ export class EditEventDetailsComponent implements OnInit {
     this.checked = (this.clickCounter % this.numberOfPictures) == this.soonToBeFirst;
   }
 
-  changeIsPrivate() {
-    if (this.eventModel.isPrivate === false) {
-      this.eventModel.isPrivate = true;
-    }
-    else {
-      this.eventModel.isPrivate = false;
-    }
-  }
+  changeIsPrivate = () => this.eventModel.isPrivate = this.eventModel.isPrivate === false;
 
-  changeHasChat() {
-    if (this.eventModel.hasChat === false) {
-      this.eventModel.hasChat = true;
-    }
-    else {
-      this.eventModel.hasChat = false;
-    }
-  }
-
-
+  changeHasChat = () => this.eventModel.hasChat = this.eventModel.hasChat === false;
 }

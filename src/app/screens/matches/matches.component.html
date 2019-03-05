@@ -26,7 +26,9 @@
           <b>{{(idToEvent$ | async).get(chat.eventId).headline}}</b>
         </mat-card-subtitle>
       </mat-card-header>
-      <button class="chat-button" (click)="goToChat(chat.id)">Chat</button>
+      <button mat-fab class="chat-button" (click)="goToChat(chat.id)">
+        <img src="./assets/icons-black/paper-plane-1.png">
+      </button>
     </mat-card>
 
 

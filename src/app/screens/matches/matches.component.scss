@@ -1,7 +1,7 @@
 @import "../../../styles.scss";
 
 .profile-picture {
-  width: 27vw !important;
+  width: 29vw !important;
   display: inline;
   height: auto;
   align-self: center;
@@ -32,10 +32,6 @@
   background-color: $text;
 }
 
-img {
-  width: 100% !important;
-}
-
 .chat-card {
   display: flex;
   margin: 1.3rem;
@@ -45,7 +41,18 @@ img {
 }
 
 .chat-button{
-  background-color: #ffc031;
+  width: 6rem !important;
+  height: 6rem !important;
+  font-size: 2rem;
+  background-color: $primary1 !important;
+  color: $text !important;
+  align-self: flex-end;
+  margin: 1rem !important;
+
+  img {
+    width: 70% !important;
+    opacity: 0.7;
+  }
 }
 
 .scrollable {
@@ -63,7 +70,7 @@ img {
 
 mat-card-header {
   padding-top: 1rem;
-  max-width: 50vw;
+  max-width: 45vw;
 }
 
 mat-card {

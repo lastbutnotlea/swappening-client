@@ -14,31 +14,26 @@ import {Chat} from "../shared/chat-model";
 })
 export class DataService implements OnInit {
 
-  // Events
+  // ################# EVENTS ####################
+
   private _hostedEvents: BehaviorSubject<Event[]> = new BehaviorSubject([]);
   private _likedEvents: BehaviorSubject<Event[]> = new BehaviorSubject([]);
   private _swipeEvents: BehaviorSubject<Event[]> = new BehaviorSubject([]);
   private _acceptedEvents: BehaviorSubject<Event[]> = new BehaviorSubject([]);
-  private _hostedEventsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _likedEventsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private _swipeEventsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  private _acceptedEventsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
-
-  // Tags
+  private _eventCounter = 0;
   private _allTags: BehaviorSubject<String[]> = new BehaviorSubject([]);
   private _currentlySelectedTags: BehaviorSubject<String[]> = new BehaviorSubject([]);
-  private _allTagsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  // Users
+  // ################# USERS ####################
+
   private _me: BehaviorSubject<User> = new BehaviorSubject<User>(null);
   private _myId: string;
-  // private _interestedUsers: BehaviorSubject<User[]> = new BehaviorSubject([]);
   private _interestedUsers: BehaviorSubject<Map<number, User[]>> = new BehaviorSubject<Map<number, User[]>>(new Map);
   private _currentUser: BehaviorSubject<User> = new BehaviorSubject<User>(null);
 
-  // aux
-  private _eventCounter = 0;
+  // ################# INITIALISATION ####################
 
   constructor(private apiService: ApiService, private chatService: ChatService) {
     if (environment.autoLogin) this.apiService.login("test1234@beispiel.de", "password123").then(
@@ -58,7 +53,6 @@ export class DataService implements OnInit {
       this._myId = this._me.value.id.toString();
       this.apiService.getHostedEvents(this._myId).subscribe(myHostedEvents => {
         this._hostedEvents.next(myHostedEvents);
-        this._hostedEventsLoaded.next(true);
         const myMap = new Map();
         const hostedEvents: Event[] = this._hostedEvents.value;
         hostedEvents.forEach(hostedEvent => {
@@ -67,12 +61,6 @@ export class DataService implements OnInit {
             this._interestedUsers.next(myMap);
           });
         });
-        /*          for (let hostedEvent in hostedEvents) {
-                this.apiService.getInterestedUsers(hostedEvent.id).subscribe(userRes => {
-                  myMap.set(hostedEvent.id, userRes);
-                  this._interestedUsers.next(myMap);
-                });
-              }*/
       });
       this.apiService.getLikedEvents(this._myId).subscribe(likedEvents => {
         this._likedEvents.next(likedEvents);
@@ -80,7 +68,6 @@ export class DataService implements OnInit {
       });
       this.apiService.getAcceptedEvents(this._myId).subscribe(acceptedEvents => {
         this._acceptedEvents.next(acceptedEvents);
-        this._acceptedEventsLoaded.next(true);
       });
       this.apiService.getFirstSwipeEvents(this._myId, []).subscribe(firstSwipeEvents => {
         this._swipeEvents.next(firstSwipeEvents);
@@ -88,7 +75,6 @@ export class DataService implements OnInit {
       });
       this.apiService.getAllTags().subscribe(tags => {
         this._allTags.next(tags.map(tag => tag.tagName));
-        this._allTagsLoaded.next(true);
       });
       this.chatService.initChatAfterLogin(this._myId);
     });
@@ -97,56 +83,49 @@ export class DataService implements OnInit {
   ngOnInit() {
   }
 
+  // ################# GETTER EVENTS ####################
+
   get hostedEvents(): Observable<Event[]> {
     return new Observable<Event[]>(fn => this._hostedEvents.subscribe(fn));
   }
 
-  get hostedEventsLoaded(): Observable<boolean> {
-    return new Observable<boolean>(fn => this._hostedEventsLoaded.subscribe(fn));
+  hostedEvent(id: number): Observable<Event> {
+    return new Observable<Event[]>(fn =>
+      this._hostedEvents.subscribe(fn)).pipe(map((hostedEvents: Event[]) => hostedEvents.find(event => event.id === id)));
   }
 
   get likedEvents(): Observable<Event[]> {
     return new Observable<Event[]>(fn => this._likedEvents.subscribe(fn));
   }
 
-  get likedEventsLoaded(): Observable<boolean> {
-    return new Observable<boolean>(fn => this._likedEventsLoaded.subscribe(fn));
+  likedEvent(id: number): Observable<Event> {
+    return new Observable<Event[]>(fn =>
+      this._likedEvents.subscribe(fn)).pipe(map((likedEvents: Event[]) => likedEvents.find(event => event.id === id)));
   }
 
-  refreshLikedEvents() {
-    this._likedEventsLoaded.next(false);
-    if (this._myId && this._myId !== '') {
-      this.apiService.getLikedEvents(this._myId).subscribe(likedEvents => {
-        this._likedEvents.next(likedEvents);
-        this._likedEventsLoaded.next(true);
-      });
-    }
+  get likedEventsLoaded(): Observable<boolean> {
+    return new Observable<boolean>(fn => this._likedEventsLoaded.subscribe(fn));
   }
 
   get acceptedEvents(): Observable<Event[]> {
     return new Observable<Event[]>(fn => this._acceptedEvents.subscribe(fn));
   }
 
-  get acceptedEventsLoaded(): Observable<boolean> {
-    return new Observable<boolean>(fn => this._acceptedEventsLoaded.subscribe(fn));
-  }
-
-  refreshAcceptedEvents() {
-    this._acceptedEventsLoaded.next(false);
-    if (this._myId && this._myId !== '') {
-      this.apiService.getAcceptedEvents(this._myId).subscribe(acceptedEvents => {
-        this._acceptedEvents.next(acceptedEvents);
-        this._acceptedEventsLoaded.next(true);
-      });
-    }
-  }
-
   get swipeEvents(): Observable<Event[]> {
     return new Observable<Event[]>(fn => this._swipeEvents.subscribe(fn));
   }
 
+  swipeEvent(id: number): Observable<Event> {
+    return new Observable<Event[]>(fn =>
+      this._swipeEvents.subscribe(fn)).pipe(map((swipeEvents: Event[]) => swipeEvents.find(event => event.id === id)));
+  }
+
   get swipeEventsLoaded(): Observable<boolean> {
     return new Observable<boolean>(fn => this._swipeEventsLoaded.subscribe(fn));
+  }
+
+  get eventCounter(): number {
+    return this._eventCounter;
   }
 
   get allTags(): Observable<string[]> {
@@ -157,14 +136,8 @@ export class DataService implements OnInit {
     return new Observable<string[]>(fn => this._currentlySelectedTags.subscribe(fn));
   }
 
-  get allTagsLoaded(): Observable<boolean> {
-    return new Observable<boolean>(fn => this._allTagsLoaded.subscribe(fn));
-  }
+  // ################# GETTER USERS ####################
 
-  /*get interestedUsers(): Observable<User[]> {
-    return new Observable<User[]>(fn =>
-       this._interestedUsers.subscribe(fn));
-  }*/
   get interestedUsers(): Observable<Map<number, User[]>> {
     return new Observable<Map<number, User[]>>(fn =>
       this._interestedUsers.subscribe(fn));
@@ -178,38 +151,31 @@ export class DataService implements OnInit {
     return this._myId;
   }
 
-  hostedEvent(id: number): Observable<Event> {
-    return new Observable<Event[]>(fn =>
-      this._hostedEvents.subscribe(fn)).pipe(map((hostedEvents: Event[]) => hostedEvents.find(event => event.id === id)));
-  }
-
-  likedEvent(id: number): Observable<Event> {
-    return new Observable<Event[]>(fn =>
-      this._likedEvents.subscribe(fn)).pipe(map((likedEvents: Event[]) => likedEvents.find(event => event.id === id)));
-  }
-
-  swipeEvent(id: number): Observable<Event> {
-    return new Observable<Event[]>(fn =>
-      this._swipeEvents.subscribe(fn)).pipe(map((swipeEvents: Event[]) => swipeEvents.find(event => event.id === id)));
-  }
-
-  // We might want to use this at some point
-  /*user(id: number): Observable<User> {
-    let findUser = new Observable<User[]>(fn =>
-      this._interestedUsers.subscribe(fn)).pipe(map((interestedUsers: User[]) => interestedUsers.find(user => user.id === id)));
-    return findUser;
-  }*/
-  public user(userId: number): Observable<User> {
+  user(userId: number): Observable<User> {
     this.apiService.getUserDetails(userId).subscribe(res => {
       this._currentUser.next(res);
     });
     return new Observable<User>(fn => this._currentUser.subscribe(fn));
   }
 
-  public updateUserDetails(updatedUser: User, selectedFile: File) {
-    this.apiService.updateUserDetails(updatedUser, selectedFile).subscribe(res => {
-      this._me.next(res);
-    });
+  // ################# MANIPULATE EVENTS ####################
+
+  refreshLikedEvents() {
+    this._likedEventsLoaded.next(false);
+    if (this._myId && this._myId !== '') {
+      this.apiService.getLikedEvents(this._myId).subscribe(likedEvents => {
+        this._likedEvents.next(likedEvents);
+        this._likedEventsLoaded.next(true);
+      });
+    }
+  }
+
+  refreshAcceptedEvents() {
+    if (this._myId && this._myId !== '') {
+      this.apiService.getAcceptedEvents(this._myId).subscribe(acceptedEvents => {
+        this._acceptedEvents.next(acceptedEvents);
+      });
+    }
   }
 
   async createNewHostedEvent(newEvent: Event): Promise<number> {
@@ -225,11 +191,19 @@ export class DataService implements OnInit {
 
   public deleteHostedEvent(eventId: number) {
     this.apiService.deleteHostedEvent(eventId).subscribe();
-    // TODO: refactor?
     const deletedEventIndex = this._hostedEvents.value.findIndex(event => event.id === eventId);
     const newEventsArray = this._hostedEvents.value;
     newEventsArray.splice(deletedEventIndex, 1);
     this._hostedEvents.next(newEventsArray);
+  }
+
+  public updateHostedEvent(newEvent: Event) {
+    this.apiService.updateHostedEvent(newEvent).subscribe(res => {
+      const editedEventIndex = this._hostedEvents.value.findIndex(event => event.id === newEvent.id);
+      const newEventsArray = this._hostedEvents.value;
+      newEventsArray[editedEventIndex] = res;
+      this._hostedEvents.next(newEventsArray);
+    });
   }
 
   async uploadPicture(selectedFile: File, eventId: number): Promise<boolean> {
@@ -273,15 +247,6 @@ export class DataService implements OnInit {
     });
   }
 
-  public updateHostedEvent(newEvent: Event) {
-    this.apiService.updateHostedEvent(newEvent).subscribe(res => {
-      const editedEventIndex = this._hostedEvents.value.findIndex(event => event.id === newEvent.id);
-      const newEventsArray = this._hostedEvents.value;
-      newEventsArray[editedEventIndex] = res;
-      this._hostedEvents.next(newEventsArray);
-    });
-  }
-
   public fetchNewSwipeEvents(tags: string[]) {
     this._swipeEventsLoaded.next(false);
     this._currentlySelectedTags.next(tags);
@@ -306,10 +271,6 @@ export class DataService implements OnInit {
     this._swipeEvents.next(this._swipeEvents.value.slice(1));
   }
 
-  public swipeUser(isLeft: boolean, userId: number, eventId: number) {
-    this.apiService.swipeUser(isLeft, userId, eventId).subscribe(() => undefined);
-  }
-
   public fetchInitialSwipeEvents(tags: string[]) {
     this._swipeEventsLoaded.next(false);
     this._currentlySelectedTags.next(tags);
@@ -319,6 +280,28 @@ export class DataService implements OnInit {
     });
   }
 
+  increaseEventCounter() {
+    this._eventCounter++;
+  }
+
+  resetEventCounter() {
+    this._eventCounter = 0;
+  }
+
+  // ################# MANIPULATE USERS ####################
+
+  public updateUserDetails(updatedUser: User, selectedFile: File) {
+    this.apiService.updateUserDetails(updatedUser, selectedFile).subscribe(res => {
+      this._me.next(res);
+    });
+  }
+
+  public swipeUser(isLeft: boolean, userId: number, eventId: number) {
+    this.apiService.swipeUser(isLeft, userId, eventId).subscribe(() => undefined);
+  }
+
+  // ################# CHAT ####################
+
   // Object = {chat: someChat, event: relatedEvent}
   public getChatsOfLikedEventsWithEvent(): Observable<Object[]> {
     return this.chatService.getChatsOfLikedEventsWithEvent(this._likedEvents);
@@ -327,17 +310,5 @@ export class DataService implements OnInit {
   // object = {chat: someChat, event: theEventConnectToTheChat partnerUser: thePartnerChatUser}
   public getChatOfMyEventsWithPartnerUserAndEvent(): Observable<Object[]> {
     return this.chatService.getChatOfMyEventsWithPartnerUserAndEvent(this._hostedEvents);
-  }
-
-  get eventCounter(): number {
-    return this._eventCounter;
-  }
-
-  increaseEventCounter() {
-    this._eventCounter++;
-  }
-
-  resetEventCounter() {
-    this._eventCounter = 0;
   }
 }

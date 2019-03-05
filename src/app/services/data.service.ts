@@ -119,7 +119,7 @@ export class DataService implements OnInit {
           this.apiService.getUserDetails(chatPartnerId).subscribe(res => {
             newIdToUsers.set(chatPartnerId, res);
             if (index === chats.length - 1) this._idToUser.next(newIdToUsers);
-          })
+          });
         });
       }
     );
@@ -233,7 +233,7 @@ export class DataService implements OnInit {
 
   refreshLikedEvents() {
     this._likedEventsLoaded.next(false);
-    if (this._myId && this._myId !== '') {
+    if (this._myId && this._myId !== "") {
       this.apiService.getLikedEvents(this._myId).subscribe(likedEvents => {
         this._likedEvents.next(likedEvents);
         this._likedEventsLoaded.next(true);
@@ -242,7 +242,7 @@ export class DataService implements OnInit {
   }
 
   refreshAcceptedEvents() {
-    if (this._myId && this._myId !== '') {
+    if (this._myId && this._myId !== "") {
       this.apiService.getAcceptedEvents(this._myId).subscribe(acceptedEvents => {
         this._acceptedEvents.next(acceptedEvents);
       });
@@ -335,7 +335,7 @@ export class DataService implements OnInit {
       case "right":
         this.apiService.swipeAnEvent(false, this._swipeEvents.value[0].id).subscribe(() => undefined);
         if (this._swipeEvents.value[0].isPrivate) {
-          this.addNewChat(this._swipeEvents.value[0].id, +this._myId).then(() => undefined)
+          this.addNewChat(this._swipeEvents.value[0].id, +this._myId).then(() => undefined);
         }
         break;
     }
@@ -380,11 +380,14 @@ export class DataService implements OnInit {
       console.log("connected");
       this._chatSocket.emit("userAuth", this.apiService.getToken());
       this._chatSocket.on("message", (chatId: number, isMessageOfOwner: boolean, message: string) => {
-        const foundChat = this._myChats.value.find(chat => chat.id === chatId);
-        if (foundChat) {
-          foundChat.messages.push({isMessageOfOwner, message: message, createdAt: new Date()});
-          console.log("added following message to chat");
-        }
+        const foundChatIndex = this._myChats.value.findIndex(chat => chat.id === chatId);
+        const newMyChats = this._myChats.value;
+        newMyChats[foundChatIndex].messages.push({
+          isMessageOfOwner: isMessageOfOwner,
+          message: message,
+          createdAt: new Date()
+        });
+        this._myChats.next(newMyChats);
         console.log(message);
       });
     });
@@ -392,7 +395,7 @@ export class DataService implements OnInit {
 
   // TODO not sure about this
   refreshChats() {
-    if (this._myId && this._myId !== '') {
+    if (this._myId && this._myId !== "") {
       this.fetchChatData();
     }
   }
@@ -426,10 +429,10 @@ export class DataService implements OnInit {
           const chatPartnerId = isMeOwner ? newChat.userId : newChat.ownerId;
           this.apiService.getUserDetails(chatPartnerId).subscribe(res => {
             this._idToUser.next(this._idToUser.value.set(chatPartnerId, res));
-          })
+          });
         }
         resolve(newChat.id);
-      })
+      });
     });
   }
 

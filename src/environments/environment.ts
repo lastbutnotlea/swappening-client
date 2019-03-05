@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  autoLogin: true,
+  autoLogin: false,
   useMockData: false,
   // NEEDS TO BE AN EVEN NUMBER!!!
   reloadEvery: 10,

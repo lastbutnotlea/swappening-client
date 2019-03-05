@@ -1,25 +1,26 @@
 <div routerLink="/matches" class="back-button extra-space">< back</div>
 
 <h1 class="headline">
-  <img class="chat-partner-picture" src="{{this.apiUrl}}/files/{{(partnerUser$ | async).pictureStorageName}}">
-  {{(partnerUser$ | async).nickname}}
+  <img class="chat-partner-picture"
+       src="{{this.apiUrl}}/files/{{(chatPartner$ | async).pictureStorageName}}">
+  {{(chatPartner$ | async).nickname}}
 </h1>
 
 <div id="chatcontainer" class="chat-container" #chatcontainer>
   <div class="row" *ngFor="let message of (chat$ | async).messages">
     <div class="col-3 chatAvatar"
-         *ngIf="message.isMessageOfOwner && chat$.ownerId != (me$ | async).id || !(message.isMessageOfOwner) && chat$.ownerId == (me$ | async).id">
-      <img class="chat-partner-picture" src="{{this.apiUrl}}/files/{{(partnerUser$ | async).pictureStorageName}}">
+         *ngIf="(message.isMessageOfOwner && !(chat$ | async).isMeOwner) || (!message.isMessageOfOwner && (chat$ | async).isMeOwner)">
+         <!--*ngIf="message.isMessageOfOwner && chat$.ownerId != (me$ | async).id || !(message.isMessageOfOwner) && chat$.ownerId == (me$ | async).id">-->
+      <img class="chat-partner-picture" src="{{this.apiUrl}}/files/{{(chatPartner$ | async).pictureStorageName}}">
     </div>
     <div class="col-9"
-         [ngClass]="chatDirection1(message.isMessageOfOwner && chat$.ownerId == (me$ | async).id || !(message.isMessageOfOwner) && chat$.ownerId != (me$ | async).id)">
-      <div
-        [ngClass]="chatDirection2(message.isMessageOfOwner && chat$.ownerId == (me$ | async).id || !(message.isMessageOfOwner) && chat$.ownerId != (me$ | async).id)">
+         [ngClass]="chatDirection1((message.isMessageOfOwner && (chat$ | async).isMeOwner) || (!message.isMessageOfOwner && !(chat$ | async).isMeOwner))">
+      <div [ngClass]="chatDirection2((message.isMessageOfOwner && (chat$ | async).isMeOwner) || (!message.isMessageOfOwner && !(chat$ | async).isMeOwner))">
         {{message.message}}
       </div>
     </div>
     <div class="col-3 chatAvatar"
-         *ngIf="message.isMessageOfOwner && chat$.ownerId == (me$ | async).id || !(message.isMessageOfOwner) && chat$.ownerId != (me$ | async).id">
+         *ngIf="(message.isMessageOfOwner && (chat$ | async).isMeOwner) || (!message.isMessageOfOwner && !(chat$ | async).isMeOwner)">
       <img class="chat-partner-picture" src="{{this.apiUrl}}/files/{{(me$ | async).pictureStorageName}}">
     </div>
   </div>
@@ -28,7 +29,7 @@
 <div class="send-message">
   <textarea type="text" id="message" autosize class="edit-multiple-lines chat-input" placeholder="Chat here..."
             [(ngModel)]="messageToSend" autofocus></textarea>
-  <button mat-fab class="send-message-button" (click)="sendMessage($event.target.value)">
+  <button mat-fab class="send-message-button" (click)="sendMessage()">
     <img src="./assets/icons-black/paper-plane-1.png">
   </button>
 </div>

@@ -3,10 +3,10 @@ import {ApiService} from "./api.service";
 import {BehaviorSubject, Observable} from "rxjs";
 import {Event} from "../shared/event-model";
 import {map} from "rxjs/operators";
-import {ChatService} from "./chat.service";
 import {User} from "../shared/user-model";
 import {environment} from "../../environments/environment";
 import {Chat} from "../shared/chat-model";
+import * as io from "socket.io-client";
 
 
 @Injectable({
@@ -18,6 +18,7 @@ export class DataService implements OnInit {
 
   private _hostedEvents: BehaviorSubject<Event[]> = new BehaviorSubject([]);
   private _likedEvents: BehaviorSubject<Event[]> = new BehaviorSubject([]);
+  private _idToEvent: BehaviorSubject<Map<number, Event>> = new BehaviorSubject(new Map);
   private _swipeEvents: BehaviorSubject<Event[]> = new BehaviorSubject([]);
   private _acceptedEvents: BehaviorSubject<Event[]> = new BehaviorSubject([]);
   private _likedEventsLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -30,16 +31,18 @@ export class DataService implements OnInit {
 
   private _me: BehaviorSubject<User> = new BehaviorSubject<User>(null);
   private _myId: string;
+  private _idToUser: BehaviorSubject<Map<number, User>> = new BehaviorSubject<Map<number, User>>(new Map);
   private _interestedUsers: BehaviorSubject<Map<number, User[]>> = new BehaviorSubject<Map<number, User[]>>(new Map);
-  private _currentUser: BehaviorSubject<User> = new BehaviorSubject<User>(null);
 
   // ################# CHAT ####################
 
-
+  private _chatSocket;
+  private _myChats: BehaviorSubject<Chat[]> = new BehaviorSubject([]);
+  private _doneFetchingChatData: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   // ################# INITIALISATION ####################
 
-  constructor(private apiService: ApiService, private chatService: ChatService) {
+  constructor(private apiService: ApiService) {
     if (environment.autoLogin) this.apiService.login("test1234@beispiel.de", "password123").then(
       () => this.loadInitialData()
     );
@@ -53,23 +56,32 @@ export class DataService implements OnInit {
 
   loadInitialData() {
     this.apiService.getMyDetails().subscribe(res => {
+      this._idToUser.next(this._idToUser.value.set(res.id, res));
       this._me.next(res);
       this._myId = this._me.value.id.toString();
       this.apiService.getHostedEvents(this._myId).subscribe(myHostedEvents => {
         this._hostedEvents.next(myHostedEvents);
-        const myMap = new Map();
-        const hostedEvents: Event[] = this._hostedEvents.value;
-        hostedEvents.forEach(hostedEvent => {
+        const newInterestedUsers = new Map();
+        const newIdToEvent = new Map();
+        const hostedEvents = this._hostedEvents.value;
+
+        hostedEvents.forEach((hostedEvent, index) => {
+          newIdToEvent.set(hostedEvent.id, hostedEvent);
+          if (index === hostedEvents.length - 1) {
+            this.apiService.getLikedEvents(this._myId).subscribe(likedEvents => {
+              this._likedEvents.next(likedEvents);
+              likedEvents.forEach(likedEvent => newIdToEvent.set(likedEvent.id, likedEvent));
+              this._idToEvent.next(newIdToEvent);
+              this._likedEventsLoaded.next(true);
+            });
+          }
           this.apiService.getInterestedUsers(hostedEvent.id).subscribe(userRes => {
-            myMap.set(hostedEvent.id, userRes);
-            this._interestedUsers.next(myMap);
+            newInterestedUsers.set(hostedEvent.id, userRes);
+            if (index === hostedEvents.length - 1) this._interestedUsers.next(newInterestedUsers);
           });
         });
       });
-      this.apiService.getLikedEvents(this._myId).subscribe(likedEvents => {
-        this._likedEvents.next(likedEvents);
-        this._likedEventsLoaded.next(true);
-      });
+
       this.apiService.getAcceptedEvents(this._myId).subscribe(acceptedEvents => {
         this._acceptedEvents.next(acceptedEvents);
       });
@@ -80,8 +92,37 @@ export class DataService implements OnInit {
       this.apiService.getAllTags().subscribe(tags => {
         this._allTags.next(tags.map(tag => tag.tagName));
       });
-      this.chatService.initChatAfterLogin(this._myId);
+      this.fetchChatData();
+      this.socketConnect();
     });
+  }
+
+  fetchChatData() {
+    this._doneFetchingChatData.next(false);
+    let newMyChats = [];
+    let newIdToUsers = this._idToUser.value;
+    this.apiService.getAllChats().subscribe(chats => {
+        chats.forEach((chat, index) => {
+          const isMeOwner = +this._myId === chat.ownerId;
+          this.apiService.getMessageOfChat(chat.id).subscribe(res => {
+            newMyChats.push({
+              ...chat,
+              messages: res,
+              isMeOwner: isMeOwner
+            });
+            if (index === chats.length - 1) {
+              this._myChats.next(newMyChats);
+              this._doneFetchingChatData.next(true);
+            }
+          });
+          const chatPartnerId = isMeOwner ? chat.userId : chat.ownerId;
+          this.apiService.getUserDetails(chatPartnerId).subscribe(res => {
+            newIdToUsers.set(chatPartnerId, res);
+            if (index === chats.length - 1) this._idToUser.next(newIdToUsers);
+          })
+        });
+      }
+    );
   }
 
   ngOnInit() {
@@ -105,6 +146,10 @@ export class DataService implements OnInit {
   likedEvent(id: number): Observable<Event> {
     return new Observable<Event[]>(fn =>
       this._likedEvents.subscribe(fn)).pipe(map((likedEvents: Event[]) => likedEvents.find(event => event.id === id)));
+  }
+
+  get idToEvent(): Observable<Map<number, Event>> {
+    return new Observable<Map<number, Event>>(fn => this._idToEvent.subscribe(fn));
   }
 
   get likedEventsLoaded(): Observable<boolean> {
@@ -142,11 +187,6 @@ export class DataService implements OnInit {
 
   // ################# GETTER USERS ####################
 
-  get interestedUsers(): Observable<Map<number, User[]>> {
-    return new Observable<Map<number, User[]>>(fn =>
-      this._interestedUsers.subscribe(fn));
-  }
-
   get me(): Observable<User> {
     return new Observable<User>(fn => this._me.subscribe(fn));
   }
@@ -155,11 +195,38 @@ export class DataService implements OnInit {
     return this._myId;
   }
 
-  user(userId: number): Observable<User> {
-    this.apiService.getUserDetails(userId).subscribe(res => {
-      this._currentUser.next(res);
-    });
-    return new Observable<User>(fn => this._currentUser.subscribe(fn));
+  get idToUser(): Observable<Map<number, User>> {
+    return new Observable<Map<number, User>>(fn => this._idToUser.subscribe(fn));
+  }
+
+  user(userId: number): Observable<any> {
+    return new Observable<any>(fn => this._idToUser.subscribe(fn)).pipe(
+      map(users => (!users) ? undefined : users.get(userId)));
+  }
+
+  chatPartner(chatId: number): Observable<any> {
+    const chats = this._myChats.value;
+    const foundChat = chats.find(chat => chat.id === chatId);
+    if (foundChat) {
+      return new Observable<any>(fn => this._idToUser.subscribe(fn)).pipe(
+        map(users => users.get(foundChat.isMeOwner ? foundChat.userId : foundChat.ownerId)));
+    }
+  }
+
+  // ################# GETTER CHATS ####################
+
+  get myChats(): Observable<Chat[]> {
+    return new Observable<Chat[]>(fn => this._myChats.subscribe(fn));
+  }
+
+  chat(chatId: number): Observable<any> {
+    return new Observable<any>(fn => this._myChats.subscribe(fn)).pipe(
+      map(chats => chats.find(chat => chat.id === +chatId)));
+  }
+
+  // TODO not sure about this
+  get doneFetchingChatData(): Observable<boolean> {
+    return new Observable<boolean>(fn => this._doneFetchingChatData.subscribe(fn));
   }
 
   // ################# MANIPULATE EVENTS ####################
@@ -193,7 +260,7 @@ export class DataService implements OnInit {
     });
   }
 
-  public deleteHostedEvent(eventId: number) {
+  deleteHostedEvent(eventId: number) {
     this.apiService.deleteHostedEvent(eventId).subscribe();
     const deletedEventIndex = this._hostedEvents.value.findIndex(event => event.id === eventId);
     const newEventsArray = this._hostedEvents.value;
@@ -201,7 +268,7 @@ export class DataService implements OnInit {
     this._hostedEvents.next(newEventsArray);
   }
 
-  public updateHostedEvent(newEvent: Event) {
+  updateHostedEvent(newEvent: Event) {
     this.apiService.updateHostedEvent(newEvent).subscribe(res => {
       const editedEventIndex = this._hostedEvents.value.findIndex(event => event.id === newEvent.id);
       const newEventsArray = this._hostedEvents.value;
@@ -222,7 +289,7 @@ export class DataService implements OnInit {
     });
   }
 
-  public deletePicture(pictureStorageName: string, eventId: number) {
+  deletePicture(pictureStorageName: string, eventId: number) {
     this.apiService.deletePicture(pictureStorageName).subscribe();
     const editedEventIndex = this._hostedEvents.value.findIndex(event => event.id === eventId);
     const newEventsArray = this._hostedEvents.value;
@@ -232,7 +299,7 @@ export class DataService implements OnInit {
     this._hostedEvents.next(newEventsArray);
   }
 
-  public makeFirstPicture(pictureOrdering, eventId: number) {
+  makeFirstPicture(pictureOrdering, eventId: number) {
     if (pictureOrdering.length === 0) {
       return;
     }
@@ -251,7 +318,7 @@ export class DataService implements OnInit {
     });
   }
 
-  public fetchNewSwipeEvents(tags: string[]) {
+  fetchNewSwipeEvents(tags: string[]) {
     this._swipeEventsLoaded.next(false);
     this._currentlySelectedTags.next(tags);
     this.apiService.getSwipeEvents(this._myId, tags).subscribe(res => {
@@ -260,7 +327,7 @@ export class DataService implements OnInit {
     });
   }
 
-  public swipeAnEvent(swipeDirection: string) {
+  swipeAnEvent(swipeDirection: string) {
     switch (swipeDirection) {
       case "left":
         this.apiService.swipeAnEvent(true, this._swipeEvents.value[0].id).subscribe(() => undefined);
@@ -268,14 +335,14 @@ export class DataService implements OnInit {
       case "right":
         this.apiService.swipeAnEvent(false, this._swipeEvents.value[0].id).subscribe(() => undefined);
         if (this._swipeEvents.value[0].isPrivate) {
-          this.chatService.addNewChat(this._swipeEvents.value[0].id, +this._myId).subscribe(() => undefined)
+          this.addNewChat(this._swipeEvents.value[0].id, +this._myId).then(() => undefined)
         }
         break;
     }
     this._swipeEvents.next(this._swipeEvents.value.slice(1));
   }
 
-  public fetchInitialSwipeEvents(tags: string[]) {
+  fetchInitialSwipeEvents(tags: string[]) {
     this._swipeEventsLoaded.next(false);
     this._currentlySelectedTags.next(tags);
     this.apiService.getFirstSwipeEvents(this._myId, tags).subscribe(res => {
@@ -294,25 +361,91 @@ export class DataService implements OnInit {
 
   // ################# MANIPULATE USERS ####################
 
-  public updateUserDetails(updatedUser: User, selectedFile: File) {
+  updateUserDetails(updatedUser: User, selectedFile: File) {
     this.apiService.updateUserDetails(updatedUser, selectedFile).subscribe(res => {
       this._me.next(res);
     });
   }
 
-  public swipeUser(isLeft: boolean, userId: number, eventId: number) {
-    this.apiService.swipeUser(isLeft, userId, eventId).subscribe(() => undefined);
+  verifyUser(accepted: boolean, userId: number, eventId: number) {
+    this.apiService.verifyUser(accepted, userId, eventId).subscribe(() => undefined);
+    if (!accepted) this.deleteChat(eventId, userId);
   }
 
-  // ################# CHAT ####################
+  // ################# MANIPULATE CHATS ####################
 
-  // Object = {chat: someChat, event: relatedEvent}
-  public getChatsOfLikedEventsWithEvent(): Observable<Object[]> {
-    return this.chatService.getChatsOfLikedEventsWithEvent(this._likedEvents);
+  private socketConnect() {
+    this._chatSocket = io.connect("http://vmkemper14.informatik.tu-muenchen.de:8085");
+    this._chatSocket.on("connect", () => {
+      console.log("connected");
+      this._chatSocket.emit("userAuth", this.apiService.getToken());
+      this._chatSocket.on("message", (chatId: number, isMessageOfOwner: boolean, message: string) => {
+        const foundChat = this._myChats.value.find(chat => chat.id === chatId);
+        if (foundChat) {
+          foundChat.messages.push({isMessageOfOwner, message: message, createdAt: new Date()});
+          console.log("added following message to chat");
+        }
+        console.log(message);
+      });
+    });
   }
 
-  // object = {chat: someChat, event: theEventConnectToTheChat partnerUser: thePartnerChatUser}
-  public getChatOfMyEventsWithPartnerUserAndEvent(): Observable<Object[]> {
-    return this.chatService.getChatOfMyEventsWithPartnerUserAndEvent(this._hostedEvents);
+  // TODO not sure about this
+  refreshChats() {
+    if (this._myId && this._myId !== '') {
+      this.fetchChatData();
+    }
   }
+
+  addMessageToChat(chatId: number, partnerUserId: number, isMessageOfOwner: boolean, message: string, date: Date) {
+    this._chatSocket.emit("message", chatId, partnerUserId, isMessageOfOwner, message);
+
+    const foundChatIndex = this._myChats.value.findIndex(chat => chat.id === chatId);
+    const newMyChats = this._myChats.value;
+    newMyChats[foundChatIndex].messages.push({
+      isMessageOfOwner: isMessageOfOwner,
+      message: message,
+      createdAt: date
+    });
+    this._myChats.next(newMyChats);
+  }
+
+  addNewChat(eventId: number, userId: number): Promise<number> {
+    return new Promise<number>((resolve, reject) => {
+      this.apiService.createChat(eventId, userId).subscribe((res: Chat[]) => {
+        const newChat = res[0];
+
+        const foundChatIndex = this._myChats.value.findIndex(chat => chat.id === newChat.id);
+        if (foundChatIndex < 0) {
+          const isMeOwner = +this._myId === newChat.ownerId;
+          this._myChats.next(this._myChats.value.concat([{
+            ...newChat,
+            isMeOwner: isMeOwner
+          }]));
+
+          const chatPartnerId = isMeOwner ? newChat.userId : newChat.ownerId;
+          this.apiService.getUserDetails(chatPartnerId).subscribe(res => {
+            this._idToUser.next(this._idToUser.value.set(chatPartnerId, res));
+          })
+        }
+        resolve(newChat.id);
+      })
+    });
+  }
+
+  deleteChat(eventId: number, userId: number) {
+    const chatId = this._myChats.value.find(
+      chat => chat.eventId === eventId && chat.userId === userId && chat.ownerId === +this._myId).id;
+    if (chatId) this.apiService.deleteChat(chatId).subscribe(res => undefined);
+  }
+
+  /*  // Object = {chat: someChat, event: relatedEvent}
+    public getChatsOfLikedEventsWithEvent(): Observable<Object[]> {
+      return this.chatService.getChatsOfLikedEventsWithEvent(this._likedEvents);
+    }
+
+    // object = {chat: someChat, event: theEventConnectToTheChat partnerUser: thePartnerChatUser}
+    public getChatOfMyEventsWithPartnerUserAndEvent(): Observable<Object[]> {
+      return this.chatService.getChatOfMyEventsWithPartnerUserAndEvent(this._hostedEvents);
+    }*/
 }

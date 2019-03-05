@@ -1,7 +1,6 @@
 import {AfterViewChecked, Component, OnInit, ViewChild} from "@angular/core";
 import {ApiService} from "../../services/api.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ChatService} from "../../services/chat.service";
 import {Observable} from "rxjs/Rx";
 import {Chat} from "../../shared/chat-model";
 import {DataService} from "../../services/data.service";
@@ -18,17 +17,16 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   chat$: Observable<Chat>;
   me$: Observable<User>;
-  partnerUser$: Observable<User>;
+  chatPartner$: Observable<User>;
   chatId: number;
-  partnerUserId: number;
-  isEventOwner: boolean;
   messageToSend;
   apiUrl: string = "";
   scrollToBottom = false;
+  isMeChatOwner;
+  partnerUserId;
 
   constructor(private apiService: ApiService,
               private route: ActivatedRoute,
-              private chatService: ChatService,
               private dataService: DataService) {
     this.chatId = +this.route.snapshot.paramMap.get("chatId");
     this.me$ = this.dataService.me;
@@ -36,15 +34,16 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
   ngOnInit() {
     this.apiUrl = environment.apiUrl;
-    this.chat$ = this.chatService.chat(this.chatId);
+    this.chat$ = this.dataService.chat(this.chatId);
+    this.chatPartner$ = this.dataService.chatPartner(this.chatId);
     this.chat$.subscribe((chat) => {
       if (!chat) return;
-      this.isEventOwner = chat.ownerId === +this.dataService.myId;
-      this.partnerUserId = this.isEventOwner ? chat.userId : chat.ownerId;
-      this.partnerUser$ = this.chatService.partnerUser(this.partnerUserId);
-      this.scrollToBottom = true;
+      else {
+        this.isMeChatOwner = chat.isMeOwner;
+        this.partnerUserId = chat.isMeOwner ? chat.userId : chat.ownerId;
+        this.scrollToBottom = true;
+      }
     });
-    console.log(", chatId = " + this.chatId + ", isEventOwner = " + this.isEventOwner);
   }
 
   ngAfterViewChecked() {
@@ -55,7 +54,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   }
 
   sendMessage() {
-    this.chatService.addMessageToChat(this.chatId, this.partnerUserId, this.isEventOwner, this.messageToSend, new Date());
+    this.dataService.addMessageToChat(this.chatId, this.partnerUserId, this.isMeChatOwner, this.messageToSend, new Date());
     this.messageToSend = "";
   }
 

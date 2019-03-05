@@ -5,5 +5,6 @@ export class Chat {
   userId: number;
   eventId: number;
   ownerId: number;
+  isMeOwner?: boolean;
   messages: Message[];
 }

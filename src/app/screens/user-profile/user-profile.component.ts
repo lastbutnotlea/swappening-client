@@ -1,7 +1,6 @@
 import {Component, OnInit, Input} from "@angular/core";
 import {User} from "../../shared/user-model";
 import {DataService} from "../../services/data.service";
-import {ChatService} from "../../services/chat.service";
 import {Observable} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {environment} from "../../../environments/environment";
@@ -24,7 +23,6 @@ export class UserProfileComponent implements OnInit {
   private apiUrl: string;
 
   constructor(private dataService: DataService,
-              private chatService: ChatService,
               private route: ActivatedRoute,
               private router: Router,
               private apiService: ApiService,
@@ -40,7 +38,7 @@ export class UserProfileComponent implements OnInit {
       this.isMe = false;
       this.userId = parseInt(current_id, 10);
       const current_eventId: string  = this.route.snapshot.paramMap.get("eventId");
-      this.eventId =  parseInt(current_eventId, 10);
+      this.eventId = parseInt(current_eventId, 10);
     }
     if (this.isMe) {
       this.user$ = this.dataService.me;
@@ -66,10 +64,8 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  swipeUser(isLeft: boolean) {
-    this.dataService.swipeUser(isLeft, this.userId, this.eventId);
-    const chatId = this.chatService.getOwnedChatIdByEventIdAndPartnerUserId(this.eventId, this.userId);
-    this.apiService.deleteChat(chatId).subscribe( res => undefined);
+  verifyUser(accepted: boolean) {
+    this.dataService.verifyUser(accepted, this.userId, this.eventId);
     this.router.navigate(["/matches"]);
   }
 }

@@ -3,30 +3,60 @@
     Chat & Verify
   </h1>
   <div class="scrollable">
-    <!--<mat-card class="chat-card" *ngFor="let user of (interestedUsers$ | async)" routerLink="/userprofile/{{user.id}}">-->
+
+    <mat-card class="chat-card"
+              *ngFor="let chat of (myChats$ | async)"
+              routerLink="{{redirect(chat)}}">
+      <div class="preview-image-container">
+        <img *ngIf="chat.isMeOwner"
+             class="icon"
+             src="{{this.apiUrl}}/files/{{(idToUser$ | async).get(chat.userId).pictureStorageName}}">
+        <img *ngIf="!chat.isMeOwner"
+             class="event-icon"
+             src="{{this.apiUrl}}/files/{{(idToEvent$ | async).get(chat.eventId).pictures_events[0].pictureStorageName}}">
+      </div>
+      <mat-card-header>
+        <mat-card-subtitle *ngIf="chat.isMeOwner">
+          <b>{{(idToUser$ | async).get(chat.userId).nickname}}</b>
+          wants to chat about your event
+          <b>{{(idToEvent$ | async).get(chat.eventId).headline}}</b>
+        </mat-card-subtitle>
+        <mat-card-subtitle *ngIf="!chat.isMeOwner">
+          Ask questions to the host of
+          <b>{{(idToEvent$ | async).get(chat.eventId).headline}}</b>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <button class="chat-button" (click)="goToChat(chat.id)">Chat</button>
+    </mat-card>
+
+
+<!--
+
     <mat-card class="chat-card" routerLink="/userprofile/{{chatAndPartnerUser.chat.userId}}/{{chatAndPartnerUser.chat.eventId}}"
-              class="chat-card"
               *ngFor="let chatAndPartnerUser of (chatsOfMyEvents$ | async)">
       <div class="preview-image-container">
         <img class="icon" src="{{this.apiUrl}}/files/{{chatAndPartnerUser.partnerUser.pictureStorageName}}">
       </div>
       <mat-card-header>
-        <!--<mat-card-title>{{user.nickname}}</mat-card-title>-->
         <mat-card-subtitle><b>{{chatAndPartnerUser.partnerUser.nickname}}</b> wants to chat about your event <b>{{chatAndPartnerUser.event.headline}}</b></mat-card-subtitle>
       </mat-card-header>
       <button class="chat-button" (click)="goToChat(chatAndPartnerUser.chat.id)">Chat</button>
     </mat-card>
-    <mat-card class="chat-card" routerLink="/likedevents/fromChat/{{chatAndEvent.event.id}}" class="chat-card"
+
+    <mat-card class="chat-card" routerLink="/likedevents/fromChat/{{chatAndEvent.event.id}}"
               *ngFor="let chatAndEvent of (chatsOfLikedEvents$ | async)">
       <div class="preview-image-container">
         <img class="event-icon" src="{{this.apiUrl}}/files/{{chatAndEvent.event.pictures_events[0].pictureStorageName}}">
       </div>
       <mat-card-header>
-        <!--<mat-card-title>{{user.nickname}}</mat-card-title>-->
         <mat-card-subtitle> Ask questions to the host of <b>{{chatAndEvent.event.headline}}</b></mat-card-subtitle>
       </mat-card-header>
       <button class="chat-button" (click)="goToChat(chatAndEvent.chat.id)">Chat</button>
     </mat-card>
+-->
+
+
+
   </div>
   <app-bottom-menu></app-bottom-menu>
 </div>

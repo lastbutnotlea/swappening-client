@@ -32,12 +32,7 @@ export class LikedEventDetailsComponent implements OnInit {
     this.apiUrl = environment.apiUrl;
     this.eventId = parseInt(this.route.snapshot.paramMap.get('id'), 10);
     this.event$ = this.dataService.likedEvent(this.eventId);
-    if(this.route.snapshot.paramMap.get('fromChat') == "fromChat") {
-      this.fromChat = true;
-    }
-    else {
-      this.fromChat = false;
-    }
+    this.fromChat = this.route.snapshot.paramMap.get('fromChat') == "fromChat";
   }
 
   startChat() {

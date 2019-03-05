@@ -23,7 +23,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   partnerUserId: number;
   isEventOwner: boolean;
   messageToSend;
-  chatSocket;
   apiUrl: string = "";
   scrollToBottom = false;
 
@@ -33,7 +32,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
               private dataService: DataService) {
     this.chatId = +this.route.snapshot.paramMap.get("chatId");
     this.me$ = this.dataService.me;
-    this.chatSocket = chatService.getChatSocket();
   }
 
   ngOnInit() {
@@ -54,13 +52,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
       this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
       this.scrollToBottom = false;
     }
-
   }
 
   sendMessage() {
-    this.chatSocket.emit("message", this.chatId, this.partnerUserId, this.isEventOwner, this.messageToSend);
-    this.chatService.addMessageToChat(this.chatId, this.isEventOwner, this.messageToSend, new Date());
-    console.log("pressed send");
+    this.chatService.addMessageToChat(this.chatId, this.partnerUserId, this.isEventOwner, this.messageToSend, new Date());
     this.messageToSend = "";
   }
 

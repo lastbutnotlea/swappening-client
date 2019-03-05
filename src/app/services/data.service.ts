@@ -33,6 +33,10 @@ export class DataService implements OnInit {
   private _interestedUsers: BehaviorSubject<Map<number, User[]>> = new BehaviorSubject<Map<number, User[]>>(new Map);
   private _currentUser: BehaviorSubject<User> = new BehaviorSubject<User>(null);
 
+  // ################# CHAT ####################
+
+
+
   // ################# INITIALISATION ####################
 
   constructor(private apiService: ApiService, private chatService: ChatService) {

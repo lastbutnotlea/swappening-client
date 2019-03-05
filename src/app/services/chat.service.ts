@@ -16,6 +16,7 @@ import {of} from "rxjs/internal/observable/of";
 export class ChatService implements OnInit {
   private _myId: string;
   private _chatSocket;
+  private _allChats: BehaviorSubject<Chat[]> = new BehaviorSubject([]);
   private _chatsOfMyEvents: BehaviorSubject<Chat[]> = new BehaviorSubject([]);
   private _chatsOfLikedEvents: BehaviorSubject<Chat[]> = new BehaviorSubject([]);
   private _idToUsers: BehaviorSubject<Map<number, User>> = new BehaviorSubject<Map<number, User>>(new Map);
@@ -61,7 +62,9 @@ export class ChatService implements OnInit {
     );
   }
 
-  public addMessageToChat(chatId: number, isMessageOfOwner: boolean, message: string, date: Date) {
+  public addMessageToChat(chatId: number, partnerUserId: number, isMessageOfOwner: boolean, message: string, date: Date) {
+    this._chatSocket.emit("message", chatId, partnerUserId, isMessageOfOwner, message);
+
     let foundChatIndex = this._chatsOfLikedEvents.value.findIndex(chat => chat.id === chatId);
     if (foundChatIndex > -1) {
       const newChatsOfLikedEvents = this._chatsOfLikedEvents.value;
@@ -121,10 +124,6 @@ export class ChatService implements OnInit {
         console.log(message);
       });
     });
-  }
-
-  public getChatSocket() {
-    return this._chatSocket;
   }
 
   get chatsOfMyEvents(): Observable<Chat[]> {

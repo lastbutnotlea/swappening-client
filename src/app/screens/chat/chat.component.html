@@ -1,8 +1,10 @@
 <div routerLink="/matches" class="back-button extra-space">< back</div>
 
 <h1 class="headline">
-  <img class="chat-partner-picture"
-       src="{{this.apiUrl}}/files/{{(chatPartner$ | async).pictureStorageName}}">
+  <div class="chatAvatar">
+    <img class="chat-partner-picture"
+         src="{{this.apiUrl}}/files/{{(chatPartner$ | async).pictureStorageName}}">
+  </div>
   {{(chatPartner$ | async).nickname}}
 </h1>
 
@@ -10,12 +12,13 @@
   <div class="row" *ngFor="let message of (chat$ | async).messages">
     <div class="col-3 chatAvatar"
          *ngIf="(message.isMessageOfOwner && !(chat$ | async).isMeOwner) || (!message.isMessageOfOwner && (chat$ | async).isMeOwner)">
-         <!--*ngIf="message.isMessageOfOwner && chat$.ownerId != (me$ | async).id || !(message.isMessageOfOwner) && chat$.ownerId == (me$ | async).id">-->
+      <!--*ngIf="message.isMessageOfOwner && chat$.ownerId != (me$ | async).id || !(message.isMessageOfOwner) && chat$.ownerId == (me$ | async).id">-->
       <img class="chat-partner-picture" src="{{this.apiUrl}}/files/{{(chatPartner$ | async).pictureStorageName}}">
     </div>
     <div class="col-9"
          [ngClass]="chatDirection1((message.isMessageOfOwner && (chat$ | async).isMeOwner) || (!message.isMessageOfOwner && !(chat$ | async).isMeOwner))">
-      <div [ngClass]="chatDirection2((message.isMessageOfOwner && (chat$ | async).isMeOwner) || (!message.isMessageOfOwner && !(chat$ | async).isMeOwner))">
+      <div
+        [ngClass]="chatDirection2((message.isMessageOfOwner && (chat$ | async).isMeOwner) || (!message.isMessageOfOwner && !(chat$ | async).isMeOwner))">
         {{message.message}}
       </div>
     </div>

@@ -113,6 +113,16 @@ export class DataService implements OnInit {
     return new Observable<boolean>(fn => this._likedEventsLoaded.subscribe(fn));
   }
 
+  refreshLikedEvents() {
+    this._likedEventsLoaded.next(false);
+    if (this._myId && this._myId !== '') {
+      this.apiService.getLikedEvents(this._myId).subscribe(likedEvents => {
+        this._likedEvents.next(likedEvents);
+        this._likedEventsLoaded.next(true);
+      });
+    }
+  }
+
   get acceptedEvents(): Observable<Event[]> {
     return new Observable<Event[]>(fn => this._acceptedEvents.subscribe(fn));
   }
@@ -122,6 +132,7 @@ export class DataService implements OnInit {
   }
 
   refreshAcceptedEvents() {
+    this._acceptedEventsLoaded.next(false);
     if (this._myId && this._myId !== '') {
       this.apiService.getAcceptedEvents(this._myId).subscribe(acceptedEvents => {
         this._acceptedEvents.next(acceptedEvents);

@@ -7,12 +7,12 @@
     <mat-card class="chat-card"
               *ngFor="let chat of (myChats$ | async)"
               routerLink="{{redirect(chat)}}">
-      <div class="preview-image-container">
-        <img *ngIf="chat.isMeOwner"
-             class="icon"
+      <div class="profile-picture-container" *ngIf="chat.isMeOwner">
+        <img class="profile-picture"
              src="{{this.apiUrl}}/files/{{(idToUser$ | async).get(chat.userId).pictureStorageName}}">
-        <img *ngIf="!chat.isMeOwner"
-             class="event-icon"
+      </div>
+      <div class="event-picture-container" *ngIf="!chat.isMeOwner">
+        <img class="event-picture"
              src="{{this.apiUrl}}/files/{{(idToEvent$ | async).get(chat.eventId).pictures_events[0].pictureStorageName}}">
       </div>
       <mat-card-header>

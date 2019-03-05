@@ -1,26 +1,35 @@
 @import "../../../styles.scss";
 
-.icon {
-  width: 24%;
-  height: 100%;
+.profile-picture {
+  width: 27vw !important;
+  display: inline;
+  height: auto;
+  align-self: center;
+  justify-self: center;
+}
+
+.event-picture {
+  width: 100%;
+}
+
+.profile-picture-container {
+  width: 27vw !important;
+  height: 27vw;
+  position: relative;
+  overflow: hidden;
   border-radius: 100%;
-  padding: 0.8rem;
+  margin: 1.5vw !important;
+  display: flex;
 }
 
-.event-icon {
-  width: 24%;
-  height: 100%;
-  border-radius: 0%;
-}
-
-.preview-image-container {
-  max-height: 40vw;
-  width: 40vw;
+.event-picture-container {
+  max-height: 30vw;
+  width: 30vw;
   overflow: hidden;
   display: flex;
   align-items: center;
   border-radius: 4px;
-  background-color: white;
+  background-color: $text;
 }
 
 img {
@@ -31,7 +40,7 @@ img {
   display: flex;
   margin: 1.3rem;
   padding: 0;
-  max-height: 25vw;
+  max-height: 30vw;
   overflow: hidden;
 }
 
@@ -54,6 +63,7 @@ img {
 
 mat-card-header {
   padding-top: 1rem;
+  max-width: 50vw;
 }
 
 mat-card {

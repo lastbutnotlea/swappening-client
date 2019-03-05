@@ -1,5 +1,5 @@
-import {Component, OnInit} from "@angular/core";
-import {Observable} from "rxjs";
+import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Observable, Subscription} from "rxjs";
 import {User} from "../../shared/user-model";
 import {Event} from "../../shared/event-model";
 import {environment} from "../../../environments/environment";
@@ -25,23 +25,11 @@ export class MatchesComponent implements OnInit {
   }
 
   ngOnInit() {
-    // TODO not sure about this
     this.dataService.refreshLikedEvents();
-    this.dataService.likedEventsLoaded.subscribe(loaded => {
-      if (loaded) {
-        this.dataService.refreshChats();
-        this.dataService.doneFetchingChatData.subscribe(done => {
-          if (done) {
-            this.myChats$ = this.dataService.myChats;
-            this.myChats$.subscribe(res => console.log(res));
-            this.idToUser$ = this.dataService.idToUser;
-            this.idToUser$.subscribe(res => console.log(res));
-            this.idToEvent$ = this.dataService.idToEvent;
-            this.idToEvent$.subscribe(res => console.log(res));
-          }
-        })
-      }
-    });
+    this.dataService.refreshChats();
+    this.myChats$ = this.dataService.myChats;
+    this.idToUser$ = this.dataService.idToUser;
+    this.idToEvent$ = this.dataService.idToEvent;
   }
 
   goToChat(chatId: number) {

@@ -234,8 +234,11 @@ export class DataService implements OnInit {
   refreshLikedEvents() {
     this._likedEventsLoaded.next(false);
     if (this._myId && this._myId !== "") {
+      let newIdToEvent = this._idToEvent.value;
       this.apiService.getLikedEvents(this._myId).subscribe(likedEvents => {
         this._likedEvents.next(likedEvents);
+        likedEvents.forEach(likedEvent => newIdToEvent.set(likedEvent.id, likedEvent));
+        this._idToEvent.next(newIdToEvent);
         this._likedEventsLoaded.next(true);
       });
     }

@@ -88,7 +88,7 @@ export class EditUserProfileComponent implements OnInit, OnDestroy {
       this.apiService.register(this.userModel, this.confirmedPassword, this.selectedFile).then(
         () => {
           console.log("you registered successfully");
-          this.router.navigate(['/userprofile/me/0']);
+          this.router.navigate(['/login']);
         }
       ).catch(err => {
         console.log(err);

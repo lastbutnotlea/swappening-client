@@ -95,6 +95,7 @@ export class EditEventDetailsComponent implements OnInit, OnDestroy {
         ownerId: 0,
         pictures_events: [],
       };
+      this.eventModel.taggedEvents = this.tags;
     }
   }
 

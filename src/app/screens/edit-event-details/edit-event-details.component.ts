@@ -222,7 +222,6 @@ export class EditEventDetailsComponent implements OnInit, OnDestroy {
       this.dataService.makeFirstPicture(this.orderArray(), this.eventId);
       this.router.navigate([`/hostedevents/${this.eventId}`]);
     } else {
-      // TODO check for empty location and empty start time as well!
       if (this.selectedFile.length === 0) {
         const dialogReference = this.informationDialog.open(InformationDialogComponent, {
           width: "50vw",

@@ -22,10 +22,10 @@
           <img class="description-icon" src="./assets/icons-black/paper-plane-1.png">
           {{(user$ | async).email}}
           <br>
-          <img class="description-icon" src="./assets/icons-black/home.png">
+          <img *ngIf="(user$ | async).location && (user$ | async).location !== ''" class="description-icon" src="./assets/icons-black/home.png">
           {{(user$ | async).location}}
           <br>
-          <img class="description-icon" src="./assets/icons-black/view.png">
+          <img *ngIf="(user$ | async).distance && (user$ | async).distance !== 0" class="description-icon" src="./assets/icons-black/view.png">
           {{(user$ | async).distance}} km
         </div>
         <p class="card-subtitle">{{(user$ | async).description}}</p>

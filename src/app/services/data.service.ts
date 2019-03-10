@@ -80,8 +80,8 @@ export class DataService implements OnInit {
           this.apiService.getInterestedUsers(hostedEvent.id).subscribe(usersRes => {
             newInterestedUsers.set(hostedEvent.id, usersRes as User[]);
             usersRes.forEach( userRes => {
-              console.log("userId: " + userRes.id + ", eventId: " +  hostedEvent.id + ", " + userRes.rightSwipes.accepted.toString());
-              newIsInterestedUserAcceptedToMyEventMap.set({userId: userRes.id, eventId: hostedEvent.id}, userRes.rightSwipes.accepted);
+              console.log("userId: " + userRes.id + ", eventId: " +  hostedEvent.id + ", " + userRes.rightSwipes[0].accepted.toString());
+              newIsInterestedUserAcceptedToMyEventMap.set({userId: userRes.id, eventId: hostedEvent.id}, userRes.rightSwipes[0].accepted);
             });
             if (index === hostedEvents.length - 1) {
               this._interestedUsers.next(newInterestedUsers);

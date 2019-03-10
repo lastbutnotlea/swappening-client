@@ -400,6 +400,7 @@ export class DataService implements OnInit {
 
   verifyUser(accepted: boolean, userId: number, eventId: number) {
     this.apiService.verifyUser(accepted, userId, eventId).subscribe(() => undefined);
+    this._isInterestedUserAcceptedToMyEventMap.value.set({userId: userId, eventId: eventId}, accepted);
     if (!accepted) this.deleteChat(eventId, userId);
   }
 

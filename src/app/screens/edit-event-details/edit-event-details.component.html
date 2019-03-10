@@ -86,6 +86,20 @@
         [checked]="(event$ | async).hasChat"
         class="toggle-flags"></mat-slide-toggle>
     </div>
+
+    <div *ngIf="!isEdit">
+      <p class="input-info some-padding">private event</p>
+      <mat-slide-toggle
+        (change)="changeIsPrivate()"
+        [checked]="eventModel.isPrivate"
+        class="toggle-flags"></mat-slide-toggle>
+
+      <p class="input-info some-padding">enable chat</p>
+      <mat-slide-toggle
+        (change)="changeHasChat()"
+        [checked]="eventModel.hasChat"
+        class="toggle-flags"></mat-slide-toggle>
+    </div>
   </mat-card>
 </div>
 

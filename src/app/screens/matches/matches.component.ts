@@ -16,6 +16,7 @@ export class MatchesComponent implements OnInit {
   private myChats$: Observable<Chat[]>;
   private idToUser$: Observable<Map<number, User>>;
   private idToEvent$: Observable<Map<number, Event>>;
+  private isInterestedUserAcceptedToMyEventMap$:  Observable<Map<any, boolean>>;
 
   apiUrl: string;
 
@@ -30,6 +31,7 @@ export class MatchesComponent implements OnInit {
     this.myChats$ = this.dataService.myChats;
     this.idToUser$ = this.dataService.idToUser;
     this.idToEvent$ = this.dataService.idToEvent;
+    this.isInterestedUserAcceptedToMyEventMap$ = this.dataService.isInterestedUserAcceptedToMyEventMap;
   }
 
   goToChat(chatId: number) {

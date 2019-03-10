@@ -1,5 +1,4 @@
 import {AfterViewChecked, Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
-import {ApiService} from "../../services/api.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Observable} from "rxjs/Rx";
 import {Chat} from "../../shared/chat-model";
@@ -29,8 +28,7 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   private chatSubscription: Subscription;
 
-  constructor(private apiService: ApiService,
-              private route: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
               private dataService: DataService) {
     this.chatId = +this.route.snapshot.paramMap.get("chatId");
     this.me$ = this.dataService.me;

@@ -38,6 +38,8 @@ export class DataService implements OnInit {
 
   private _chatSocket;
   private _myChats: BehaviorSubject<Chat[]> = new BehaviorSubject([]);
+  // any = {userId, eventId} -> boolean
+  private _isInterestedUserAcceptedToMyEventMap: BehaviorSubject<Map<any, boolean>> = new BehaviorSubject<Map<any, boolean>>(new Map);
 
   // ################# INITIALISATION ####################
 
@@ -62,6 +64,7 @@ export class DataService implements OnInit {
         this._hostedEvents.next(myHostedEvents);
         const newInterestedUsers = new Map();
         const newIdToEvent = new Map();
+        const newIsInterestedUserAcceptedToMyEventMap = new Map();
         const hostedEvents = this._hostedEvents.value;
 
         hostedEvents.forEach((hostedEvent, index) => {
@@ -74,14 +77,27 @@ export class DataService implements OnInit {
               this._likedEventsLoaded.next(true);
             });
           }
-          this.apiService.getInterestedUsers(hostedEvent.id).subscribe(userRes => {
-            newInterestedUsers.set(hostedEvent.id, userRes);
-            if (index === hostedEvents.length - 1) this._interestedUsers.next(newInterestedUsers);
+          this.apiService.getInterestedUsers(hostedEvent.id).subscribe(usersRes => {
+            newInterestedUsers.set(hostedEvent.id, usersRes as User[]);
+            usersRes.forEach( userRes => {
+              console.log("userId: " + userRes.id + ", eventId: " +  hostedEvent.id + ", " + userRes.rightSwipes.accepted.toString());
+              newIsInterestedUserAcceptedToMyEventMap.set({userId: userRes.id, eventId: hostedEvent.id}, userRes.rightSwipes.accepted);
+            });
+            if (index === hostedEvents.length - 1) {
+              this._interestedUsers.next(newInterestedUsers);
+              this._isInterestedUserAcceptedToMyEventMap.next(newIsInterestedUserAcceptedToMyEventMap);
+            }
           });
         });
       });
 
       this.apiService.getAcceptedEvents(this._myId).subscribe(acceptedEvents => {
+        const isInterestedUserAcceptedToMyEventMap = this._isInterestedUserAcceptedToMyEventMap.value;
+        acceptedEvents.forEach( event => {
+          console.log("userId: " + +this._myId + ", eventId: " +  event.id + ", true");
+          isInterestedUserAcceptedToMyEventMap.set({userId: +this._myId, eventId: event.id}, true);
+        });
+        this._isInterestedUserAcceptedToMyEventMap.next(isInterestedUserAcceptedToMyEventMap);
         this._acceptedEvents.next(acceptedEvents);
       });
       this.apiService.getFirstSwipeEvents(this._myId, []).subscribe(firstSwipeEvents => {
@@ -97,8 +113,8 @@ export class DataService implements OnInit {
   }
 
   fetchChatData() {
-    let newMyChats = [];
-    let newIdToUsers = this._idToUser.value;
+    const newMyChats = [];
+    const newIdToUsers = this._idToUser.value;
     this.apiService.getAllChats().subscribe(chats => {
         chats.forEach((chat, index) => {
           const isMeOwner = +this._myId === chat.ownerId;
@@ -219,12 +235,28 @@ export class DataService implements OnInit {
       map(chats => chats.find(chat => chat.id === +chatId)));
   }
 
+  get isInterestedUserAcceptedToMyEventMap(): Observable<Map<any, boolean>> {
+    return new Observable<Map<any, boolean>>( fn => this._isInterestedUserAcceptedToMyEventMap.subscribe(fn));
+  }
+
+  isInterestedUserAcceptedToEvent(userId: number, eventId: number): Observable<boolean> {
+    return new Observable<any>( fn => this._isInterestedUserAcceptedToMyEventMap.subscribe(fn)).pipe(
+      map(map => {
+        const result =  map.get({userId, eventId});
+        if (result === undefined) {
+          return false;
+        } else {
+          return result;
+        }
+      }));
+  }
+
   // ################# MANIPULATE EVENTS ####################
 
   refreshLikedEvents() {
     this._likedEventsLoaded.next(false);
     if (this._myId && this._myId !== "") {
-      let newIdToEvent = this._idToEvent.value;
+      const newIdToEvent = this._idToEvent.value;
       this.apiService.getLikedEvents(this._myId).subscribe(likedEvents => {
         this._likedEvents.next(likedEvents);
         likedEvents.forEach(likedEvent => newIdToEvent.set(likedEvent.id, likedEvent));
@@ -237,6 +269,12 @@ export class DataService implements OnInit {
   refreshAcceptedEvents() {
     if (this._myId && this._myId !== "") {
       this.apiService.getAcceptedEvents(this._myId).subscribe(acceptedEvents => {
+        const isInterestedUserAcceptedToMyEventMap = this._isInterestedUserAcceptedToMyEventMap.value;
+        acceptedEvents.forEach( event => {
+          console.log("userId: " + +this._myId + ", eventId: " +  event.id + ", true");
+          isInterestedUserAcceptedToMyEventMap.set({userId: +this._myId, eventId: event.id}, true);
+        });
+        this._isInterestedUserAcceptedToMyEventMap.next(isInterestedUserAcceptedToMyEventMap);
         this._acceptedEvents.next(acceptedEvents);
       });
     }
@@ -419,8 +457,8 @@ export class DataService implements OnInit {
           }]));
 
           const chatPartnerId = isMeOwner ? newChat.userId : newChat.ownerId;
-          this.apiService.getUserDetails(chatPartnerId).subscribe(res => {
-            this._idToUser.next(this._idToUser.value.set(chatPartnerId, res));
+          this.apiService.getUserDetails(chatPartnerId).subscribe(userDetails => {
+            this._idToUser.next(this._idToUser.value.set(chatPartnerId, userDetails));
           });
         }
         resolve(newChat.id);

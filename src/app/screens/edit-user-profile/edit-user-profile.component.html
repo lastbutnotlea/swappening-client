@@ -31,11 +31,13 @@
     <p class="input-info">e-mail</p>
     <input class="edit-single-line" matInput [(ngModel)]="userModel.email">
 
-    <p class="input-info">password</p>
-    <input type="password" class="edit-single-line" matInput [(ngModel)]="userModel.password">
+    <div *ngIf="!isEdit">
+      <p class="input-info">password</p>
+      <input type="password" class="edit-single-line" matInput [(ngModel)]="userModel.password">
 
-    <p class="input-info">confirm password</p>
-    <input type="password" class="edit-single-line" matInput [(ngModel)]="confirmedPassword">
+      <p class="input-info">confirm password</p>
+      <input type="password" class="edit-single-line" matInput [(ngModel)]="confirmedPassword">
+    </div>
 
     <p class="input-info">location</p>
     <input class="edit-single-line" matInput [(ngModel)]="userModel.location">

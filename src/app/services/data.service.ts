@@ -248,6 +248,9 @@ export class DataService implements OnInit {
       this.apiService.createNewHostedEvent(newEvent).subscribe(res => {
         newEventId = res.id;
         this._hostedEvents.next([res].concat(this._hostedEvents.value));
+        const newIdToEvent = this._idToEvent.value;
+        newIdToEvent.set(res.id, res);
+        this._idToEvent.next(newIdToEvent);
         resolve(newEventId);
       });
     });
@@ -267,6 +270,9 @@ export class DataService implements OnInit {
       const newEventsArray = this._hostedEvents.value;
       newEventsArray[editedEventIndex] = res;
       this._hostedEvents.next(newEventsArray);
+      const newIdToEvent = this._idToEvent.value;
+      newIdToEvent.set(res.id, res);
+      this._idToEvent.next(newIdToEvent);
     });
   }
 

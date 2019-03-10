@@ -165,10 +165,11 @@ export class SwipeEventsComponent implements OnInit, OnDestroy {
                 <img class="icon" src="./assets/icons-black/time.png">
                 ${this.dateDisplayService.parseDate(this.swipeEvents[i].startTime)}
               </div>
-              <div>
+              ${!this.swipeEvents[i].isPrivate ? 
+                `<div>
                 <img class="icon" src="./assets/icons-black/pin.png">
                 ${this.swipeEvents[i].place}
-              </div>
+                </div>` : ``}
             </div>
          </div>`
       );

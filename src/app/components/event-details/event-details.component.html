@@ -28,7 +28,7 @@
           <img class="description-icon" src="./assets/icons-black/time.png">
           {{displayDate((event$ | async).startTime)}}
         </div>
-        <div>
+        <div *ngIf="displayLocation">
           <img class="description-icon" src="./assets/icons-black/pin.png">
           {{(event$ | async).place}}
         </div>

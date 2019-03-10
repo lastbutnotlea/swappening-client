@@ -13,6 +13,9 @@ import {DateDisplayService} from "../../services/date-display.service";
 })
 export class EventDetailsComponent implements OnInit {
 
+  @Input()
+  displayLocation: boolean;
+
   private eventId: number;
   private event$: Observable<Event>;
 

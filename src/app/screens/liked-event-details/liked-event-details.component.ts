@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {Observable} from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Observable, Subscription} from 'rxjs';
 import {Event} from '../../shared/event-model';
 import {ApiService} from "../../services/api.service";
 import {DataService} from '../../services/data.service';
@@ -11,12 +11,15 @@ import {environment} from "../../../environments/environment";
   templateUrl: './liked-event-details.component.html',
   styleUrls: ['./liked-event-details.component.css']
 })
-export class LikedEventDetailsComponent implements OnInit {
+export class LikedEventDetailsComponent implements OnInit, OnDestroy {
 
   private eventId: number;
   private event$: Observable<Event>;
   private chatId: number;
   private fromChat: boolean = false;
+  private displayLocation: boolean;
+
+  private displayLocationSubscription: Subscription;
 
   private apiUrl: string;
 
@@ -30,6 +33,12 @@ export class LikedEventDetailsComponent implements OnInit {
     this.eventId = parseInt(this.route.snapshot.paramMap.get('id'), 10);
     this.event$ = this.dataService.likedEvent(this.eventId);
     this.fromChat = this.route.snapshot.paramMap.get('fromChat') === "fromChat";
+    this.displayLocationSubscription = this.event$.subscribe(res => {
+      this.displayLocation = !res.isPrivate;
+      if (!this.displayLocation) {
+        this.displayLocation = !this.fromChat;
+      }
+    });
   }
 
   startChat() {
@@ -37,6 +46,10 @@ export class LikedEventDetailsComponent implements OnInit {
       this.chatId = res;
       this.router.navigate(["/chat/" + this.chatId]);
     } );
+  }
+
+  ngOnDestroy() {
+    if (this.displayLocationSubscription) this.displayLocationSubscription.unsubscribe();
   }
 
 }

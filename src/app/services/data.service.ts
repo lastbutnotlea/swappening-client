@@ -39,7 +39,7 @@ export class DataService implements OnInit {
   private _chatSocket;
   private _myChats: BehaviorSubject<Chat[]> = new BehaviorSubject([]);
   // any = {userId, eventId} -> boolean
-  private _isInterestedUserAcceptedToEventMap: BehaviorSubject<Map<any, boolean>> = new BehaviorSubject<Map<any, boolean>>(new Map);
+  private _isInterestedUserAcceptedToEventMap: BehaviorSubject<Map<string, boolean>> = new BehaviorSubject<Map<string, boolean>>(new Map);
 
   // ################# INITIALISATION ####################
 
@@ -81,11 +81,15 @@ export class DataService implements OnInit {
             newInterestedUsers.set(hostedEvent.id, usersRes as User[]);
             usersRes.forEach( userRes => {
               console.log("userId: " + userRes.id + ", eventId: " +  hostedEvent.id + ", " + userRes.rightSwipes[0].accepted.toString());
-              newIsInterestedUserAcceptedToEventMap.set({userId: userRes.id, eventId: hostedEvent.id}, userRes.rightSwipes[0].accepted);
+              newIsInterestedUserAcceptedToEventMap.set(
+                "userId: " + userRes.id + ", eventId: " + hostedEvent.id, userRes.rightSwipes[0].accepted as boolean);
             });
             if (index === hostedEvents.length - 1) {
               this._interestedUsers.next(newInterestedUsers);
               this._isInterestedUserAcceptedToEventMap.next(newIsInterestedUserAcceptedToEventMap);
+              console.log( this._isInterestedUserAcceptedToEventMap.value);
+
+              // console.log( this._isInterestedUserAcceptedToEventMap.value.get({userId: 21, eventId: 1033440}));
             }
           });
         });
@@ -95,7 +99,7 @@ export class DataService implements OnInit {
         const isInterestedUserAcceptedToMyEventMap = this._isInterestedUserAcceptedToEventMap.value;
         acceptedEvents.forEach( event => {
           console.log("userId: " + +this._myId + ", eventId: " +  event.id + ", true");
-          isInterestedUserAcceptedToMyEventMap.set({userId: +this._myId, eventId: event.id}, true);
+          isInterestedUserAcceptedToMyEventMap.set("userId: " + this._myId + ", eventId: " + event.id, true);
         });
         this._isInterestedUserAcceptedToEventMap.next(isInterestedUserAcceptedToMyEventMap);
         this._acceptedEvents.next(acceptedEvents);
@@ -235,14 +239,14 @@ export class DataService implements OnInit {
       map(chats => chats.find(chat => chat.id === +chatId)));
   }
 
-  get isInterestedUserAcceptedToEventMap(): Observable<Map<any, boolean>> {
-    return new Observable<Map<any, boolean>>( fn => this._isInterestedUserAcceptedToEventMap.subscribe(fn));
+  get isInterestedUserAcceptedToEventMap(): Observable<Map<string, boolean>> {
+    return new Observable<Map<string, boolean>>( fn => this._isInterestedUserAcceptedToEventMap.subscribe(fn));
   }
 
   isInterestedUserAcceptedToEvent(userId: number, eventId: number): Observable<boolean> {
     return new Observable<any>( fn => this._isInterestedUserAcceptedToEventMap.subscribe(fn)).pipe(
       map(map => {
-        const result =  map.get({userId, eventId});
+        const result =  map.get("userId: " + userId + ", eventId: " + eventId);
         if (result === undefined) {
           return false;
         } else {
@@ -272,7 +276,7 @@ export class DataService implements OnInit {
         const isInterestedUserAcceptedToEventMap = this._isInterestedUserAcceptedToEventMap.value;
         acceptedEvents.forEach( event => {
           console.log("userId: " + +this._myId + ", eventId: " +  event.id + ", true");
-          isInterestedUserAcceptedToEventMap.set({userId: +this._myId, eventId: event.id}, true);
+          isInterestedUserAcceptedToEventMap.set("userId: " + this._myId + ", eventId: " + event.id, true);
         });
         this._isInterestedUserAcceptedToEventMap.next(isInterestedUserAcceptedToEventMap);
         this._acceptedEvents.next(acceptedEvents);
@@ -401,7 +405,7 @@ export class DataService implements OnInit {
   verifyUser(accepted: boolean, userId: number, eventId: number) {
     this.apiService.verifyUser(accepted, userId, eventId).subscribe(() => undefined);
     this._isInterestedUserAcceptedToEventMap.next(
-      this._isInterestedUserAcceptedToEventMap.value.set({userId: userId, eventId: eventId}, accepted));
+      this._isInterestedUserAcceptedToEventMap.value.set("userId: " + userId + ", eventId: " + eventId, accepted));
     if (!accepted) this.deleteChat(eventId, userId);
   }
 

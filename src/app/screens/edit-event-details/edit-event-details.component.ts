@@ -65,6 +65,7 @@ export class EditEventDetailsComponent implements OnInit, OnDestroy {
       this.eventId = parseInt(current_id, 10);
       this.event$ = this.dataService.hostedEvent(this.eventId);
       this.eventsSubscription = this.event$.subscribe(newEvent => {
+        if (!newEvent) return;
         this.eventModel = newEvent;
         this.numberOfPictures = this.eventModel.pictures_events.length;
         if (this.eventModel.taggedEvents.length > 0) {

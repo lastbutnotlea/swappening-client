@@ -17,6 +17,7 @@ export class LikedEventsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.dataService.refreshLikedEvents();
     this.dataService.refreshAcceptedEvents();
     this.likedEvents$ = this.dataService.likedEvents;
     this.acceptedEvents$ = this.dataService.acceptedEvents;

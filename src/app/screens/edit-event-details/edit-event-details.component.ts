@@ -269,8 +269,8 @@ export class EditEventDetailsComponent implements OnInit, OnDestroy {
 
       this.deleteEventDialogSubscription = dialogReference.afterClosed().subscribe(result => {
         if (result === true) {
-          this.router.navigate(["/hostedevents"]);
           this.dataService.deleteHostedEvent(this.eventId);
+          this.router.navigate(["/hostedevents"]);
         }
       });
     }

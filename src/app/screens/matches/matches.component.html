@@ -6,8 +6,8 @@
     <mat-card class="chat-card"
               *ngFor="let chat of (myChats$ | async)"
               routerLink="{{redirect(chat)}}"
-              [style.background]=" ((chat.isMeOwner && ((isInterestedUserAcceptedToMyEventMap$ | async).get({userId: chat.userId, eventId: chat.eventId}) !== undefined)) ||
-              (!chat.isMeOwner && ((isInterestedUserAcceptedToMyEventMap$ | async).get({userId: chat.ownerId, eventId: chat.eventId}) !== undefined))) ? 'green':'yellow'">
+              [style.background]=" ((chat.isMeOwner && ((isInterestedUserAcceptedToEventMap$ | async).get({userId: chat.userId, eventId: chat.eventId}) !== undefined)) ||
+              (!chat.isMeOwner && ((isInterestedUserAcceptedToEventMap$ | async).get({userId: chat.userId, eventId: chat.eventId}) !== undefined))) ? 'green':'yellow'">
       <ng-container *ngIf="(idToEvent$ | async).get(chat.eventId) && (idToUser$ | async).get(chat.userId)">
         <div class="profile-picture-container" *ngIf="chat.isMeOwner">
           <img class="profile-picture"
@@ -17,6 +17,7 @@
           <img class="event-picture"
                src="{{this.apiUrl}}/files/{{(idToEvent$ | async).get(chat.eventId).pictures_events[0].pictureStorageName}}">
         </div>
+        <p>{{(((isInterestedUserAcceptedToEventMap$ | async).get({userId: chat.userId, eventId: chat.eventId}) !== undefined)).toString()}}{{chat.ownerId}}{{chat.eventId}}</p>
         <mat-card-header>
           <mat-card-subtitle *ngIf="chat.isMeOwner">
             <b>{{(idToUser$ | async).get(chat.userId).nickname}}</b>

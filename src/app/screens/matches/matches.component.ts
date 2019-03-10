@@ -28,6 +28,7 @@ export class MatchesComponent implements OnInit {
   ngOnInit() {
     this.dataService.refreshLikedEvents();
     this.dataService.refreshChats();
+    this.dataService.refreshAcceptedEvents();
     this.myChats$ = this.dataService.myChats;
     this.idToUser$ = this.dataService.idToUser;
     this.idToEvent$ = this.dataService.idToEvent;

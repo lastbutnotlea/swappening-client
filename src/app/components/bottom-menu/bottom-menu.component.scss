@@ -1,0 +1,21 @@
+@import "../../../styles.scss";
+
+.menu {
+  bottom: 0;
+  height: 6vh;
+  width: 100%;
+  background-color: $white-overlay;
+}
+
+button {
+  width: 20%;
+  height: 100%;
+  padding: 0;
+  background-color: transparent !important;
+}
+
+img {
+  height: 65%;
+  opacity: 0.75;
+  padding-bottom: 0.4rem;
+}

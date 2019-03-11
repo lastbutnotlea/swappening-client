@@ -1,0 +1,21 @@
+<div class="scrollable">
+  <mat-card class="event-card" *ngFor="let event of (events$ | async)" routerLink="/{{routingLink}}/{{event.id}}">
+    <div class="preview-image-container">
+      <img src="{{this.apiUrl}}/files/{{event.pictures_events[0].pictureStorageName}}">
+    </div>
+    <mat-card-header>
+      <mat-card-title>{{event.headline}}</mat-card-title>
+      <mat-card-subtitle>
+        <div>
+          <img class="description-icon" src="./assets/icons-black/time.png">
+          {{displayDate(event.startTime)}}
+        </div>
+        <div>
+          <img class="description-icon" src="./assets/icons-black/pin.png">
+          {{event.place}}
+        </div>
+      </mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+</div>
+

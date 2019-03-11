@@ -1,0 +1,47 @@
+<div>
+  <h1 class="headline">
+    Chat & Verify
+  </h1>
+  <div class="scrollable">
+    <mat-card class="chat-card"
+              *ngFor="let chat of (myChats$ | async)"
+              routerLink="{{redirect(chat)}}">
+      <ng-container *ngIf="(idToEvent$ | async).get(chat.eventId) && (idToUser$ | async).get(chat.userId)">
+        <div class="profile-picture-container" *ngIf="chat.isMeOwner">
+          <img class="profile-picture"
+               src="{{this.apiUrl}}/files/{{(idToUser$ | async).get(chat.userId).pictureStorageName}}">
+        </div>
+        <div class="event-picture-container" *ngIf="!chat.isMeOwner">
+          <img class="event-picture"
+               src="{{this.apiUrl}}/files/{{(idToEvent$ | async).get(chat.eventId).pictures_events[0].pictureStorageName}}">
+        </div>
+        <mat-card-header *ngIf="chat.isMeOwner">
+          <mat-card-title>
+            {{(idToUser$ | async).get(chat.userId).nickname}}
+          </mat-card-title>
+          <mat-card-subtitle >
+            wants to attend
+            <span class="bolder">{{(idToEvent$ | async).get(chat.eventId).headline}}</span>
+            <div *ngIf="!(isInterestedUserAcceptedToEventMap$ | async).get('userId: ' + chat.userId + ', eventId: ' + chat.eventId)" class="please-verify">please verify</div>
+            <div *ngIf="(isInterestedUserAcceptedToEventMap$ | async).get('userId: ' + chat.userId + ', eventId: ' + chat.eventId)" class="accepted">accepted</div>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-header *ngIf="!chat.isMeOwner">
+          <mat-card-title>
+            {{(idToEvent$ | async).get(chat.eventId).headline}}
+          </mat-card-title>
+          <mat-card-subtitle>
+            chat with
+            <span class="bolder">{{(idToUser$ | async).get(chat.ownerId).nickname}}</span>
+            <div *ngIf="!((isInterestedUserAcceptedToEventMap$ | async).get('userId: ' + chat.userId + ', eventId: ' + chat.eventId) !== undefined)" class="please-verify">not verified yet</div>
+            <div *ngIf="(isInterestedUserAcceptedToEventMap$ | async).get('userId: ' + chat.userId + ', eventId: ' + chat.eventId) !== undefined" class="accepted">accepted</div>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <button mat-fab class="chat-button" (click)="goToChat(chat.id)">
+          <img src="./assets/icons-black/paper-plane-1.png">
+        </button>
+      </ng-container>
+    </mat-card>
+  </div>
+  <app-bottom-menu></app-bottom-menu>
+</div>

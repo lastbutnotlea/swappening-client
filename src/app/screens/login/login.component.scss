@@ -1,0 +1,51 @@
+@import "../../../styles";
+
+.logo {
+  width: 80%;
+  height: 100%;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  opacity: 0.7;
+}
+
+.login-fields {
+  margin: 0 6rem;
+}
+
+.login-container {
+  height: calc(100vh - constant(safe-area-inset-top));
+  height: calc(100vh - env(safe-area-inset-top));
+  padding-top: 32vh;
+}
+
+.sign-in-button, .sign-up-button {
+  position: absolute !important;
+  width: 6rem !important;
+  height: 6rem !important;
+  font-size: 1.5rem;
+  color: rgba(0, 0, 0, 0.87) !important;
+  bottom: 22vh;
+  box-shadow: none !important;
+  background-color: $primary1 !important;
+}
+
+.sign-in-button {
+  right: 23vw;
+}
+
+.sign-up-button {
+  left: 23vw;
+}
+
+.on-top-button-left {
+  bottom: 2vh;
+  opacity: 0.3;
+}
+
+.on-top-button-middle {
+  bottom: 2vh;
+  opacity: 0.3;
+}

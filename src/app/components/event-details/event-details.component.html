@@ -1,0 +1,41 @@
+<div class="details-container">
+
+  <mat-card class="detail-card" *ngIf="(event$ | async)">
+
+    <mat-card-title>
+      <h1 class="event-card-headline">{{(event$ | async).headline}}</h1>
+    </mat-card-title>
+
+    <mat-card-subtitle class="scrollable-content">
+      <div class="image-container">
+        <img
+          *ngIf="(event$ | async).pictures_events[clickCounter%(event$ | async).pictures_events.length]"
+          src="{{this.apiUrl}}/files/{{(event$ | async).pictures_events[clickCounter%(event$ | async).pictures_events.length].pictureStorageName}}"
+          (click)="cycleThroughPictures()" class="detail-image">
+      </div>
+      <mat-chip-list *ngIf="(event$ | async) && (event$ | async).taggedEvents && (event$ | async).taggedEvents.length > 0">
+        <mat-chip *ngFor="let tag of (event$ | async).taggedEvents">
+          <ng-container *ngIf="tag.tag">
+            {{tag.tag.tagName}}
+          </ng-container>
+          <ng-container *ngIf="!tag.tag">
+            {{tag}}
+          </ng-container>
+        </mat-chip>
+      </mat-chip-list>
+      <div class="description-info">
+        <div>
+          <img class="description-icon" src="./assets/icons-black/time.png">
+          {{displayDate((event$ | async).startTime)}}
+        </div>
+        <div *ngIf="displayLocation">
+          <img class="description-icon" src="./assets/icons-black/pin.png">
+          {{(event$ | async).place}}
+        </div>
+      </div>
+      <p class="description">{{(event$ | async).description}}</p>
+    </mat-card-subtitle>
+
+  </mat-card>
+</div>
+

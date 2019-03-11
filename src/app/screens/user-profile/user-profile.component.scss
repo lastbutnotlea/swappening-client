@@ -1,0 +1,55 @@
+.detail-card-shorter {
+  margin: 1.3rem;
+  padding: 0;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 9px 0px 0 rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.12) !important;
+  border-radius: 10px;
+  height: calc(84vh - constant(safe-area-inset-top));
+  height: calc(84vh - env(safe-area-inset-top));
+  overflow: auto;
+}
+
+.details-container {
+  height: calc(90vh - constant(safe-area-inset-top)) !important;
+  height: calc(90vh - env(safe-area-inset-top)) !important;
+}
+
+.details-container-bigger {
+  height: calc(100vh - constant(safe-area-inset-top)) !important;
+  height: calc(100vh - env(safe-area-inset-top)) !important;
+}
+
+.card-subtitle {
+  font-size: 2rem;
+  padding: 1rem 0 0 0;
+}
+
+.logout-button {
+  height: 2vh;
+  font-size: 1.6rem;
+  margin-right: 1.5rem;
+  padding-top: 0.1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.profile-picture-container {
+  display: flex;
+  justify-content: center;
+  margin: 0 10% 0 10%;
+
+  .profile-picture {
+    width: 70vw;
+    height: 70vw;
+    border-radius: 100%;
+    object-fit: cover;
+  }
+}
+
+mat-card-title {
+  height: 10vh;
+}
+
+.padding-bottom {
+  padding-bottom: 2rem;
+}
+

@@ -1,0 +1,104 @@
+@import "../../../styles.scss";
+
+.profile-picture {
+  width: 29vw !important;
+  display: inline;
+  height: auto;
+  align-self: center;
+  justify-self: center;
+}
+
+.event-picture {
+  width: 134%;
+}
+
+.profile-picture-container {
+  width: 27vw !important;
+  height: 27vw;
+  position: relative;
+  overflow: hidden;
+  border-radius: 100%;
+  margin: 1.5vw 0.1vw 0.1vw 2.8vw !important;
+  display: flex;
+}
+
+.event-picture-container {
+  max-height: 40vw;
+  width: 30vw;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  background-color: $text;
+  justify-content: center;
+}
+
+.chat-button{
+  width: 6rem !important;
+  height: 6rem !important;
+  font-size: 2rem;
+  background-color: $primary1 !important;
+  color: $text !important;
+  align-self: flex-end;
+  margin: 1rem !important;
+  box-shadow: none !important;
+  position: absolute;
+  bottom: 0;
+  right: 0.5rem;
+
+  img {
+    width: 70% !important;
+    opacity: 0.7;
+  }
+}
+
+.scrollable {
+  overflow-y: scroll;
+  padding: 0 !important;
+  height: calc(84vh - constant(safe-area-inset-top));
+  height: calc(84vh - env(safe-area-inset-top));
+}
+
+.chat-card {
+  display: flex;
+  margin: 1.3rem;
+  padding: 0;
+  overflow: hidden;
+  align-items: center;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 3px 6px 0px 0 rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.12) !important;
+
+  mat-card-header {
+    padding-top: 1rem;
+    max-width: 40vw;
+
+
+    .mat-card-title {
+      margin-bottom: 8px;
+    }
+  }
+}
+
+
+
+.bolder {
+  font-weight: 600;
+}
+
+.please-verify {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  margin: 4px 0;
+  color: $primary2;
+}
+
+.accepted {
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  margin: 4px 0;
+  color: $primary1;
+}
+

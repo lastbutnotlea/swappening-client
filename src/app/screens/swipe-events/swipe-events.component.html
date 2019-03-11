@@ -1,0 +1,71 @@
+<div *ngIf="filterExpanded" class="filter-container">
+  <mat-form-field class="tag-input">
+    <mat-chip-list #filterChipList>
+      <mat-chip
+        *ngFor="let tag of tags"
+        [selectable]="true"
+        [removable]="true"
+        (removed)="remove(tag)"
+        [disableRipple]="true">
+        {{tag}}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+      <input
+        placeholder="filter by tags"
+        #tagInput
+        [formControl]="tagCtrl"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="filterChipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="addOnBlur"
+        (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+      <mat-option *ngFor="let tag of filteredTags| async" [value]="tag">
+        {{tag}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>
+<button mat-fab class="filter-button" (click)="filter()">
+  <img *ngIf="!filterExpanded" src="./assets/icons-black/funnel.png">
+  <img *ngIf="filterExpanded" src="./assets/icons-black/search.png">
+</button>
+<div *ngIf="filterExpanded" class="dark-overlay" (click)="hideFilter()"></div>
+<div class="outmost-container">
+  <div id="stacked-cards-block" class="stackedcards stackedcards--animatable init">
+
+    <div class="stackedcards-container" id="stackedcards-container">
+      <!--    stacked cards go here   -->
+    </div>
+
+    <div class="stackedcards--animatable stackedcards-overlay top">TOP</div>
+    <div class="stackedcards--animatable stackedcards-overlay right">RIGHT</div>
+    <div class="stackedcards--animatable stackedcards-overlay left">LEFT</div>
+    <div class="no-events-left">
+      <div>
+        <img src="./assets/shrug.png">
+      </div>
+      You've swiped through all the events close to you. Change your location and distance settings to see more.
+    </div>
+  </div>
+  <div class="global-actions">
+<!--
+    <button mat-fab class="add-button" routerLink="/hostedevents/new/edit">
+      <img class="add-symbol" src="./assets/icons-black/add.png">
+    </button>
+    -->
+
+    <button mat-fab class="left-action">
+      <img src="./assets/icons-black/dislike.png">
+    </button>
+    <button mat-fab class="top-action">
+      <img src="./assets/icons-black/info.png">
+    </button>
+    <button mat-fab class="right-action">
+      <img src="./assets/icons-black/like-2.png">
+    </button>
+  </div>
+</div>
+
+<app-bottom-menu></app-bottom-menu>

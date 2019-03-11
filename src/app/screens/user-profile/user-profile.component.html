@@ -1,0 +1,56 @@
+<div *ngIf="!isMe" routerLink="/matches" class="back-button">< back</div>
+
+<div *ngIf="isMe" class="logout-button">
+  <div (click)="logout()">logout</div>
+</div>
+
+<div [ngClass]="isMe ? 'details-container' : 'details-container-bigger details-container' ">
+
+  <mat-card [ngClass]="isMe ? 'detail-card-shorter' : 'detail-card'">
+
+    <mat-card-title>
+      <h1 class="event-card-headline">{{(user$ | async).nickname}}</h1>
+    </mat-card-title>
+
+    <mat-card-subtitle class="padding-bottom">
+      <div class="profile-picture-container">
+        <img *ngIf="(user$ | async).pictureStorageName"
+             src="{{this.apiUrl}}/files/{{(user$ | async).pictureStorageName}}" class="profile-picture">
+      </div>
+      <div class="description-info">
+        <div *ngIf="isMe">
+          <img class="description-icon" src="./assets/icons-black/paper-plane-1.png">
+          {{(user$ | async).email}}
+          <br>
+          <img *ngIf="(user$ | async).location && (user$ | async).location !== ''" class="description-icon" src="./assets/icons-black/home.png">
+          {{(user$ | async).location}}
+          <br>
+          <img *ngIf="(user$ | async).distance && (user$ | async).distance !== 0" class="description-icon" src="./assets/icons-black/view.png">
+          {{(user$ | async).distance}} km
+        </div>
+        <p class="card-subtitle">{{(user$ | async).description}}</p>
+      </div>
+
+    </mat-card-subtitle>
+
+  </mat-card>
+
+</div>
+
+<div *ngIf="isMe">
+  <app-bottom-menu></app-bottom-menu>
+</div>
+
+<div *ngIf="isMe">
+  <button mat-fab routerLink="/edituserprofile" class="on-top-button-right-higher">Edit</button>
+</div>
+
+<div *ngIf="!isMe && !((isInterestedUserAcceptedToEventMap$ | async).get('userId: ' + userId + ', eventId: ' + eventId))">
+  <button mat-fab class="on-top-button-left" (click)="verifyUser(false)">
+    <img class="button-image" src="./assets/icons-black/garbage-2.png">
+  </button>
+  <button mat-fab class="on-top-button-right" (click)="verifyUser(true)">
+    <img class="button-image" src="./assets/icons-black/like-2.png">
+  </button>
+</div>
+

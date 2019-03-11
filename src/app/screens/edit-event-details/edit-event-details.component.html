@@ -1,0 +1,113 @@
+<div class="back-button"></div>
+
+<div class="details-container">
+
+  <mat-card class="detail-card">
+    <p class="input-info some-padding">headline</p>
+    <input class="edit-headline" matInput [(ngModel)]="eventModel.headline">
+
+    <div class="image-container">
+      <img *ngIf="!isEdit && previewImage.length > 0" [src]="previewImage[clickCounter%numberOfPictures]"
+           class="detail-image">
+      <img
+        *ngIf="isEdit && (event$ | async).pictures_events[clickCounter%(event$ | async).pictures_events.length]"
+        src="{{this.apiUrl}}/files/{{(event$ | async).pictures_events[clickCounter%(event$ | async).pictures_events.length].pictureStorageName}}"
+        class="detail-image">
+      <div class="overlay" (click)="cycleThroughPictures()"></div>
+      <mat-slide-toggle
+        *ngIf="numberOfPictures > 0"
+        (change)="makeFirst(clickCounter%(eventModel.pictures_events.length))"
+        class="toggle-first"
+        [checked]="checked"
+      >Cover
+      </mat-slide-toggle>
+      <button class="delete-picture" [disabled]="numberOfPictures <= 1" mat-mini-fab (click)="deletePicture()">
+        <img src="./assets/icons-black/substract.png">
+      </button>
+      <div class="upload-picture">
+        <input
+          style="display: none"
+          type="file" (change)="onFileChanged($event)"
+          #fileInput>
+        <button class="plus" mat-mini-fab (click)="fileInput.click()">
+          <img src="./assets/icons-black/add.png">
+        </button>
+      </div>
+    </div>
+
+    <p class="input-info">tags</p>
+    <mat-form-field class="tag-input">
+      <mat-chip-list #chipList>
+        <mat-chip
+          *ngFor="let tag of tags"
+          [selectable]="true"
+          [removable]="true"
+          (removed)="remove(tag)"
+          [disableRipple]="true">
+          {{tag}}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input
+          placeholder="add new tags"
+          #tagInput
+          [formControl]="tagCtrl"
+          [matAutocomplete]="auto"
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="true"
+          (matChipInputTokenEnd)="add($event)">
+      </mat-chip-list>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let tag of filteredTags| async" [value]="tag">
+          {{tag}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <p class="input-info">date and time</p>
+    <input class="edit-date" [owlDateTime]="dt" [owlDateTimeTrigger]="dt" [(ngModel)]="eventModel.startTime">
+    <owl-date-time [pickerMode]="'dialog'" #dt></owl-date-time>
+    <p class="input-info">location</p>
+    <input class="edit-single-line" matInput [(ngModel)]="eventModel.place">
+
+    <p class="input-info some-padding">description</p>
+    <textarea class="edit-multiple-lines" matInput [(ngModel)]="eventModel.description"></textarea>
+
+    <div *ngIf="isEdit">
+      <p class="input-info some-padding">private event</p>
+      <mat-slide-toggle
+        (change)="changeIsPrivate()"
+        [checked]="(event$ | async).isPrivate"
+        class="toggle-flags"></mat-slide-toggle>
+
+      <p class="input-info some-padding">enable chat</p>
+      <mat-slide-toggle
+        (change)="changeHasChat()"
+        [checked]="(event$ | async).hasChat"
+        class="toggle-flags"></mat-slide-toggle>
+    </div>
+
+    <div *ngIf="!isEdit">
+      <p class="input-info some-padding">private event</p>
+      <mat-slide-toggle
+        (change)="changeIsPrivate()"
+        [checked]="eventModel.isPrivate"
+        class="toggle-flags"></mat-slide-toggle>
+
+      <p class="input-info some-padding">enable chat</p>
+      <mat-slide-toggle
+        (change)="changeHasChat()"
+        [checked]="eventModel.hasChat"
+        class="toggle-flags"></mat-slide-toggle>
+    </div>
+  </mat-card>
+</div>
+
+<button mat-fab class="on-top-button-right" (click)="saveEvent()">Save</button>
+<button *ngIf="isEdit" mat-fab class="on-top-button-left" (click)="deleteEvent()">
+  <img class="delete-icon" src="./assets/icons-black/garbage-2.png">
+</button>
+
+<button *ngIf="!isEdit" mat-fab class="on-top-button-left" routerLink="/hostedevents">
+  <img class="delete-icon" src="./assets/icons-black/garbage-2.png">
+</button>

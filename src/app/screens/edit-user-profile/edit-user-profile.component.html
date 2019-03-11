@@ -1,0 +1,58 @@
+<div *ngIf="isEdit" routerLink="/userprofile/me/0" class="back-button">< back</div>
+<div *ngIf="!isEdit" routerLink="/login" class="back-button">< back</div>
+
+<div class="details-container">
+
+  <mat-card class="detail-card">
+
+    <p *ngIf="!isEdit" class="instructions">to become part of the fam, please enter your personal details and upload a nice profile picture</p>
+
+    <p class="input-info some-padding">nickname</p>
+    <input class="edit-headline" matInput [(ngModel)]="userModel.nickname">
+
+    <div class="image-container">
+      <img *ngIf="newPicture && previewImage" [src]="previewImage" class="detail-image">
+      <img
+        *ngIf="isEdit && !newPicture && (user$ | async).pictureStorageName"
+        src="{{this.apiUrl}}/files/{{(user$ | async).pictureStorageName}}"
+        class="detail-image">
+      <div class="overlay"></div>
+      <div class="upload-picture">
+        <input
+          style="display: none"
+          type="file" (change)="onFileChanged($event)"
+          #fileInput>
+        <button class="plus" mat-mini-fab (click)="fileInput.click()">
+          <img src="./assets/icons-black/edit.png">
+        </button>
+      </div>
+    </div>
+
+    <p class="input-info">e-mail</p>
+    <input class="edit-single-line" matInput [(ngModel)]="userModel.email">
+
+    <div *ngIf="!isEdit">
+      <p class="input-info">password</p>
+      <input type="password" class="edit-single-line" matInput [(ngModel)]="userModel.password">
+
+      <p class="input-info">confirm password</p>
+      <input type="password" class="edit-single-line" matInput [(ngModel)]="confirmedPassword">
+    </div>
+
+    <p class="input-info">location</p>
+    <input class="edit-single-line" matInput [(ngModel)]="userModel.location">
+    <p class="input-info">distance (km)</p>
+    <input class="edit-single-line" matInput [(ngModel)]="userModel.distance">
+
+    <p class="input-info some-padding">description</p>
+    <textarea class="edit-multiple-lines" matInput [(ngModel)]="userModel.description"></textarea>
+
+  </mat-card>
+
+</div>
+
+<button mat-fab class="on-top-button-right" (click)="saveUser()">Save</button>
+<!-- TODO delete user?? -->
+
+
+

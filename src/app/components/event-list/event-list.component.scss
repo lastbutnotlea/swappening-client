@@ -1,0 +1,36 @@
+@import "../../../styles.scss";
+
+.preview-image-container {
+  max-height: 40vw;
+  width: 40vw;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  background-color: $text;
+  justify-content: center;
+}
+
+img {
+  width: 134%;
+}
+
+.scrollable {
+  overflow-y: scroll;
+  padding: 0 !important;
+  height: calc(84vh - constant(safe-area-inset-top));
+  height: calc(84vh - env(safe-area-inset-top));
+}
+
+.event-card {
+  display: flex;
+  margin: 1.3rem;
+  padding: 0;
+  max-height: 40vw;
+  overflow: hidden;
+}
+
+mat-card-header {
+  padding-top: 1rem;
+  max-width: calc(100vw - 40vw - 3rem);
+}

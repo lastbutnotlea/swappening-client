@@ -1,0 +1,17 @@
+@import "../../../styles.scss";
+
+.add-button {
+  background-color: $primary1 !important;
+  position: absolute;
+  right: 10vw;
+  bottom: 20vw;
+  width: 7rem;
+  height: 7rem;
+  font-size: 6rem;
+  display: flex;
+}
+
+.add-symbol {
+  width: 50%;
+  height: 50%;
+}

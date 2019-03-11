@@ -18,12 +18,12 @@
   position: relative;
   overflow: hidden;
   border-radius: 100%;
-  margin: 1.5vw !important;
+  margin: 1.5vw 0 1.5vw 3vw !important;
   display: flex;
 }
 
 .event-picture-container {
-  max-height: 30vw;
+  max-height: 40vw;
   width: 30vw;
   overflow: hidden;
   display: flex;
@@ -31,14 +31,6 @@
   border-radius: 4px;
   background-color: $text;
   justify-content: center;
-}
-
-.chat-card {
-  display: flex;
-  margin: 1.3rem;
-  padding: 0;
-  max-height: 30vw;
-  overflow: hidden;
 }
 
 .chat-button{
@@ -50,6 +42,9 @@
   align-self: flex-end;
   margin: 1rem !important;
   box-shadow: none !important;
+  position: absolute;
+  bottom: 0;
+  right: 0.5rem;
 
   img {
     width: 70% !important;
@@ -68,14 +63,42 @@
   display: flex;
   margin: 1.3rem;
   padding: 0;
-}
-
-mat-card-header {
-  padding-top: 1rem;
-  max-width: 40vw;
-}
-
-mat-card {
+  overflow: hidden;
+  align-items: center;
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 3px 6px 0px 0 rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.12) !important;
+
+  mat-card-header {
+    padding-top: 1rem;
+    max-width: 40vw;
+
+
+    .mat-card-title {
+      margin-bottom: 8px;
+    }
+  }
+}
+
+
+
+.bolder {
+  font-weight: 600;
+}
+
+.please-verify {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  margin: 4px 0;
+  color: $primary2;
+}
+
+.accepted {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  margin: 4px 0;
+  color: $primary1;
 }
 

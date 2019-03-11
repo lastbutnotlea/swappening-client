@@ -5,9 +5,7 @@
   <div class="scrollable">
     <mat-card class="chat-card"
               *ngFor="let chat of (myChats$ | async)"
-              routerLink="{{redirect(chat)}}"
-              [style.background]=" ((chat.isMeOwner && (isInterestedUserAcceptedToEventMap$ | async).get('userId: ' + chat.userId + ', eventId: ' + chat.eventId)) ||
-              (!chat.isMeOwner && ((isInterestedUserAcceptedToEventMap$ | async).get('userId: ' + chat.userId + ', eventId: ' + chat.eventId) !== undefined))) ? 'green':'yellow'">
+              routerLink="{{redirect(chat)}}">
       <ng-container *ngIf="(idToEvent$ | async).get(chat.eventId) && (idToUser$ | async).get(chat.userId)">
         <div class="profile-picture-container" *ngIf="chat.isMeOwner">
           <img class="profile-picture"
@@ -17,15 +15,26 @@
           <img class="event-picture"
                src="{{this.apiUrl}}/files/{{(idToEvent$ | async).get(chat.eventId).pictures_events[0].pictureStorageName}}">
         </div>
-        <mat-card-header>
-          <mat-card-subtitle *ngIf="chat.isMeOwner">
-            <b>{{(idToUser$ | async).get(chat.userId).nickname}}</b>
-            wants to chat about your event
-            <b>{{(idToEvent$ | async).get(chat.eventId).headline}}</b>
+        <mat-card-header *ngIf="chat.isMeOwner">
+          <mat-card-title>
+            {{(idToUser$ | async).get(chat.userId).nickname}}
+          </mat-card-title>
+          <mat-card-subtitle >
+            wants to attend
+            <span class="bolder">{{(idToEvent$ | async).get(chat.eventId).headline}}</span>
+            <div *ngIf="!(isInterestedUserAcceptedToEventMap$ | async).get('userId: ' + chat.userId + ', eventId: ' + chat.eventId)" class="please-verify">please verify</div>
+            <div *ngIf="(isInterestedUserAcceptedToEventMap$ | async).get('userId: ' + chat.userId + ', eventId: ' + chat.eventId)" class="accepted">accepted</div>
           </mat-card-subtitle>
-          <mat-card-subtitle *ngIf="!chat.isMeOwner">
-            Ask questions to the host of
-            <b>{{(idToEvent$ | async).get(chat.eventId).headline}}</b>
+        </mat-card-header>
+        <mat-card-header *ngIf="!chat.isMeOwner">
+          <mat-card-title>
+            {{(idToEvent$ | async).get(chat.eventId).headline}}
+          </mat-card-title>
+          <mat-card-subtitle>
+            chat with
+            <span class="bolder">{{(idToUser$ | async).get(chat.ownerId).nickname}}</span>
+            <div *ngIf="!((isInterestedUserAcceptedToEventMap$ | async).get('userId: ' + chat.userId + ', eventId: ' + chat.eventId) !== undefined)" class="please-verify">not verified yet</div>
+            <div *ngIf="(isInterestedUserAcceptedToEventMap$ | async).get('userId: ' + chat.userId + ', eventId: ' + chat.eventId) !== undefined" class="accepted">accepted</div>
           </mat-card-subtitle>
         </mat-card-header>
         <button mat-fab class="chat-button" (click)="goToChat(chat.id)">

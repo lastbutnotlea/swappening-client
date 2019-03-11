@@ -21,6 +21,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   private eventId: number;
   private apiUrl: string;
 
+  private isInterestedUserAcceptedToEventMap$:  Observable<Map<any, boolean>>;
+
   private logoutDialogSubscription: Subscription;
 
   constructor(private dataService: DataService,
@@ -46,6 +48,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     } else {
       this.user$ = this.dataService.user(this.userId);
     }
+    this.isInterestedUserAcceptedToEventMap$ = this.dataService.isInterestedUserAcceptedToEventMap;
   }
 
   ngOnDestroy() {

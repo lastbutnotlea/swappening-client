@@ -5,7 +5,9 @@
   <div class="scrollable">
     <mat-card class="chat-card"
               *ngFor="let chat of (myChats$ | async)"
-              routerLink="{{redirect(chat)}}">
+              routerLink="{{redirect(chat)}}"
+              [style.background]=" ((chat.isMeOwner && (isInterestedUserAcceptedToEventMap$ | async).get('userId: ' + chat.userId + ', eventId: ' + chat.eventId)) ||
+              (!chat.isMeOwner && ((isInterestedUserAcceptedToEventMap$ | async).get('userId: ' + chat.userId + ', eventId: ' + chat.eventId) !== undefined))) ? 'green':'yellow'">
       <ng-container *ngIf="(idToEvent$ | async).get(chat.eventId) && (idToUser$ | async).get(chat.userId)">
         <div class="profile-picture-container" *ngIf="chat.isMeOwner">
           <img class="profile-picture"

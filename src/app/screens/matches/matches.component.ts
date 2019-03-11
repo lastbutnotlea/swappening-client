@@ -16,6 +16,7 @@ export class MatchesComponent implements OnInit {
   private myChats$: Observable<Chat[]>;
   private idToUser$: Observable<Map<number, User>>;
   private idToEvent$: Observable<Map<number, Event>>;
+  private isInterestedUserAcceptedToEventMap$:  Observable<Map<any, boolean>>;
 
   apiUrl: string;
 
@@ -27,9 +28,11 @@ export class MatchesComponent implements OnInit {
   ngOnInit() {
     this.dataService.refreshLikedEvents();
     this.dataService.refreshChats();
+    this.dataService.refreshAcceptedEvents();
     this.myChats$ = this.dataService.myChats;
     this.idToUser$ = this.dataService.idToUser;
     this.idToEvent$ = this.dataService.idToEvent;
+    this.isInterestedUserAcceptedToEventMap$ = this.dataService.isInterestedUserAcceptedToEventMap;
   }
 
   goToChat(chatId: number) {

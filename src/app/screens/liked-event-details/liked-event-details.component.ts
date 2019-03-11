@@ -16,10 +16,13 @@ export class LikedEventDetailsComponent implements OnInit, OnDestroy {
   private eventId: number;
   private event$: Observable<Event>;
   private chatId: number;
+  private myId: number;
   private fromChat: boolean = false;
   private displayLocation: boolean;
 
   private displayLocationSubscription: Subscription;
+
+  private isInterestedUserAcceptedToEventMap$:  Observable<Map<any, boolean>>;
 
   private apiUrl: string;
 
@@ -32,12 +35,17 @@ export class LikedEventDetailsComponent implements OnInit, OnDestroy {
     this.apiUrl = environment.apiUrl;
     this.eventId = parseInt(this.route.snapshot.paramMap.get("id"), 10);
     this.event$ = this.dataService.likedEvent(this.eventId);
+    this.myId = +this.dataService.myId
     this.fromChat = this.route.snapshot.paramMap.get('fromChat') === "fromChat";
-    this.displayLocationSubscription = this.event$.subscribe(res => {
+    this.isInterestedUserAcceptedToEventMap$ = this.dataService.isInterestedUserAcceptedToEventMap;
+    /*this.displayLocationSubscription = this.event$.subscribe(res => {
       this.displayLocation = !res.isPrivate;
       if (!this.displayLocation) {
         this.displayLocation = !this.fromChat;
       }
+    });*/
+    this.displayLocationSubscription = this.isInterestedUserAcceptedToEventMap$.subscribe(res => {
+      this.displayLocation = res.get('userId: ' + this.myId + ', eventId: ' + this.eventId)
     });
   }
 

@@ -45,7 +45,7 @@
   <button mat-fab routerLink="/edituserprofile" class="on-top-button-right-higher">Edit</button>
 </div>
 
-<div *ngIf="!isMe">
+<div *ngIf="!isMe && !((isInterestedUserAcceptedToEventMap$ | async).get('userId: ' + userId + ', eventId: ' + eventId))">
   <button mat-fab class="on-top-button-left" (click)="verifyUser(false)">
     <img class="button-image" src="./assets/icons-black/garbage-2.png">
   </button>

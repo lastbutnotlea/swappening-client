@@ -40,7 +40,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     } else {
       this.isMe = false;
       this.userId = parseInt(current_id, 10);
-      const current_eventId: string  = this.route.snapshot.paramMap.get("eventId");
+      const current_eventId: string = this.route.snapshot.paramMap.get("eventId");
       this.eventId = parseInt(current_eventId, 10);
     }
     if (this.isMe) {
@@ -73,7 +73,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   }
 
   verifyUser(accepted: boolean) {
-    this.dataService.verifyUser(accepted, this.userId, this.eventId);
-    this.router.navigate(["/matches"]);
+    this.dataService.verifyUser(accepted, this.userId, this.eventId).then(() => {
+      this.router.navigate(["/matches"]);
+    });
   }
 }

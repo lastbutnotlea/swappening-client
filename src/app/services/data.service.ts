@@ -408,11 +408,14 @@ export class DataService implements OnInit {
     });
   }
 
-  verifyUser(accepted: boolean, userId: number, eventId: number) {
+  verifyUser(accepted: boolean, userId: number, eventId: number): Promise<boolean> {
     this.apiService.verifyUser(accepted, userId, eventId).subscribe(() => undefined);
     this._isInterestedUserAcceptedToEventMap.next(
       this._isInterestedUserAcceptedToEventMap.value.set("userId: " + userId + ", eventId: " + eventId, accepted));
-    if (!accepted) this.deleteChat(eventId, userId);
+    return new Promise<boolean>((resolve, reject) => {
+      if (!accepted) this.deleteChat(eventId, userId).then(() => resolve(true));
+      else resolve(true);
+    });
   }
 
   // ################# MANIPULATE CHATS ####################
@@ -478,9 +481,13 @@ export class DataService implements OnInit {
     });
   }
 
-  deleteChat(eventId: number, userId: number) {
+  deleteChat(eventId: number, userId: number): Promise<boolean> {
     const chatId = this._myChats.value.find(
       chat => chat.eventId === eventId && chat.userId === userId && chat.ownerId === +this._myId).id;
-    if (chatId) this.apiService.deleteChat(chatId).subscribe(res => undefined);
+    if (chatId) {
+      return new Promise<boolean>((resolve, reject) => {
+        this.apiService.deleteChat(chatId).subscribe(res => resolve(true));
+      })
+    }
   }
 }

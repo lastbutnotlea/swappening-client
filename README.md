@@ -1,3 +1,6 @@
+## About
+This is swappening, a mobile cross-platform application, matching event hosts with event-goers. Users interested in events can browse and filter events close to them. The interface is inspired by dating apps, allowing for effortless interaction and taking off decision load. Hosts can advertise their events and keep track of as well as control who is attending their events. This project was done as part of the lecture on Programming Database Web Applications, held at the Technical University of Munich.
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
